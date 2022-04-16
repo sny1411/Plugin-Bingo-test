@@ -20,6 +20,7 @@ public class Bingo implements CommandExecutor {
 		BingoGui grille = new BingoGui(game);
 		grille.openGui((Player) sender);
 		return false;
+		test
 	}
 
 }
