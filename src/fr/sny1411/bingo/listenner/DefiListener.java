@@ -1,12 +1,24 @@
 package fr.sny1411.bingo.listenner;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityTameEvent;
+import org.bukkit.event.entity.PiglinBarterEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
+import org.bukkit.event.raid.RaidTriggerEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class DefiListener implements Listener {
@@ -47,6 +59,128 @@ public class DefiListener implements Listener {
 	    } else if (advancement.equals("adventure/walk_on_powder_snow_with_leather_boots")) {
 	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + player + " §ra terminé le défi §d§nJésus des neiges");
 	    }
+	}
+	@EventHandler
+	public void fireworkMob(ProjectileHitEvent e) {
+		if (e.getHitEntity().getType().toString().equals("PIG")) {
+			if (e.getEntity().getType().toString().equals("FIREWORK")) {
+				e.getHitEntity().setCustomName("§e ");
+			}
+		}
+		else if (e.getHitEntity().getType().toString().equals("SNOWMAN")) {
+			if (e.getEntity().getType().toString().equals("SNOWBALL")) {
+				Bukkit.broadcastMessage("owo");
+			}
+		}
+		else if (e.getHitEntity().getType().toString().equals("PLAYER")) {
+			if (e.getEntity().getType().toString().equals("LLAMA_SPIT")) {
+				Bukkit.broadcastMessage("iwi");
+			}
+		}
+	}
+	
+	@EventHandler
+	public void lightningStrike(EntityDamageByEntityEvent e) {
+		if (e.getCause().toString().equals("LIGHTNING")) {
+			Bukkit.broadcastMessage("");
+		}
+	}
+	
+	@EventHandler
+	public void mobKill(EntityDeathEvent e) {
+		if (e.getEntity().getType().toString().equals("PLAYER")) {
+			Bukkit.broadcastMessage("");
+		}
+		else if (e.getEntity().getType().toString().equals("WITCH")) {
+			Bukkit.broadcastMessage("");
+		}
+		if (e.getEntity().getType().toString().equals("SLIME")) {
+			Bukkit.broadcastMessage("");
+		}
+		if (e.getEntity().getType().toString().equals("DOLPHIN")) {
+			Bukkit.broadcastMessage("");
+		}
+		if (e.getEntity().getType().toString().equals("FOX")) {
+			Bukkit.broadcastMessage("");
+		}
+		if (e.getEntity().getType().toString().equals("STRIDER")) {
+			Bukkit.broadcastMessage("");
+		}
+		if (e.getEntity().getType().toString().equals("CAVE_SPIDER")) {
+			Bukkit.broadcastMessage("");
+		}
+		if (e.getEntity().getType().toString().equals("ZOMBIE")) {
+			Bukkit.broadcastMessage("");
+		}
+		if (e.getEntity().getType().toString().equals("GLOW_SQUID")) {
+			Bukkit.broadcastMessage("");
+		}
+		if (e.getEntity().getType().toString().equals("ELDER_GUARDIAN")) {
+			Bukkit.broadcastMessage("");
+		}
+		if (e.getEntity().getType().toString().equals("IRON_GOLEM")) {
+			Bukkit.broadcastMessage("");
+		}
+		if (e.getEntity().getType().toString().equals("PIG")) {
+			if (e.getEntity().getName().toString().equals("§e ")) {
+				Bukkit.broadcastMessage("ptn");
+			}
+		}
+		if (e.getEntity().getType().toString().equals("SILVERFISH")) {
+			Bukkit.broadcastMessage("");
+		}
+	}
+	
+	@EventHandler
+	public void tameMob(EntityTameEvent e) {
+		if (e.getEntityType().toString().equals("WOLF")){
+			Bukkit.broadcastMessage("");
+		}
+		else if (e.getEntityType().toString().equals("CAT")) {
+			Bukkit.broadcastMessage("");
+		}
+		else if (e.getEntityType().toString().equals("HORSE")) {
+			Bukkit.broadcastMessage("");
+		}
+	}
+	
+	@EventHandler
+	public void parrotDismount(CreatureSpawnEvent e) {
+		if (e.getSpawnReason().toString().equals("SHOULDER_ENTITY")) {
+			Bukkit.broadcastMessage("");
+		}
+	}
+	
+	@EventHandler
+	public void raidTrigger(RaidTriggerEvent e) {
+		Bukkit.broadcastMessage(e.getPlayer().getName().toString());
+	}
+	
+	@EventHandler
+	public void breakBlock(BlockBreakEvent e) {
+		if (e.getBlock().getBiome().toString().equals("ICE_SPIKES")) {
+			if (e.getBlock().getType().toString().equals("CHAIN")) {
+				Bukkit.broadcastMessage("");
+			}
+		}
+	}
+	
+	@EventHandler
+	public void candleIgnite(BlockIgniteEvent e) {
+		if (e.getBlock().getType().toString().contains("CANDLE")) {
+			Bukkit.broadcastMessage("");
+		}
+	}
+	
+	@EventHandler
+	public void piglinTrade(PiglinBarterEvent e) {
+		List<Entity> proches = e.getEntity().getNearbyEntities(50, 50, 50);
+		int lenListe = proches.size();
+		for (int i=0; i<lenListe;i++) {
+			if (proches.get(i).getType().toString().equals("PLAYER")) {
+				Bukkit.broadcastMessage(proches.get(i).getName());
+			}
+		}
 	}
 	
 	@EventHandler
@@ -90,9 +224,9 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lVers l'infini et au-delà")) {
-		    /*	if () {
-		    	 
-		    	}*/
+		    	if (p.getLocation().getY() >= 320) {
+		    		Bukkit.broadcastMessage(""); 
+		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lIngénieur informaticien")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.REDSTONE_BLOCK), 16)) {
@@ -262,9 +396,9 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lIndiana Jones")) {
-		    /*	if () {
+		    	if (p.getLocation().getBlock().getBiome().toString().contains("JUNGLE")) {
 		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMerlin l'enchanteur")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.ENCHANTING_TABLE), 1)) {
@@ -359,314 +493,314 @@ public class DefiListener implements Listener {
 				if (terracotta >= 10) {
 		    		Bukkit.broadcastMessage(""); 
 				}
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBob l'éponge cubique")) {
-			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SPONGE), 1)) {
-			    		Bukkit.broadcastMessage(""); 
-			    	}
+		    }
+			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBob l'éponge cubique")) {
+			    if (p.getInventory().containsAtLeast(new ItemStack(Material.SPONGE), 1)) {
+			    	Bukkit.broadcastMessage(""); 
 			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMayo l'éponge")) {
-			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.HONEY_BLOCK), 1)) {
-			    		Bukkit.broadcastMessage(""); 
-			    	}
+			}
+			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMayo l'éponge")) {
+				if (p.getInventory().containsAtLeast(new ItemStack(Material.HONEY_BLOCK), 1)) {
+			    	Bukkit.broadcastMessage(""); 
+				}
+			}
+			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSous l'océan")) {
+			    if (p.getInventory().containsAtLeast(new ItemStack(Material.TROPICAL_FISH_BUCKET), 1)) {
+			    	Bukkit.broadcastMessage(""); 
 			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSous l'océan")) {
-			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.TROPICAL_FISH_BUCKET), 1)) {
-			    		Bukkit.broadcastMessage(""); 
-			    	}
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAu fond des profondeurs")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lEn suivant les yeux...")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
 			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAu fond des profondeurs")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lEn suivant les yeux...")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAssurance vie")) {
-			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.TOTEM_OF_UNDYING), 1)) {
-			    		Bukkit.broadcastMessage(""); 
-			    	}
-			    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAssurance vie")) {
+		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.TOTEM_OF_UNDYING), 1)) {
+		    		Bukkit.broadcastMessage(""); 
+		    	}
+		    }
 			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBienvenue au pays des Schtroumpfs")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lQui dit mieux?")) {
-			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.NETHERITE_INGOT), 1)) {
-			    		Bukkit.broadcastMessage(""); 
-			    	}
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lC'est la fin?")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLa plus grosse racaille")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMon précieux")) {
-			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.AMETHYST_BLOCK), 16)) {
-			    		Bukkit.broadcastMessage(""); 
-			    	}
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lUn bout de Cerbère")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDes paillettes dans ma vie Kévin")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAxo-loto")) {
-			    /*	ItemStack axolotl = new ItemStack(Material.AXOLOTL_BUCKET);
-			    	axolotlMeta = axolotl.getItemMeta();
-			    	axolotlMeta.
-			    	if (p.getInventory().containsAtLeast(new ItemStack(axolotl), 1)) {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBoules scintillantes")) {
-			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.GLOW_BERRIES), 5)) {
-			    		Bukkit.broadcastMessage(""); 
-			    	}
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLes mystérieuses cités d'or")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCa pique...")) {
-			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.POINTED_DRIPSTONE), 20)) {
-			    		Bukkit.broadcastMessage(""); 
-			    	}
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDans le mille")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCoup de foudre")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPirate des Caraïbes")) {
-			    /*	if (p.getInventory().containsAtLeast(new ItemStack(Material.SADDLE), 1)) {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lManoir hanté")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPoséidon")) {
-			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.TRIDENT), 1)) {
-			    		Bukkit.broadcastMessage(""); 
-			    	}
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lNous sommes en guerre")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLibérée, Délivrée")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCombat d'anthologie")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lT'es pas net Baptiste?")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lJésus des neiges")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lChargé à bloc")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lUne affaire en or")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPlutôt Kroukmou ou Spyro?")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSéance jacuzzi")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAux armes citoyens")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRetour à l'envoyeur")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lHallucinogènes")) {
-			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.BROWN_MUSHROOM), 1)) {
-			    		if (p.getInventory().containsAtLeast(new ItemStack(Material.RED_MUSHROOM), 1)) {
-			    			if (p.getInventory().containsAtLeast(new ItemStack(Material.CRIMSON_FUNGUS), 1)) {
-			    				if (p.getInventory().containsAtLeast(new ItemStack(Material.WARPED_FUNGUS), 1)) {
-			    					Bukkit.broadcastMessage(""); 
-			    				}
-			    			}
-			    		}
-			    	}
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lNouvelle énergie")) {
-			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.DAYLIGHT_DETECTOR), 1)) {
-			    		Bukkit.broadcastMessage(""); 
-			    	}
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLady Gaga")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSac à dos, sac à dos")) {
-			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SHULKER_BOX), 1)) {
-			    		Bukkit.broadcastMessage(""); 
-			    	}
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lExpérimenté")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMichelangelo?")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lStonks Industries")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lIl est gros le poisson")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTricot")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLe géant de fer")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRecyclage")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBatman")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRemède magique")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lArmure étincelante")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lJusqu'aux cieux")) {
-			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.BEACON), 1)) {
-			    		Bukkit.broadcastMessage(""); 
-			    	}
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRails de coke")) {
-			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SUGAR), 32)) {
-			    		if (p.getInventory().containsAtLeast(new ItemStack(Material.RAIL), 32)) {
-			    		Bukkit.broadcastMessage(""); 
-			    		}
-			    	}
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lC'est la fête de trop")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDrôle de porte bonheur")) {
-			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.RABBIT_FOOT), 1)) {
-			    		Bukkit.broadcastMessage(""); 
-			    	}
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTéma la taille du rat")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRéparation express !")) {
-			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.ENCHANTED_BOOK), 1)) { //ICI VERIFIER QUE CEST UN LIVRE MENDING !!!!
-			    		Bukkit.broadcastMessage(""); 
-			    	}
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCookie Monster")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lFishin Planet")) {
-			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SALMON), 1)) {
-				    	if (p.getInventory().containsAtLeast(new ItemStack(Material.COD), 1)) {
-					    	if (p.getInventory().containsAtLeast(new ItemStack(Material.PUFFERFISH), 1)) {
-						    	if (p.getInventory().containsAtLeast(new ItemStack(Material.TROPICAL_FISH), 1)) {
-						    		Bukkit.broadcastMessage(""); 
-						    	}
+		    	if (p.getLocation().getBlock().getBiome().toString().contains("MUSHROOM")) {
+		    		Bukkit.broadcastMessage(""); 
+		    	}
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lQui dit mieux?")) {
+		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.NETHERITE_INGOT), 1)) {
+		    		Bukkit.broadcastMessage(""); 
+		    	}
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lC'est la fin?")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLa plus grosse racaille")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+	    		}*/
+			}
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMon précieux")) {
+		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.AMETHYST_BLOCK), 16)) {
+		    		Bukkit.broadcastMessage(""); 
+		    	}
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lUn bout de Cerbère")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDes paillettes dans ma vie Kévin")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAxo-loto")) {
+		    /*	ItemStack axolotl = new ItemStack(Material.AXOLOTL_BUCKET);
+		    	axolotlMeta = axolotl.getItemMeta();
+		    	axolotlMeta.
+		    	if (p.getInventory().containsAtLeast(new ItemStack(axolotl), 1)) {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBoules scintillantes")) {
+		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.GLOW_BERRIES), 5)) {
+		    		Bukkit.broadcastMessage(""); 
+		    	}
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLes mystérieuses cités d'or")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCa pique...")) {
+		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.POINTED_DRIPSTONE), 20)) {
+		    		Bukkit.broadcastMessage(""); 
+		    	}
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDans le mille")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCoup de foudre")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPirate des Caraïbes")) {
+			/*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lManoir hanté")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPoséidon")) {
+		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.TRIDENT), 1)) {
+		    		Bukkit.broadcastMessage(""); 
+		    	}
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lNous sommes en guerre")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLibérée, Délivrée")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCombat d'anthologie")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lT'es pas net Baptiste?")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lJésus des neiges")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lChargé à bloc")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lUne affaire en or")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPlutôt Kroukmou ou Spyro?")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSéance jacuzzi")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAux armes citoyens")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRetour à l'envoyeur")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lHallucinogènes")) {
+		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.BROWN_MUSHROOM), 1)) {
+		    		if (p.getInventory().containsAtLeast(new ItemStack(Material.RED_MUSHROOM), 1)) {
+		    			if (p.getInventory().containsAtLeast(new ItemStack(Material.CRIMSON_FUNGUS), 1)) {
+		    				if (p.getInventory().containsAtLeast(new ItemStack(Material.WARPED_FUNGUS), 1)) {
+		    					Bukkit.broadcastMessage(""); 
+		    				}
+		    			}
+		    		}
+		    	}
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lNouvelle énergie")) {
+		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.DAYLIGHT_DETECTOR), 1)) {
+		    		Bukkit.broadcastMessage(""); 
+		    	}
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLady Gaga")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSac à dos, sac à dos")) {
+		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SHULKER_BOX), 1)) {
+		    		Bukkit.broadcastMessage(""); 
+		    	}
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lExpérimenté")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMichelangelo?")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lStonks Industries")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lIl est gros le poisson")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTricot")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLe géant de fer")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRecyclage")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBatman")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRemède magique")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lArmure étincelante")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lJusqu'aux cieux")) {
+		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.BEACON), 1)) {
+		    		Bukkit.broadcastMessage(""); 
+		    	}
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRails de coke")) {
+		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SUGAR), 32)) {
+		    		if (p.getInventory().containsAtLeast(new ItemStack(Material.RAIL), 32)) {
+		    		Bukkit.broadcastMessage(""); 
+		    		}
+		    	}
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lC'est la fête de trop")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDrôle de porte bonheur")) {
+		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.RABBIT_FOOT), 1)) {
+		    		Bukkit.broadcastMessage(""); 
+		    	}
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTéma la taille du rat")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRéparation express !")) {
+		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.ENCHANTED_BOOK), 1)) { //ICI VERIFIER QUE CEST UN LIVRE MENDING !!!!
+		    		Bukkit.broadcastMessage(""); 
+		    	}
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCookie Monster")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lFishin Planet")) {
+		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SALMON), 1)) {
+			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.COD), 1)) {
+				    	if (p.getInventory().containsAtLeast(new ItemStack(Material.PUFFERFISH), 1)) {
+					    	if (p.getInventory().containsAtLeast(new ItemStack(Material.TROPICAL_FISH), 1)) {
+					    		Bukkit.broadcastMessage(""); 
 					    	}
 				    	}
 			    	}
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDuel de regard")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMonster Hunter")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDoctor Strange")) {
-			    /*	if () {
-			    		Bukkit.broadcastMessage(""); 
-			    	}*/
-			    }
+		    	}
 		    }
-		}
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDuel de regard")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMonster Hunter")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDoctor Strange")) {
+		    /*	if () {
+		    		Bukkit.broadcastMessage(""); 
+		    	}*/
+		    }
+	    }
 	}
 }

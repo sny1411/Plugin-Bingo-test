@@ -135,7 +135,7 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lCa pique...","§e§oRécupérer 20 pointed dripstone","easy")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lDans le mille","§e§oTirer une flèche dans le centre d'un target block à plus de 30 blocks","easy")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lCoup de foudre","§e§oSe faire frapper par la foudre","medium")));
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lPirate des Caraïbes","§e§oAvoir un perroquet sur son épaule","medium")));
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lPirate des Caraïbes","§e§oFaire monter et descendre un perroquet de son épaule","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lManoir hanté","§e§oTrouver un manoir","hard")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lPoséidon","§e§oPosséder un trident","hard")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lNous sommes en guerre","§e§oDémarrer un raid dans un village","medium")));
@@ -144,7 +144,7 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lT'es pas net Baptiste?","§e§oAllumer une bougie","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lJésus des neiges","§e§oMarcher sur de la poudreuse avec des bottes en cuir","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lChargé à bloc","§e§oAlimenter un respawn anchor au maximum","hard")));
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lUne affaire en or","§e§oEchanger avec un piglin","medium")));
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lUne affaire en or","§e§oEchanger avec un piglin","medium"))); //
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lPlutôt Krokmou ou Spyro?","§e§oPorter une tête de dragon","extreme")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lSéance jacuzzi","§e§oS'éteindre dans le nether avec un chaudron","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lAux armes citoyens","§e§oAppliquer sur un bouclier une bannière de la France (partir d'une bannière blanche)","easy")));
@@ -152,7 +152,7 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lHallucinogènes","§e§oPosséder les 4 types de champignons","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lNouvelle énergie","§e§oPosséder un daylight sensor","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lLady Gaga","§e§oEquiper une full armure en or","easy")));
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lSac à dos, sac à dos","§e§oCrafter une shulker box","extreme")));
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lSac à dos, sac à dos","§e§oPosséder une shulker box","extreme")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lExpérimenté","§e§oAtteindre les 30 niveaux","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lMichelangelo?","§e§oReproduire deux tortues","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lStonks Industries","§e§oFaire un échange avec un villageois","easy")));
@@ -165,7 +165,7 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lArmure étincelante","§e§oPorter une armure full diams","hard")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lJusqu'aux cieux","§e§oPosséder un beacon","extreme")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lRails de coke","§e§oPosséder 32 rails et 32 sucres","easy")));
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lC'est la fête de trop","§e§oTuer un cochon avec un feu d'artifice","easy")));	
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lC'est la fête de trop","§e§oTuer un cochon avec un feu d'artifice et une arbalète","easy")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lDrôle de porte bonheur","§e§oRécupérer 1 patte de lapin","medium")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lTéma la taille du rat","§e§oTuer 1 silverfish","hard")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lRéparation express !","§e§oPosséder un livre mending","medium")));	
