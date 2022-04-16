@@ -96,6 +96,7 @@ public class Game {
 		this.modeAffichage = "Chill";
 		this.teams.resetTeam();
 		this.defis.resetDefi();
+		this.defis.presetTwoPlayers();
 	}
 	
 	public void resetGame() {
