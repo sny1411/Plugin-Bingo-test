@@ -133,7 +133,7 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lBoules scintillantes","§e§oRécupérer 5 glow berries","medium")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lLes mystérieuses cités d'or","§e§oTrouver un bastion","hard")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lCa pique...","§e§oRécupérer 20 pointed dripstone","easy")));	
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lDans le mille","§e§oTirer une flèche dans le centre d'un target block","easy")));	
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lDans le mille","§e§oTirer une flèche dans le centre d'un target block à plus de 30 blocks","easy")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lCoup de foudre","§e§oSe faire frapper par la foudre","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lPirate des Caraïbes","§e§oAvoir un perroquet sur son épaule","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lManoir hanté","§e§oTrouver un manoir","hard")));
@@ -157,7 +157,7 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lMichelangelo?","§e§oReproduire deux tortues","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lStonks Industries","§e§oFaire un échange avec un villageois","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lIl est gros le poisson","§e§oTuer un Elder Guardian","hard")));
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lTricot","§e§oTondre un mouton rose","easy")));
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lTricot","§e§oTondre un mouton violet","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lLe géant de fer","§e§oTuer un golem de fer","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lRecyclage","§e§oFaire de la bone meal depuis un composteur","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lBatman","§e§oUtiliser un nametag sur une chauve-souris","medium")));
@@ -165,7 +165,7 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lArmure étincelante","§e§oPorter une armure full diams","hard")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lJusqu'aux cieux","§e§oPosséder un beacon","extreme")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lRails de coke","§e§oPosséder 32 rails et 32 sucres","easy")));
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lC'est la fête de trop","§e§oLancer un feu d'artifice","easy")));	
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lC'est la fête de trop","§e§oTuer un cochon avec un feu d'artifice","easy")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lDrôle de porte bonheur","§e§oRécupérer 1 patte de lapin","medium")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lTéma la taille du rat","§e§oTuer 1 silverfish","hard")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lRéparation express !","§e§oPosséder un livre mending","medium")));	
@@ -291,7 +291,7 @@ public class Defis {
 		grilleDisplay.put(defi.get(86), new ItemStack(Material.EMERALD));
 		ItemStack elderGuardian = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWM3OTc0ODJhMTRiZmNiODc3MjU3Y2IyY2ZmMWI2ZTZhOGI4NDEzMzM2ZmZiNGMyOWE2MTM5Mjc4YjQzNmIifX19");
 		grilleDisplay.put(defi.get(87), elderGuardian);
-		grilleDisplay.put(defi.get(88), new ItemStack(Material.PINK_WOOL));
+		grilleDisplay.put(defi.get(88), new ItemStack(Material.PURPLE_WOOL));
 		ItemStack ironGolem = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODkwOTFkNzllYTBmNTllZjdlZjk0ZDdiYmE2ZTVmMTdmMmY3ZDQ1NzJjNDRmOTBmNzZjNDgxOWE3MTQifX19");
 		grilleDisplay.put(defi.get(89), ironGolem);
 		grilleDisplay.put(defi.get(90), new ItemStack(Material.COMPOSTER));

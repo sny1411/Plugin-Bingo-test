@@ -36,6 +36,7 @@ public class Plugin extends JavaPlugin{
 		Bukkit.getServer().getPluginManager().registerEvents(new BingoGui(game), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new DefiListener(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new SettingsGui(game), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new DefiListener(), this);
 		super.onEnable();
 	}
 }

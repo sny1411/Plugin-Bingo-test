@@ -81,7 +81,7 @@ public class Game {
 		if (player.isOp()) {
 			ItemStack itemSettings = new ItemStack(Material.COMPARATOR);
 			ItemMeta metaSettings = itemSettings.getItemMeta();
-			metaSettings.setDisplayName("§2◈ §a§lParamètres §r§2◈");
+			metaSettings.setDisplayName("§2◈ §a§lParamètres §r§2");
 			itemSettings.setItemMeta(metaSettings);
 			player.getInventory().setItem(0, itemSettings);
 		}
