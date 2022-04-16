@@ -1,0 +1,15 @@
+name: bingo
+main: fr.sny1411.bingo.Plugin
+version: 0.1
+charger: STARTUP
+author: sny1411
+api-version: 1.18
+commands:
+  newGame:
+    description: cree une nouvelle partie
+  statsGame:
+    description: affiche les variables du jeux
+  bingo:
+    description: affiche la grille de bingo
+  start:
+    description: demarre une partie
