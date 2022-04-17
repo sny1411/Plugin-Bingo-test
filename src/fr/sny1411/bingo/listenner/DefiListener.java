@@ -3,13 +3,16 @@ package fr.sny1411.bingo.listenner;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Sheep;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.block.CauldronLevelChangeEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -18,10 +21,13 @@ import org.bukkit.event.entity.PiglinBarterEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
+import org.bukkit.event.player.PlayerLevelChangeEvent;
+import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.raid.RaidTriggerEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class DefiListener implements Listener {
+	
 	@EventHandler
 	public void testAchievements(PlayerAdvancementDoneEvent e) {
 		String player = e.getPlayer().getName();
@@ -60,8 +66,18 @@ public class DefiListener implements Listener {
 	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + player + " §ra terminé le défi §d§nJésus des neiges");
 	    }
 	}
+	
 	@EventHandler
-	public void fireworkMob(ProjectileHitEvent e) {
+	public void cauldronExtinguish(CauldronLevelChangeEvent e) {
+		if (e.getReason().toString().equals("EXTINGUISH")) {
+			if (e.getEntity().getWorld().toString().contains("nether")) {
+				Bukkit.broadcastMessage(e.getEntity().getName().toString());
+			}
+		}
+	}
+	
+	@EventHandler
+	public void projectileHitkMob(ProjectileHitEvent e) {
 		if (e.getHitEntity().getType().toString().equals("PIG")) {
 			if (e.getEntity().getType().toString().equals("FIREWORK")) {
 				e.getHitEntity().setCustomName("§e ");
@@ -179,6 +195,25 @@ public class DefiListener implements Listener {
 		for (int i=0; i<lenListe;i++) {
 			if (proches.get(i).getType().toString().equals("PLAYER")) {
 				Bukkit.broadcastMessage(proches.get(i).getName());
+			}
+		}
+	}
+	
+	@EventHandler
+	public void expChange(PlayerLevelChangeEvent e) {
+		System.out.println(e.getPlayer().getLevel());
+		if (e.getPlayer().getLevel() >= 30) {
+			Bukkit.broadcastMessage("30");
+		}
+	}
+	
+	@EventHandler
+	public void sheepShear(PlayerShearEntityEvent e) {
+		Sheep sheep = (Sheep) e.getEntity();
+		Bukkit.broadcastMessage(sheep.getColor().toString());
+		if (sheep.getType().toString().equals("SHEEP")) {
+			if (sheep.getColor().equals(DyeColor.PURPLE)) {
+				Bukkit.broadcastMessage(" ");
 			}
 		}
 	}
@@ -642,10 +677,10 @@ public class DefiListener implements Listener {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPlutôt Kroukmou ou Spyro?")) {
-		    /*	if () {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPlutôt Krokmou ou Spyro?")) {
+		    	if (p.getInventory().getHelmet().equals(new ItemStack(Material.DRAGON_HEAD))) {
 		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSéance jacuzzi")) {
 		    /*	if () {
@@ -653,9 +688,16 @@ public class DefiListener implements Listener {
 		    	}*/
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAux armes citoyens")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				for (int i=0; i<p.getInventory().getSize(); i++) {
+					if (p.getInventory().getItem(i) != null && p.getInventory().getItem(i).toString().contains("SHIELD")) {
+						if (p.getInventory().getItem(i).getItemMeta().toString().equals("TILE_ENTITY_META:{meta-type=TILE_ENTITY, internal=H4sIAAAAAAAA/+NiYOBi4HPKyU/Ods0rySypDElMZ2ZgcUosTmUAAk4GjoDEkpLUorxiLiCXiYOBHcpnYMopZmZgdc7PyS8CynAzIEsVIUvxAaWYMlMYBHIz81KTixLTSqySEvPyUoFyAG4OTLd+AAAA, blockMaterial=SHIELD}")) {
+							Bukkit.broadcastMessage("lol1");
+						}
+						else if (p.getInventory().getItem(i).getItemMeta().toString().equals("TILE_ENTITY_META:{meta-type=TILE_ENTITY, internal=H4sIAAAAAAAA/+NiYOBi4HPKyU/Ods0rySypDElMZ2ZgcUosTmUAAk4GjoDEkpLUorxiLiCXiYOBHcpnYCoqZmZgdc7PyS8CyvAxIEvlIEtxA6WYMlMYBHIz81KTixLTSqySEvPyUoFyAMyYM/V+AAAA, blockMaterial=SHIELD}")) {
+							Bukkit.broadcastMessage("lol");
+						}
+					}
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRetour à l'envoyeur")) {
 		    /*	if () {
@@ -679,9 +721,15 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLady Gaga")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+		    	if (p.getInventory().getHelmet().equals(new ItemStack(Material.GOLDEN_HELMET))) {
+			    	if (p.getInventory().getChestplate().equals(new ItemStack(Material.GOLDEN_CHESTPLATE))) {
+				    	if (p.getInventory().getLeggings().equals(new ItemStack(Material.GOLDEN_LEGGINGS))) {
+					    	if (p.getInventory().getBoots().equals(new ItemStack(Material.GOLDEN_BOOTS))) {
+					    		Bukkit.broadcastMessage(""); 
+					    	}
+				    	}
+			    	}
+		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSac à dos, sac à dos")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SHULKER_BOX), 1)) {
@@ -734,9 +782,15 @@ public class DefiListener implements Listener {
 		    	}*/
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lArmure étincelante")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+		    	if (p.getInventory().getHelmet().equals(new ItemStack(Material.DIAMOND_HELMET))) {
+			    	if (p.getInventory().getChestplate().equals(new ItemStack(Material.DIAMOND_CHESTPLATE))) {
+				    	if (p.getInventory().getLeggings().equals(new ItemStack(Material.DIAMOND_LEGGINGS))) {
+					    	if (p.getInventory().getBoots().equals(new ItemStack(Material.DIAMOND_BOOTS))) {
+					    		Bukkit.broadcastMessage(""); 
+					    	}
+				    	}
+			    	}
+		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lJusqu'aux cieux")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.BEACON), 1)) {

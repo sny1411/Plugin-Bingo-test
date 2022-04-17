@@ -6,8 +6,13 @@ import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.block.Banner;
+import org.bukkit.block.banner.Pattern;
+import org.bukkit.block.banner.PatternType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -154,25 +159,25 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lLady Gaga","§e§oEquiper une full armure en or","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lSac à dos, sac à dos","§e§oPosséder une shulker box","extreme")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lExpérimenté","§e§oAtteindre les 30 niveaux","medium")));
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lMichelangelo?","§e§oReproduire deux tortues","easy")));
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lMichelangelo?","§e§oReproduire deux tortues","easy"))); //
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lStonks Industries","§e§oFaire un échange avec un villageois","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lIl est gros le poisson","§e§oTuer un Elder Guardian","hard")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lTricot","§e§oTondre un mouton violet","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lLe géant de fer","§e§oTuer un golem de fer","easy")));
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lRecyclage","§e§oFaire de la bone meal depuis un composteur","easy")));
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lBatman","§e§oUtiliser un nametag sur une chauve-souris","medium")));
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lRemède magique","§e§oAvoir l'effet régenération II","easy")));
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lRecyclage","§e§oFaire de la bone meal depuis un composteur","easy"))); //
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lBatman","§e§oUtiliser un nametag sur une chauve-souris","medium"))); //
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lRemède magique","§e§oAvoir l'effet régenération II","easy"))); //
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lArmure étincelante","§e§oPorter une armure full diams","hard")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lJusqu'aux cieux","§e§oPosséder un beacon","extreme")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lRails de coke","§e§oPosséder 32 rails et 32 sucres","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lC'est la fête de trop","§e§oTuer un cochon avec un feu d'artifice et une arbalète","easy")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lDrôle de porte bonheur","§e§oRécupérer 1 patte de lapin","medium")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lTéma la taille du rat","§e§oTuer 1 silverfish","hard")));	
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lRéparation express !","§e§oPosséder un livre mending","medium")));	
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lCookie Monster","§e§oManger un cookie","medium")));		
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lRéparation express !","§e§oPosséder un livre mending","medium"))); 	
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lCookie Monster","§e§oManger un cookie","medium")));	//
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lFishing Planet","§e§oPosséder les 4 types de poissons crus","medium")));		
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lDuel de regard","§e§oRegarder un enderman dans les yeux","easy")));	
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lMonster Hunter","§e§oCasser un spawner","medium")));	
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lDuel de regard","§e§oRegarder un enderman dans les yeux","easy")));	//
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lMonster Hunter","§e§oCasser un spawner","medium")));	//
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lDoctor Strange","§e§oGuérir un zombie villageois","hard")));	
 		
 		for (List<String> def : defi) {
@@ -279,7 +284,15 @@ public class Defis {
 		grilleDisplay.put(defi.get(75), piglin);
 		grilleDisplay.put(defi.get(76), new ItemStack(Material.DRAGON_HEAD));
 		grilleDisplay.put(defi.get(77), new ItemStack(Material.CAULDRON));
-		grilleDisplay.put(defi.get(78), new ItemStack(Material.SHIELD));
+		ItemStack shield = new ItemStack(Material.SHIELD);
+		BlockStateMeta blockStateMeta = (BlockStateMeta) shield.getItemMeta();
+		Banner banner = (Banner) blockStateMeta.getBlockState();
+		banner.addPattern(new Pattern(DyeColor.BLUE,PatternType.STRIPE_LEFT));
+		banner.addPattern(new Pattern(DyeColor.RED,PatternType.STRIPE_RIGHT));
+		banner.update();
+		blockStateMeta.setBlockState(banner);
+		shield.setItemMeta(blockStateMeta);
+		grilleDisplay.put(defi.get(78), shield);
 		ItemStack ghast = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGI2YTcyMTM4ZDY5ZmJiZDJmZWEzZmEyNTFjYWJkODcxNTJlNGYxYzk3ZTVmOTg2YmY2ODU1NzFkYjNjYzAifX19");
 		grilleDisplay.put(defi.get(79), ghast);
 		grilleDisplay.put(defi.get(80), new ItemStack(Material.BROWN_MUSHROOM));
