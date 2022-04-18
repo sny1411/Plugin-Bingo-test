@@ -2,6 +2,7 @@ package fr.sny1411.bingo.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
@@ -19,26 +20,34 @@ public class Teams {
 	public Hashtable<String, String> prefixeColorTeams = new Hashtable<String, String>();
 	public List<Player> playerInGui = new ArrayList<Player>();
 	private TeamsGui teamsGui;
-	public Hashtable<String, List<List<String>>> defiDone = new Hashtable<String, List<List<String>>>(); // a terminer
-	public Hashtable<String, Integer> nbreDefiDone = new Hashtable<String, Integer>();
+	// les deux variables suivante prennent en parametre le nom de la team et renvoie la liste des dÃ©fis de celle-ci
+	public Hashtable<String, Hashtable<String,Boolean>> defiDone = new Hashtable<String, Hashtable<String,Boolean>>(); // liste les defis rÃ©alisÃ© (pas validÃ©)
+	public Hashtable<String, Hashtable<String,Boolean>> defiValid = new Hashtable<String, Hashtable<String,Boolean>>(); // liste tout les defis validÃ© dans la grille
+	public Hashtable<String, Integer> nbreDefiValid = new Hashtable<String, Integer>();
 	public List<Player> listSpectator = new ArrayList<Player>();
-	public Teams(TeamsGui teamsGui2) {
+	private Game game;
+	
+	public Teams(TeamsGui teamsGui2, Game game) {
 		this.teamsGui = teamsGui2;
+		this.game = game;
 	}
 
 	public void createTeams() {
 		prefixeColorTeams.put("","");
-		prefixeColorTeams.put("Orange", "§6");
-		prefixeColorTeams.put("Rouge", "§c");
-		prefixeColorTeams.put("Violet", "§5");
-		prefixeColorTeams.put("Rose", "§d");
-		prefixeColorTeams.put("Vert", "§a");
-		prefixeColorTeams.put("Bleu", "§b");
-		prefixeColorTeams.put("Spectator","§8[SPEC] §7§o");
+		prefixeColorTeams.put("Orange", "Â§6");
+		prefixeColorTeams.put("Rouge", "Â§c");
+		prefixeColorTeams.put("Violet", "Â§5");
+		prefixeColorTeams.put("Rose", "Â§d");
+		prefixeColorTeams.put("Vert", "Â§a");
+		prefixeColorTeams.put("Bleu", "Â§b");
+		prefixeColorTeams.put("Spectator","Â§8[SPEC] Â§7Â§o");
 
 		for (int i = 0; i < nombreTeams; i++) {
 			teamsHash.put(colorTeams.get(i), new ArrayList<Player>());
-			nbreDefiDone.put(colorTeams.get(i), 0);
+			nbreDefiValid.put(colorTeams.get(i), 0);
+			for (List<String> def : game.defis.defi) {
+				//add tt defis ds variables
+			}
 		}
 	}
 	
@@ -87,7 +96,7 @@ public class Teams {
 			teamsHash.put(nameTeams, teamPlayers);
 			player.setPlayerListName(prefixeColorTeams.get(nameTeams) + player.getName());
 		} else {
-			player.sendMessage("§aCette équipe est pleine");
+			player.sendMessage("ï¿½aCette ï¿½quipe est pleine");
 		}
 	}
 	

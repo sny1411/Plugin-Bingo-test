@@ -21,8 +21,10 @@ import fr.sny1411.bingo.utils.Teams;
 public class Plugin extends JavaPlugin{
 	private Game game = new Game();
 	private TeamsGui teamsGui = new TeamsGui(game);
-	private Teams teams = new Teams(teamsGui);
 	private Defis defis = new Defis();
+	private Teams teams = new Teams(teamsGui,game);
+	private DefiListener defiListener = new DefiListener(game);
+
 	@Override
 	public void onEnable() {
 		game.setClassTeams(teams);
@@ -34,7 +36,7 @@ public class Plugin extends JavaPlugin{
 		Bukkit.getServer().getPluginManager().registerEvents(new EventsListener(game), this);
 		Bukkit.getServer().getPluginManager().registerEvents(teamsGui, this);
 		Bukkit.getServer().getPluginManager().registerEvents(new BingoGui(game), this);
-		Bukkit.getServer().getPluginManager().registerEvents(new DefiListener(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(defiListener, this);
 		Bukkit.getServer().getPluginManager().registerEvents(new SettingsGui(game), this);
 		super.onEnable();
 	}

@@ -36,7 +36,7 @@ public class BingoGui implements Listener {
     	}
     
     public void openGui(Player p) {
-    	inv = Bukkit.createInventory(p, 45, "§3§lBINGO");
+    	inv = Bukkit.createInventory(p, 45, "Â§3Â§lBINGO");
     	ItemStack item = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
     	ItemMeta meta = item.getItemMeta();
     	meta.setDisplayName("");
@@ -45,7 +45,7 @@ public class BingoGui implements Listener {
 			inv.setItem(i, item);
 		}
     	ArrayList<Material> itemsTeams = new ArrayList<Material>(Arrays.asList(Material.ORANGE_BANNER,Material.RED_BANNER,Material.PURPLE_BANNER,Material.PINK_BANNER,Material.LIME_BANNER,Material.LIGHT_BLUE_BANNER));
-		ArrayList<String> nameTeams = new ArrayList<String>(Arrays.asList("§6Orange","§cRouge", "§5Violet", "§dRose", "§aVert", "§bBleu"));
+		ArrayList<String> nameTeams = new ArrayList<String>(Arrays.asList("Â§6Orange","Â§cRouge", "Â§5Violet", "Â§dRose", "Â§aVert", "Â§bBleu"));
 		ArrayList<ItemStack> teamsList = new ArrayList<ItemStack>();
     	for (int i = 0; i < 5; i++) {
     		if (i < game.teams.nombreTeams) {
@@ -53,12 +53,12 @@ public class BingoGui implements Listener {
     			ItemMeta itemTeamMeta = itemTeam.getItemMeta();
     			itemTeamMeta.setDisplayName(nameTeams.get(i));
     			ArrayList<String> loreTeams = new ArrayList<String>();
-    			loreTeams.add("§9Défi(s) réalisé(s): §f" + game.teams.nbreDefiDone.get(game.teams.colorTeams.get(i)).toString());
+    			loreTeams.add("Â§9DÃ©fi(s) rÃ©alisÃ©(s): Â§f" + game.teams.nbreDefiValid.get(game.teams.colorTeams.get(i)).toString());
     			for (int j = 0; j < game.teams.nombreJoueursParTeams; j++) {
     				if (j < game.teams.teamsHash.get(game.teams.colorTeams.get(i)).size()) {
-						loreTeams.add("§7§o- " + game.teams.teamsHash.get(game.teams.colorTeams.get(i)).get(j).getDisplayName());
+						loreTeams.add("Â§7Â§o- " + game.teams.teamsHash.get(game.teams.colorTeams.get(i)).get(j).getDisplayName());
 					} else {
-						loreTeams.add("§7§o- ");
+						loreTeams.add("Â§7Â§o- ");
 					}
 				}
     			itemTeamMeta.setLore(loreTeams);

@@ -26,44 +26,53 @@ import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.raid.RaidTriggerEvent;
 import org.bukkit.inventory.ItemStack;
 
+import fr.sny1411.bingo.utils.Game;
+
 public class DefiListener implements Listener {
+	private Game game;
 	
+	public DefiListener(Game game) {
+		this.game = game;
+	}
+
 	@EventHandler
 	public void testAchievements(PlayerAdvancementDoneEvent e) {
-		String player = e.getPlayer().getName();
+		Player player = e.getPlayer();
+		String Nameplayer = player.getName();
 		String advancement = e.getAdvancement().getKey().getKey();
 		if (advancement.equals("story/enter_the_nether")) {
-			Bukkit.broadcastMessage("§7[§eBINGO§7] " + player + " §ra terminé le défi §d§nBienvenue en Enfer");
+			Bukkit.broadcastMessage("Â§7[Â§eBINGOÂ§7] " + Nameplayer + " Â§ra terminÃ© le dÃ©fi Â§dÂ§nBienvenue en Enfer");
+			String teamPlayer = game.teams.findTeamPlayer(player);
 		} else if (advancement.equals("story/follow_ender_eye")) {
-			Bukkit.broadcastMessage("§7[§eBINGO§7] " + player + " §ra terminé le défi §d§nEn suivant les yeux...");
+			Bukkit.broadcastMessage("Â§7[Â§eBINGOÂ§7] " + Nameplayer + " Â§ra terminÃ© le dÃ©fi Â§dÂ§nEn suivant les yeux...");
 		} else if (advancement.equals("story/cure_zombie_villager")) {
-			Bukkit.broadcastMessage("§7[§eBINGO§7]" + player + " §ra terminé le défi §d§nDoctor Strange");
+			Bukkit.broadcastMessage("Â§7[Â§eBINGOÂ§7]" + Nameplayer + " Â§ra terminÃ© le dÃ©fi Â§dÂ§nDoctor Strange");
 		} else if (advancement.equals("nether/obtain_ancient_debris")) {
-			Bukkit.broadcastMessage("§7[§eBINGO§7] " + player + " §ra terminé le défi §d§nAu fond des profondeurs");
+			Bukkit.broadcastMessage("Â§7[Â§eBINGOÂ§7] " + Nameplayer + " Â§ra terminÃ© le dÃ©fi Â§dÂ§nAu fond des profondeurs");
 		} else if (advancement.equals("nether/explore_nether")) {
-			Bukkit.broadcastMessage("§7[§eBINGO§7] " + player + " §ra terminé le défi §d§nVoyage au bout de l'Enfer");
+			Bukkit.broadcastMessage("Â§7[Â§eBINGOÂ§7] " + Nameplayer + " Â§ra terminÃ© le dÃ©fi Â§dÂ§nVoyage au bout de l'Enfer");
 		} else if (advancement.equals("nether/obtain_crying_obsidian")) {
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + player + " §ra terminé le défi §d§nSortez les mouchoirs");
+	    	Bukkit.broadcastMessage("Â§7[Â§eBINGOÂ§7] " + Nameplayer + " Â§ra terminÃ© le dÃ©fi Â§dÂ§nSortez les mouchoirs");
 	    } else if (advancement.equals("nether/get_wither_skull")) {
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + player + " §ra terminé le défi §d§nUn bout de Cerb");
+	    	Bukkit.broadcastMessage("Â§7[Â§eBINGOÂ§7] " + Nameplayer + " Â§ra terminÃ© le dÃ©fi Â§dÂ§nUn bout de Cerb");
 	    } else if (advancement.equals("nether/find_bastion")) {
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + player + " §ra terminé le défi §d§nLes mystérieuses cités d'or");
+	    	Bukkit.broadcastMessage("Â§7[Â§eBINGOÂ§7] " + Nameplayer + " Â§ra terminÃ© le dÃ©fi Â§dÂ§nLes mystÃ©rieuses citÃ©s d'or");
 	    } else if (advancement.equals("nether/charge_respawn_anchor")) {
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + player + " §ra terminé le défi §d§nChargé à bloc");
+	    	Bukkit.broadcastMessage("Â§7[Â§eBINGOÂ§7] " + Nameplayer + " Â§ra terminÃ© le dÃ©fi Â§dÂ§nChargÃ© Ã  bloc");
 	    } else if (advancement.equals("nether/return_to_sender")) {
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + player + " §ra terminé le défi §d§nRetour à l'envoyeur");
+	    	Bukkit.broadcastMessage("Â§7[Â§eBINGOÂ§7] " + Nameplayer + " Â§ra terminÃ© le dÃ©fi Â§dÂ§nRetour Ã  l'envoyeur");
 	    } else if (advancement.equals("end/root")) {
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + player + " §ra terminé le défi §d§nC'est la fin?");
+	    	Bukkit.broadcastMessage("Â§7[Â§eBINGOÂ§7] " + Nameplayer + " Â§ra terminÃ© le dÃ©fi Â§dÂ§nC'est la fin?");
 	    } else if (advancement.equals("adventure/sleep_in_bed")) {
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + player + " §ra terminé le défi §d§nBonne nuit les petits");
+	    	Bukkit.broadcastMessage("Â§7[Â§eBINGOÂ§7] " + Nameplayer + " Â§ra terminÃ© le dÃ©fi Â§dÂ§nBonne nuit les petits");
 	    } else if (advancement.equals("adventure/bullseye")) {
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + player + " §ra terminé le défi §d§nDans le mille");
+	    	Bukkit.broadcastMessage("Â§7[Â§eBINGOÂ§7] " + Nameplayer + " Â§ra terminÃ© le dÃ©fi Â§dÂ§nDans le mille");
 	    } else if (advancement.equals("adventure/spyglass_at_ghast")) {
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + player + " §ra terminé le défi §d§nC'est un ballon?");
+	    	Bukkit.broadcastMessage("Â§7[Â§eBINGOÂ§7] " + Nameplayer + " Â§ra terminÃ© le dÃ©fi Â§dÂ§nC'est un ballon?");
 	    } else if (advancement.equals("nether/trade")) {
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + player + " §ra terminé le défi §d§nStonks Industries");
+	    	Bukkit.broadcastMessage("Â§7[Â§eBINGOÂ§7] " + Nameplayer + " Â§ra terminÃ© le dÃ©fi Â§dÂ§nStonks Industries");
 	    } else if (advancement.equals("adventure/walk_on_powder_snow_with_leather_boots")) {
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + player + " §ra terminé le défi §d§nJésus des neiges");
+	    	Bukkit.broadcastMessage("Â§7[Â§eBINGOÂ§7] " + Nameplayer + " Â§ra terminÃ© le dÃ©fi Â§dÂ§nJÃ©sus des neiges");
 	    }
 	}
 	
@@ -80,7 +89,7 @@ public class DefiListener implements Listener {
 	public void projectileHitkMob(ProjectileHitEvent e) {
 		if (e.getHitEntity().getType().toString().equals("PIG")) {
 			if (e.getEntity().getType().toString().equals("FIREWORK")) {
-				e.getHitEntity().setCustomName("§e ");
+				e.getHitEntity().setCustomName("Â§e ");
 			}
 		}
 		else if (e.getHitEntity().getType().toString().equals("SNOWMAN")) {
@@ -138,7 +147,7 @@ public class DefiListener implements Listener {
 			Bukkit.broadcastMessage("");
 		}
 		if (e.getEntity().getType().toString().equals("PIG")) {
-			if (e.getEntity().getName().toString().equals("§e ")) {
+			if (e.getEntity().getName().toString().equals("Â§e ")) {
 				Bukkit.broadcastMessage("ptn");
 			}
 		}
@@ -220,110 +229,110 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	public void testItems(InventoryClickEvent e) {
-		if (e.getView().getTitle().equalsIgnoreCase("§3§lBINGO")) {
+		if (e.getView().getTitle().equalsIgnoreCase("Â§3Â§lBINGO")) {
 			ItemStack item = e.getCurrentItem();
 			Player p = (Player) e.getWhoClicked();
-			if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lVa te faire foutre")) {
+			if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lVa te faire foutre")) {
 		    /*	if () {
 		    		
 		    	}*/
 		    }
-			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBoulets de canon")) {
+			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lBoulets de canon")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.FIRE_CHARGE), 6)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDéforestation")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lDÃ©forestation")) {
 			    if (p.getInventory().containsAtLeast(new ItemStack(Material.ACACIA_LOG), 64)) {
 			      Bukkit.broadcastMessage("d"); 
 			    }
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAllahu Akbar")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lAllahu Akbar")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.TNT), 5)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTop Chef")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lTop Chef")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.CAKE), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lForgeron")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lForgeron")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.ANVIL), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLa dame du CDI")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lLa dame du CDI")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.BOOK), 16)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lVers l'infini et au-delà")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lVers l'infini et au-delÃ ")) {
 		    	if (p.getLocation().getY() >= 320) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lIngénieur informaticien")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lIngÃ©nieur informaticien")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.REDSTONE_BLOCK), 16)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAlgoculteur")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lAlgoculteur")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.DRIED_KELP_BLOCK), 16)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAurevoir Sabrina !")){
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lAurevoir Sabrina !")){
 		    /*	if (){
 		     
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lHalloween")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lHalloween")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.JACK_O_LANTERN), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCa colle...")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lCa colle...")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.HONEY_BOTTLE), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lEtrange pomme d'amour")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lEtrange pomme d'amour")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.GOLDEN_APPLE), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMcDonald's")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lMcDonald's")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.POISONOUS_POTATO), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lFarming Simulator")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lFarming Simulator")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.HAY_BLOCK), 32)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCauchemar en cuisine")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lCauchemar en cuisine")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SUSPICIOUS_STEW), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSlime Rancher")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lSlime Rancher")) {
 		    /* if () {
 		     
 		     	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lFaut pas Flipper")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lFaut pas Flipper")) {
 		    /*	if () {
 		    	
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lFée Clocharde")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lFÃ©e Clocharde")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.FEATHER), 31)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAddict des seaux")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lAddict des seaux")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.WATER_BUCKET), 1)) {
 		      		if (p.getInventory().containsAtLeast(new ItemStack(Material.LAVA_BUCKET), 1)) {
 		        		if (p.getInventory().containsAtLeast(new ItemStack(Material.MILK_BUCKET), 1)) {
@@ -332,52 +341,52 @@ public class DefiListener implements Listener {
 		      		}
 		    	} 
 		    } 
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lWolf Gang")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lWolf Gang")) {
 		    /*	if (){
 		     
 		     	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lNyan Cat")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lNyan Cat")) {
 		    /*	if (){
 		     
 		     	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lWhat does the fox say?")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lWhat does the fox say?")) {
 		    /*	if (){
 		     
 		     	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLe cheval c'est trop génial")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lLe cheval c'est trop gÃ©nial")) {
 		    /*	if (){
 		     
 		     	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBonne nuit les petits")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lBonne nuit les petits")) {
 		    /*	if (){
 		     
 		     	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTout est bon dans le cochon")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lTout est bon dans le cochon")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.PORKCHOP), 22)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTu es grosse Mélissandre")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lTu es grosse MÃ©lissandre")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.PUMPKIN_PIE), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDestrier des Enfers")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lDestrier des Enfers")) {
 		    /*	if (){
 		     
 		     	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lY'a du bambou là !")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lY'a du bambou lÃ  !")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.BAMBOO), 64)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCollectionneur")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lCollectionneur")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.COAL_BLOCK), 1)) {
 		    		if (p.getInventory().containsAtLeast(new ItemStack(Material.REDSTONE_BLOCK), 1)) {
 		        		if (p.getInventory().containsAtLeast(new ItemStack(Material.LAPIS_BLOCK), 1)) {
@@ -398,84 +407,84 @@ public class DefiListener implements Listener {
 		    		} 
 		    	} 
 			}
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTu es un sorcier Harry !")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lTu es un sorcier Harry !")) {
 		    /*	if (p.getInventory().containsAtLeast(new ItemStack(Material.POTION), 1)) {
 		    		if (p.getInventory().containsAtLeast(new ItemStack(Material.BREAD), 1)) {
 		    			Bukkit.broadcastMessage("d");
 		    		}
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBienvenue en Enfer")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lBienvenue en Enfer")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lArachnophobe")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lArachnophobe")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lVoyage au bout de l'Enfer")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lVoyage au bout de l'Enfer")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCoffre du néant")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lCoffre du nÃ©ant")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.ENDER_CHEST), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTrésor enfoui")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lTrÃ©sor enfoui")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.HEART_OF_THE_SEA), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lIndiana Jones")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lIndiana Jones")) {
 		    	if (p.getLocation().getBlock().getBiome().toString().contains("JUNGLE")) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMerlin l'enchanteur")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lMerlin l'enchanteur")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.ENCHANTING_TABLE), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lJ'ai le bâton en feu !")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lJ'ai le bÃ¢ton en feu !")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.BLAZE_ROD), 2)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSortez les mouchoirs")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lSortez les mouchoirs")) {
 		    /*	if (){
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lThe Walking Dead")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lThe Walking Dead")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSOS Fantômes")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lSOS FantÃ´mes")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.PHANTOM_MEMBRANE), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lJe veux tes yeux")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lJe veux tes yeux")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.ENDER_PEARL), 3)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lChâteau rouge")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lChÃ¢teau rouge")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.RED_NETHER_BRICKS), 17)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lOld Town Road")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lOld Town Road")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SADDLE), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTerre colorée")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lTerre colorÃ©e")) {
 		    	int terracotta = 0;
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.WHITE_TERRACOTTA), 1)) {
 		    		terracotta++;
@@ -529,72 +538,72 @@ public class DefiListener implements Listener {
 		    		Bukkit.broadcastMessage(""); 
 				}
 		    }
-			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBob l'éponge cubique")) {
+			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lBob l'Ã©ponge cubique")) {
 			    if (p.getInventory().containsAtLeast(new ItemStack(Material.SPONGE), 1)) {
 			    	Bukkit.broadcastMessage(""); 
 			    }
 			}
-			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMayo l'éponge")) {
+			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lMayo l'Ã©ponge")) {
 				if (p.getInventory().containsAtLeast(new ItemStack(Material.HONEY_BLOCK), 1)) {
 			    	Bukkit.broadcastMessage(""); 
 				}
 			}
-			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSous l'océan")) {
+			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lSous l'ocÃ©an")) {
 			    if (p.getInventory().containsAtLeast(new ItemStack(Material.TROPICAL_FISH_BUCKET), 1)) {
 			    	Bukkit.broadcastMessage(""); 
 			    }
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAu fond des profondeurs")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lAu fond des profondeurs")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lEn suivant les yeux...")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lEn suivant les yeux...")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 			    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAssurance vie")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lAssurance vie")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.TOTEM_OF_UNDYING), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBienvenue au pays des Schtroumpfs")) {
+			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lBienvenue au pays des Schtroumpfs")) {
 		    	if (p.getLocation().getBlock().getBiome().toString().contains("MUSHROOM")) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lQui dit mieux?")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lQui dit mieux?")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.NETHERITE_INGOT), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lC'est la fin?")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lC'est la fin?")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLa plus grosse racaille")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lLa plus grosse racaille")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 	    		}*/
 			}
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMon précieux")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lMon prÃ©cieux")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.AMETHYST_BLOCK), 16)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lUn bout de Cerbère")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lUn bout de CerbÃ¨re")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDes paillettes dans ma vie Kévin")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lDes paillettes dans ma vie KÃ©vin")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAxo-loto")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lAxo-loto")) {
 		    /*	ItemStack axolotl = new ItemStack(Material.AXOLOTL_BUCKET);
 		    	axolotlMeta = axolotl.getItemMeta();
 		    	axolotlMeta.
@@ -602,92 +611,92 @@ public class DefiListener implements Listener {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBoules scintillantes")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lBoules scintillantes")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.GLOW_BERRIES), 5)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLes mystérieuses cités d'or")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lLes mystÃ©rieuses citÃ©s d'or")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCa pique...")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lCa pique...")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.POINTED_DRIPSTONE), 20)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDans le mille")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lDans le mille")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCoup de foudre")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lCoup de foudre")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPirate des Caraïbes")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lPirate des CaraÃ¯bes")) {
 			/*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lManoir hanté")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lManoir hantÃ©")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPoséidon")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lPosÃ©idon")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.TRIDENT), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lNous sommes en guerre")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lNous sommes en guerre")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLibérée, Délivrée")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lLibÃ©rÃ©e, DÃ©livrÃ©e")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCombat d'anthologie")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lCombat d'anthologie")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lT'es pas net Baptiste?")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lT'es pas net Baptiste?")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lJésus des neiges")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lJÃ©sus des neiges")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lChargé à bloc")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lChargÃ© Ã  bloc")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lUne affaire en or")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lUne affaire en or")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPlutôt Krokmou ou Spyro?")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lPlutÃ´t Krokmou ou Spyro?")) {
 		    	if (p.getInventory().getHelmet().equals(new ItemStack(Material.DRAGON_HEAD))) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSéance jacuzzi")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lSÃ©ance jacuzzi")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAux armes citoyens")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lAux armes citoyens")) {
 				for (int i=0; i<p.getInventory().getSize(); i++) {
 					if (p.getInventory().getItem(i) != null && p.getInventory().getItem(i).toString().contains("SHIELD")) {
 						if (p.getInventory().getItem(i).getItemMeta().toString().equals("TILE_ENTITY_META:{meta-type=TILE_ENTITY, internal=H4sIAAAAAAAA/+NiYOBi4HPKyU/Ods0rySypDElMZ2ZgcUosTmUAAk4GjoDEkpLUorxiLiCXiYOBHcpnYMopZmZgdc7PyS8CynAzIEsVIUvxAaWYMlMYBHIz81KTixLTSqySEvPyUoFyAG4OTLd+AAAA, blockMaterial=SHIELD}")) {
@@ -699,12 +708,12 @@ public class DefiListener implements Listener {
 					}
 				}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRetour à l'envoyeur")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lRetour Ã  l'envoyeur")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lHallucinogènes")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lHallucinogÃ¨nes")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.BROWN_MUSHROOM), 1)) {
 		    		if (p.getInventory().containsAtLeast(new ItemStack(Material.RED_MUSHROOM), 1)) {
 		    			if (p.getInventory().containsAtLeast(new ItemStack(Material.CRIMSON_FUNGUS), 1)) {
@@ -715,12 +724,12 @@ public class DefiListener implements Listener {
 		    		}
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lNouvelle énergie")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lNouvelle Ã©nergie")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.DAYLIGHT_DETECTOR), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLady Gaga")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lLady Gaga")) {
 		    	if (p.getInventory().getHelmet().equals(new ItemStack(Material.GOLDEN_HELMET))) {
 			    	if (p.getInventory().getChestplate().equals(new ItemStack(Material.GOLDEN_CHESTPLATE))) {
 				    	if (p.getInventory().getLeggings().equals(new ItemStack(Material.GOLDEN_LEGGINGS))) {
@@ -731,57 +740,57 @@ public class DefiListener implements Listener {
 			    	}
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSac à dos, sac à dos")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lSac Ã  dos, sac Ã  dos")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SHULKER_BOX), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lExpérimenté")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lExpÃ©rimentÃ©")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMichelangelo?")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lMichelangelo?")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lStonks Industries")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lStonks Industries")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lIl est gros le poisson")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lIl est gros le poisson")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTricot")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lTricot")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLe géant de fer")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lLe gÃ©ant de fer")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRecyclage")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lRecyclage")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBatman")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lBatman")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRemède magique")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lRemÃ¨de magique")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lArmure étincelante")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lArmure Ã©tincelante")) {
 		    	if (p.getInventory().getHelmet().equals(new ItemStack(Material.DIAMOND_HELMET))) {
 			    	if (p.getInventory().getChestplate().equals(new ItemStack(Material.DIAMOND_CHESTPLATE))) {
 				    	if (p.getInventory().getLeggings().equals(new ItemStack(Material.DIAMOND_LEGGINGS))) {
@@ -792,44 +801,44 @@ public class DefiListener implements Listener {
 			    	}
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lJusqu'aux cieux")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lJusqu'aux cieux")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.BEACON), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRails de coke")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lRails de coke")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SUGAR), 32)) {
 		    		if (p.getInventory().containsAtLeast(new ItemStack(Material.RAIL), 32)) {
 		    		Bukkit.broadcastMessage(""); 
 		    		}
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lC'est la fête de trop")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lC'est la fÃªte de trop")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDrôle de porte bonheur")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lDrÃ´le de porte bonheur")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.RABBIT_FOOT), 1)) {
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTéma la taille du rat")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lTÃ©ma la taille du rat")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRéparation express !")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lRÃ©paration express !")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.ENCHANTED_BOOK), 1)) { //ICI VERIFIER QUE CEST UN LIVRE MENDING !!!!
 		    		Bukkit.broadcastMessage(""); 
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCookie Monster")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lCookie Monster")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lFishin Planet")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lFishin Planet")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SALMON), 1)) {
 			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.COD), 1)) {
 				    	if (p.getInventory().containsAtLeast(new ItemStack(Material.PUFFERFISH), 1)) {
@@ -840,17 +849,17 @@ public class DefiListener implements Listener {
 			    	}
 		    	}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDuel de regard")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lDuel de regard")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMonster Hunter")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lMonster Hunter")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDoctor Strange")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("Â§dÂ§lDoctor Strange")) {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
