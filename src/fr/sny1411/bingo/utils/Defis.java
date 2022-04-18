@@ -7,6 +7,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Banner;
@@ -14,9 +15,12 @@ import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 
 public class Defis {
 	private SkullCustom skull = new SkullCustom();
@@ -105,7 +109,7 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lDestrier des Enfers","§e§oTuer un strider","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lY'a du bambou là !","§e§oRécupérer 64 bambous","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lCollectionneur","§e§oPosséder un block de chaque minerai, sauf la Netherite","medium")));
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lTu es un sorcier Harry !","§e§oPosséder une potion de speed II et une baguette","medium")));
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lTu es un sorcier Harry !","§e§oBoire une potion de speed II en tenant une baguette de pain dans la seconde main","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lBienvenue en Enfer","§e§oPénétrer dans le Nether","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lArachnophobe","§e§oTuer une cave spider","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lVoyage au bout de l'Enfer","§e§oTrouver tous les biomes du Nether","medium")));
@@ -149,7 +153,7 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lT'es pas net Baptiste?","§e§oAllumer une bougie","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lJésus des neiges","§e§oMarcher sur de la poudreuse avec des bottes en cuir","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lChargé à bloc","§e§oAlimenter un respawn anchor au maximum","hard")));
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lUne affaire en or","§e§oEchanger avec un piglin","medium"))); //
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lUne affaire en or","§e§oEchanger avec un piglin","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lPlutôt Krokmou ou Spyro?","§e§oPorter une tête de dragon","extreme")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lSéance jacuzzi","§e§oS'éteindre dans le nether avec un chaudron","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lAux armes citoyens","§e§oAppliquer sur un bouclier une bannière de la France (partir d'une bannière blanche)","easy")));
@@ -164,9 +168,9 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lIl est gros le poisson","§e§oTuer un Elder Guardian","hard")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lTricot","§e§oTondre un mouton violet","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lLe géant de fer","§e§oTuer un golem de fer","easy")));
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lRecyclage","§e§oFaire de la bone meal depuis un composteur","easy"))); //
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lBatman","§e§oUtiliser un nametag sur une chauve-souris","medium"))); //
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lRemède magique","§e§oAvoir l'effet régenération II","easy"))); //
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lRecyclage","§e§oFaire de la bone meal depuis un composteur","easy")));
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lBatman","§e§oUtiliser un nametag sur une chauve-souris","medium")));
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lRemède magique","§e§oAvoir l'effet régenération II","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lArmure étincelante","§e§oPorter une armure full diams","hard")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lJusqu'aux cieux","§e§oPosséder un beacon","extreme")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lRails de coke","§e§oPosséder 32 rails et 32 sucres","easy")));
@@ -174,11 +178,12 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lDrôle de porte bonheur","§e§oRécupérer 1 patte de lapin","medium")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lTéma la taille du rat","§e§oTuer 1 silverfish","hard")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lRéparation express !","§e§oPosséder un livre mending","medium"))); 	
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lCookie Monster","§e§oManger un cookie","medium")));	//
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lCookie Monster","§e§oManger un cookie","medium")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lFishing Planet","§e§oPosséder les 4 types de poissons crus","medium")));		
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lDuel de regard","§e§oRegarder un enderman dans les yeux","easy")));	//
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lMonster Hunter","§e§oCasser un spawner","medium")));	//
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lDuel de regard","§e§oRegarder un enderman dans les yeux","easy")));
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lMonster Hunter","§e§oCasser un spawner","medium")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lDoctor Strange","§e§oGuérir un zombie villageois","hard")));	
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lAffamé","§e§oAvoir l'effet hunger","easy")));	
 		
 		for (List<String> def : defi) {
 			if (def.get(2) == "easy") {
@@ -206,10 +211,10 @@ public class Defis {
 		grilleDisplay.put(defi.get(8), new ItemStack(Material.REDSTONE_BLOCK));
 		grilleDisplay.put(defi.get(9), new ItemStack(Material.DRIED_KELP_BLOCK));
 		ItemStack harming = new ItemStack(Material.POTION);
-		PotionMeta harmingMeta = (PotionMeta)harming.getItemMeta();
-		harmingMeta.addCustomEffect(new PotionEffect(PotionEffectType.HARM,40,2),true);
+		PotionMeta harmingMeta = (PotionMeta) harming.getItemMeta();
+		harmingMeta.setBasePotionData(new PotionData(PotionType.INSTANT_DAMAGE,false,false));
 		harming.setItemMeta(harmingMeta);
-		grilleDisplay.put(defi.get(10), harming); //harming
+		grilleDisplay.put(defi.get(10), harming);
 		grilleDisplay.put(defi.get(11), new ItemStack(Material.JACK_O_LANTERN));
 		grilleDisplay.put(defi.get(12), new ItemStack(Material.HONEY_BOTTLE));
 		grilleDisplay.put(defi.get(13), new ItemStack(Material.GOLDEN_APPLE));
@@ -312,10 +317,10 @@ public class Defis {
 		grilleDisplay.put(defi.get(90), new ItemStack(Material.COMPOSTER));
 		grilleDisplay.put(defi.get(91), new ItemStack(Material.NAME_TAG));
 		ItemStack regen = new ItemStack(Material.POTION);
-		PotionMeta regenMeta = (PotionMeta)regen.getItemMeta();
-		regenMeta.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION,40,1),true);
+		PotionMeta regenMeta = (PotionMeta)regen.getItemMeta();;
+		regenMeta.setBasePotionData(new PotionData(PotionType.REGEN,false,true));
 		regen.setItemMeta(regenMeta);
-		grilleDisplay.put(defi.get(92), regen); // regen 
+		grilleDisplay.put(defi.get(92), regen);
 		grilleDisplay.put(defi.get(93), new ItemStack(Material.DIAMOND_CHESTPLATE));
 		grilleDisplay.put(defi.get(94), new ItemStack(Material.BEACON));
 		grilleDisplay.put(defi.get(95), new ItemStack(Material.RAIL));
@@ -330,6 +335,7 @@ public class Defis {
 		grilleDisplay.put(defi.get(102), enderman);
 		grilleDisplay.put(defi.get(103), new ItemStack(Material.SPAWNER));
 		grilleDisplay.put(defi.get(104), new ItemStack(Material.ROTTEN_FLESH));
+		grilleDisplay.put(defi.get(105), new ItemStack(Material.SPIDER_EYE));
 		melangeDefis();
 	}
 	

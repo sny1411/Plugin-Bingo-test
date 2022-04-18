@@ -5,7 +5,12 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.event.EventHandler;
@@ -17,24 +22,34 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTameEvent;
+import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.entity.PiglinBarterEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerLevelChangeEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.raid.RaidTriggerEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import fr.sny1411.bingo.utils.Game;
+import fr.sny1411.bingo.utils.Teams;
 
 public class DefiListener implements Listener {
 	private Game game;
+	private Teams teams;
 	
 	public DefiListener(Game game) {
 		this.game = game;
 	}
-
+	
+	
+	
 	@EventHandler
 	public void testAchievements(PlayerAdvancementDoneEvent e) {
 		Player player = e.getPlayer();
@@ -42,7 +57,6 @@ public class DefiListener implements Listener {
 		String advancement = e.getAdvancement().getKey().getKey();
 		if (advancement.equals("story/enter_the_nether")) {
 			Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nBienvenue en Enfer");
-			String teamPlayer = game.teams.findTeamPlayer(player);
 		} else if (advancement.equals("story/follow_ender_eye")) {
 			Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nEn suivant les yeux...");
 		} else if (advancement.equals("story/cure_zombie_villager")) {
@@ -77,7 +91,7 @@ public class DefiListener implements Listener {
 	}
 	
 	@EventHandler
-	public void cauldronExtinguish(CauldronLevelChangeEvent e) {
+	private void cauldronExtinguish(CauldronLevelChangeEvent e) {
 		if (e.getReason().toString().equals("EXTINGUISH")) {
 			if (e.getEntity().getWorld().toString().contains("nether")) {
 				Bukkit.broadcastMessage(e.getEntity().getName().toString());
@@ -86,7 +100,7 @@ public class DefiListener implements Listener {
 	}
 	
 	@EventHandler
-	public void projectileHitkMob(ProjectileHitEvent e) {
+	private void projectileHitkMob(ProjectileHitEvent e) {
 		if (e.getHitEntity().getType().toString().equals("PIG")) {
 			if (e.getEntity().getType().toString().equals("FIREWORK")) {
 				e.getHitEntity().setCustomName("§e ");
@@ -105,59 +119,60 @@ public class DefiListener implements Listener {
 	}
 	
 	@EventHandler
-	public void lightningStrike(EntityDamageByEntityEvent e) {
+	private void lightningStrike(EntityDamageByEntityEvent e) {
 		if (e.getCause().toString().equals("LIGHTNING")) {
 			Bukkit.broadcastMessage("");
 		}
 	}
 	
 	@EventHandler
-	public void mobKill(EntityDeathEvent e) {
-		if (e.getEntity().getType().toString().equals("PLAYER")) {
-			Bukkit.broadcastMessage("");
+	private void mobKill(EntityDeathEvent e) {
+		if (e.getEntity() instanceof Player) {
+			//if (teams.defiDone.get(e.getEntity().get("§d§lVa te faire foutre") == false)) {
+			//}
 		}
 		else if (e.getEntity().getType().toString().equals("WITCH")) {
 			Bukkit.broadcastMessage("");
 		}
-		if (e.getEntity().getType().toString().equals("SLIME")) {
+		else if (e.getEntity().getType().toString().equals("SLIME")) {
 			Bukkit.broadcastMessage("");
 		}
-		if (e.getEntity().getType().toString().equals("DOLPHIN")) {
+		else if (e.getEntity().getType().toString().equals("DOLPHIN")) {
 			Bukkit.broadcastMessage("");
 		}
-		if (e.getEntity().getType().toString().equals("FOX")) {
+		else if (e.getEntity().getType().toString().equals("FOX")) {
 			Bukkit.broadcastMessage("");
 		}
-		if (e.getEntity().getType().toString().equals("STRIDER")) {
+		else if (e.getEntity().getType().toString().equals("STRIDER")) {
 			Bukkit.broadcastMessage("");
 		}
-		if (e.getEntity().getType().toString().equals("CAVE_SPIDER")) {
+		else if (e.getEntity().getType().toString().equals("CAVE_SPIDER")) {
 			Bukkit.broadcastMessage("");
 		}
-		if (e.getEntity().getType().toString().equals("ZOMBIE")) {
+		else if (e.getEntity().getType().toString().equals("ZOMBIE")) {
 			Bukkit.broadcastMessage("");
 		}
-		if (e.getEntity().getType().toString().equals("GLOW_SQUID")) {
+		else if (e.getEntity().getType().toString().equals("GLOW_SQUID")) {
 			Bukkit.broadcastMessage("");
 		}
-		if (e.getEntity().getType().toString().equals("ELDER_GUARDIAN")) {
+		else if (e.getEntity().getType().toString().equals("ELDER_GUARDIAN")) {
 			Bukkit.broadcastMessage("");
 		}
-		if (e.getEntity().getType().toString().equals("IRON_GOLEM")) {
+		else if (e.getEntity().getType().toString().equals("IRON_GOLEM")) {
 			Bukkit.broadcastMessage("");
 		}
-		if (e.getEntity().getType().toString().equals("PIG")) {
+		else if (e.getEntity().getType().toString().equals("PIG")) {
 			if (e.getEntity().getName().toString().equals("§e ")) {
 				Bukkit.broadcastMessage("ptn");
 			}
 		}
-		if (e.getEntity().getType().toString().equals("SILVERFISH")) {
+		else if (e.getEntity().getType().toString().equals("SILVERFISH")) {
 			Bukkit.broadcastMessage("");
 		}
 	}
 	
 	@EventHandler
-	public void tameMob(EntityTameEvent e) {
+	private void tameMob(EntityTameEvent e) {
 		if (e.getEntityType().toString().equals("WOLF")){
 			Bukkit.broadcastMessage("");
 		}
@@ -170,35 +185,52 @@ public class DefiListener implements Listener {
 	}
 	
 	@EventHandler
-	public void parrotDismount(CreatureSpawnEvent e) {
+	private void parrotDismount(CreatureSpawnEvent e) {
 		if (e.getSpawnReason().toString().equals("SHOULDER_ENTITY")) {
 			Bukkit.broadcastMessage("");
 		}
 	}
 	
 	@EventHandler
-	public void raidTrigger(RaidTriggerEvent e) {
+	private void raidTrigger(RaidTriggerEvent e) {
 		Bukkit.broadcastMessage(e.getPlayer().getName().toString());
 	}
 	
 	@EventHandler
-	public void breakBlock(BlockBreakEvent e) {
+	private void breakBlock(BlockBreakEvent e) {
 		if (e.getBlock().getBiome().toString().equals("ICE_SPIKES")) {
 			if (e.getBlock().getType().toString().equals("CHAIN")) {
 				Bukkit.broadcastMessage("");
 			}
 		}
+		else if (e.getBlock().getType().toString().equals("SPAWNER")){
+			Bukkit.broadcastMessage(e.getBlock().toString());
+		}
 	}
 	
 	@EventHandler
-	public void candleIgnite(BlockIgniteEvent e) {
+	private void candleIgnite(BlockIgniteEvent e) {
 		if (e.getBlock().getType().toString().contains("CANDLE")) {
 			Bukkit.broadcastMessage("");
 		}
 	}
 	
 	@EventHandler
-	public void piglinTrade(PiglinBarterEvent e) {
+	private void eatFood(PlayerItemConsumeEvent e) {
+		if (e.getItem().getType().toString().equals("COOKIE")) {
+			Bukkit.broadcastMessage(e.getPlayer().toString());
+		}
+		else if (e.getItem().getType().toString().equals("POTION")) {
+	    	if (e.getItem().getItemMeta().toString().contains("strong_swiftness")) {
+	    		if (e.getPlayer().getInventory().getItemInOffHand().getType().toString().equals("BREAD")) {
+		    		Bukkit.broadcastMessage(" "); 
+	    		}
+	    	}
+		}
+	}
+	
+	@EventHandler
+	private void piglinTrade(PiglinBarterEvent e) {
 		List<Entity> proches = e.getEntity().getNearbyEntities(50, 50, 50);
 		int lenListe = proches.size();
 		for (int i=0; i<lenListe;i++) {
@@ -209,7 +241,7 @@ public class DefiListener implements Listener {
 	}
 	
 	@EventHandler
-	public void expChange(PlayerLevelChangeEvent e) {
+	private void expChange(PlayerLevelChangeEvent e) {
 		System.out.println(e.getPlayer().getLevel());
 		if (e.getPlayer().getLevel() >= 30) {
 			Bukkit.broadcastMessage("30");
@@ -217,12 +249,52 @@ public class DefiListener implements Listener {
 	}
 	
 	@EventHandler
-	public void sheepShear(PlayerShearEntityEvent e) {
+	private void sheepShear(PlayerShearEntityEvent e) {
 		Sheep sheep = (Sheep) e.getEntity();
 		Bukkit.broadcastMessage(sheep.getColor().toString());
 		if (sheep.getType().toString().equals("SHEEP")) {
 			if (sheep.getColor().equals(DyeColor.PURPLE)) {
 				Bukkit.broadcastMessage(" ");
+			}
+		}
+	}
+	
+	@EventHandler
+	private void endermanLook(EntityTargetLivingEntityEvent e) {
+		if (e.getEntityType().toString().equals("ENDERMAN")) {
+			if (e.getTarget() instanceof Player) {
+				if (e.getReason().toString().equals("CLOSEST_PLAYER")) {
+					Bukkit.broadcastMessage("youpi");
+				}
+			}
+		}
+	}
+	
+	@EventHandler
+	private void nametagBatman(PlayerInteractEntityEvent e) {
+		if (e.getRightClicked().getType().toString().equals("BAT")) {
+			if (e.getPlayer().getInventory().getItemInMainHand().getType().toString().equals("NAME_TAG")) {
+				if (e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().toString().equals("Batman")) {
+				Bukkit.broadcastMessage("batman");
+				}
+			}
+			else if (e.getPlayer().getInventory().getItemInOffHand().getType().toString().equals("NAME_TAG")) {
+				if (e.getPlayer().getInventory().getItemInOffHand().getItemMeta().getDisplayName().toString().equals("Batman")) {
+				Bukkit.broadcastMessage("batman");
+				}
+			}
+		}
+	}
+	
+	@EventHandler
+	private void boneMealComposter(PlayerInteractEvent e) {
+		if (e.getClickedBlock().getType().toString().equals("COMPOSTER")) {
+			Block block = e.getClickedBlock();
+			BlockState state = block.getState();
+			BlockData data = block.getBlockData();
+			Levelled lev = (Levelled)data;
+			if (lev.getLevel() == lev.getMaximumLevel()) {
+				Bukkit.broadcastMessage("gay");
 			}
 		}
 	}
@@ -408,11 +480,10 @@ public class DefiListener implements Listener {
 		    	} 
 			}
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTu es un sorcier Harry !")) {
-		    /*	if (p.getInventory().containsAtLeast(new ItemStack(Material.POTION), 1)) {
-		    		if (p.getInventory().containsAtLeast(new ItemStack(Material.BREAD), 1)) {
-		    			Bukkit.broadcastMessage("d");
-		    		}
-		    	}*/
+		    	PotionEffect effect = (p.getPotionEffect(PotionEffectType.SPEED));
+		    	if (effect != null && effect.getAmplifier()==1) {
+		    		Bukkit.broadcastMessage(" "); 
+		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBienvenue en Enfer")) {
 		    /*	if () {
@@ -786,9 +857,10 @@ public class DefiListener implements Listener {
 		    	}*/
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRemède magique")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+		    	PotionEffect effect = p.getPotionEffect(PotionEffectType.REGENERATION);
+		    	if (effect != null && effect.getAmplifier()==1) {
+		    		Bukkit.broadcastMessage(" "); 
+		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lArmure étincelante")) {
 		    	if (p.getInventory().getHelmet().equals(new ItemStack(Material.DIAMOND_HELMET))) {
@@ -838,7 +910,7 @@ public class DefiListener implements Listener {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lFishin Planet")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lFishing Planet")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SALMON), 1)) {
 			    	if (p.getInventory().containsAtLeast(new ItemStack(Material.COD), 1)) {
 				    	if (p.getInventory().containsAtLeast(new ItemStack(Material.PUFFERFISH), 1)) {
@@ -863,6 +935,9 @@ public class DefiListener implements Listener {
 		    /*	if () {
 		    		Bukkit.broadcastMessage(""); 
 		    	}*/
+		    }
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAffamé")) {
+		    	
 		    }
 	    }
 	}
