@@ -22,7 +22,7 @@ public class Start implements CommandExecutor {
 			if (game.InSetup == true) {
 				
 			} else {
-				sender.sendMessage("créé une nouvelle partie avant ! (/newGame)");
+				sender.sendMessage("crÃ©Ã© une nouvelle partie avant ! (/newGame)");
 			}
 		} else {
 			Bukkit.getConsoleSender().sendMessage("commande executable que en jeux");
