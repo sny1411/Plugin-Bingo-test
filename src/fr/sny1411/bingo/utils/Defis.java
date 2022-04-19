@@ -156,7 +156,7 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lUne affaire en or","§e§oEchanger avec un piglin","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lPlutôt Krokmou ou Spyro?","§e§oPorter une tête de dragon","extreme")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lSéance jacuzzi","§e§oS'éteindre dans le nether avec un chaudron","easy")));
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lAux armes citoyens","§e§oAppliquer sur un bouclier une bannière de la France (partir d'une bannière blanche)","easy")));
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lAux armes citoyens","§e§oAppliquer sur un bouclier intact une bannière de la France (partir d'une bannière blanche)","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lRetour à l'envoyeur","§e§oTuer un ghast en lui renvoyant son projectile","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lHallucinogènes","§e§oPosséder les 4 types de champignons","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lNouvelle énergie","§e§oPosséder un daylight sensor","easy")));
@@ -177,7 +177,7 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lC'est la fête de trop","§e§oTuer un cochon avec un feu d'artifice et une arbalète","easy")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lDrôle de porte bonheur","§e§oRécupérer 1 patte de lapin","medium")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lTéma la taille du rat","§e§oTuer 1 silverfish","hard")));	
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lRéparation express !","§e§oPosséder un livre mending","medium"))); 	
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lRéparation express !","§e§oPorter un casque en fer mending","medium"))); 	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lCookie Monster","§e§oManger un cookie","medium")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lFishing Planet","§e§oPosséder les 4 types de poissons crus","medium")));		
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lDuel de regard","§e§oRegarder un enderman dans les yeux","easy")));
