@@ -10,7 +10,6 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.event.EventHandler;
@@ -53,10 +52,12 @@ public class DefiListener implements Listener {
 	@EventHandler
 	public void testAchievements(PlayerAdvancementDoneEvent e) {
 		Player player = e.getPlayer();
+		String teamPlayer = game.teams.findTeamPlayer(player);
 		String Nameplayer = player.getName();
 		String advancement = e.getAdvancement().getKey().getKey();
 		if (advancement.equals("story/enter_the_nether")) {
-			Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nBienvenue en Enfer");
+			Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + "§ra terminé le défi §d§nBienvenue en Enfer");
+			game.teams.defiDone.get(teamPlayer).put("§ra terminé le défi §d§nBienvenue en Enfer", true); // pour mettre que le defi est fait :)
 		} else if (advancement.equals("story/follow_ender_eye")) {
 			Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nEn suivant les yeux...");
 		} else if (advancement.equals("story/cure_zombie_villager")) {

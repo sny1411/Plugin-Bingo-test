@@ -45,7 +45,11 @@ public class Teams {
 		for (int i = 0; i < nombreTeams; i++) {
 			teamsHash.put(colorTeams.get(i), new ArrayList<Player>());
 			nbreDefiValid.put(colorTeams.get(i), 0);
+			defiDone.put(colorTeams.get(i), new Hashtable<String,Boolean>());
+			defiValid.put(colorTeams.get(i), new Hashtable<String,Boolean>());
 			for (List<String> def : game.defis.defi) {
+				defiDone.get(colorTeams.get(i)).put(def.get(0), false);
+				defiValid.get(colorTeams.get(i)).put(def.get(0), false);
 				//add tt defis ds variables
 			}
 		}
