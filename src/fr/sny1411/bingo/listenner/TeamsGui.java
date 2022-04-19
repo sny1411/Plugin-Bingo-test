@@ -29,8 +29,8 @@ public class TeamsGui implements Listener {
 	public void openTeamsGui(Player p) {
 		ArrayList<Material> itemsTeams = new ArrayList<Material>(Arrays.asList(Material.ORANGE_BANNER,
 				Material.RED_BANNER,Material.PURPLE_BANNER,Material.PINK_BANNER,Material.LIME_BANNER,Material.LIGHT_BLUE_BANNER));
-		ArrayList<String> nameTeams = new ArrayList<String>(Arrays.asList("§6Orange","§cRouge", "§5Violet", "§dRose", "§aVert", "§bBleu"));
-		teamsGui = Bukkit.createInventory(null, 27, "§3§lSélection des équipes");
+		ArrayList<String> nameTeams = new ArrayList<String>(Arrays.asList("Â§6Orange","Â§cRouge", "Â§5Violet", "Â§dRose", "Â§aVert", "Â§bBleu"));
+		teamsGui = Bukkit.createInventory(null, 27, "Â§3Â§lSÃ©lection des Ã©quipes");
 		int compteurTeams = 0;
 		for (int i = 0; i < 27; i++) {
 			if (i > 9 && i < 17) {
@@ -40,9 +40,9 @@ public class TeamsGui implements Listener {
 					List<String> listPlayer = new ArrayList<String>();
 					for (int j = 0; j < game.teams.nombreJoueursParTeams; j++) {
 						if (j < game.teams.teamsHash.get(game.teams.colorTeams.get(compteurTeams)).size()) {
-							listPlayer.add("§7§o- " + game.teams.teamsHash.get(game.teams.colorTeams.get(compteurTeams)).get(j).getDisplayName());
+							listPlayer.add("Â§7Â§o- " + game.teams.teamsHash.get(game.teams.colorTeams.get(compteurTeams)).get(j).getDisplayName());
 						} else {
-							listPlayer.add("§7§o- ");
+							listPlayer.add("Â§7Â§o- ");
 						}
 					}
 					compteurTeams ++;
@@ -63,9 +63,9 @@ public class TeamsGui implements Listener {
 		game.teams.playerInGui.add(p);
 		ItemStack spec = new ItemStack(Material.ENDER_EYE);
 		ItemMeta specMeta = spec.getItemMeta();
-		specMeta.setDisplayName("§e§lSpectateur");
+		specMeta.setDisplayName("Â§eÂ§lSpectateur");
 		ArrayList<String> specLore = new ArrayList<>();
-		specLore.add("§8>>§7 Clique pour observer la partie !");
+		specLore.add("Â§8>>Â§7 Clique pour observer la partie !");
 		specMeta.setLore(specLore);
 		spec.setItemMeta(specMeta);
 		teamsGui.setItem(16, spec);
@@ -94,7 +94,7 @@ public class TeamsGui implements Listener {
 	public void clickItemInGui(InventoryClickEvent e) {
 		if (e.getCurrentItem() != null) {
 			if (game.InSetup == true) {
-				if (e.getView().getTitle().equalsIgnoreCase("§3§lSélection des équipes")) {
+				if (e.getView().getTitle().equalsIgnoreCase("Â§3Â§lSÃ©lection des Ã©quipes")) {
 					if (e.getCurrentItem().getType() == Material.ORANGE_BANNER) {
 						String teamPlayer = game.teams.findTeamPlayer((Player) e.getWhoClicked());
 						if (!(teamPlayer == "")) {
