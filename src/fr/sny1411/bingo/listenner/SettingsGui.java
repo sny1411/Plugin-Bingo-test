@@ -27,7 +27,7 @@ public class SettingsGui implements Listener {
 	}
 	
 	public void openSettingsGui(Player p) {
-		settingsGui = Bukkit.createInventory(p, 27 ,"§3§lParamètres");
+		settingsGui = Bukkit.createInventory(p, 27 ,"Â§3Â§lParamÃ¨tres");
 		ItemStack item = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
 		ArrayList<String> itemLore = new ArrayList<>();
 		ItemMeta meta = item.getItemMeta();
@@ -40,8 +40,8 @@ public class SettingsGui implements Listener {
 		}
 		item = new ItemStack(Material.WHITE_BANNER);
 		meta = item.getItemMeta();
-		meta.setDisplayName("§b§lEquipes");
-		itemLore.add("§7>> Clique pour modifier");
+		meta.setDisplayName("Â§bÂ§lEquipes");
+		itemLore.add("Â§7>> Clique pour modifier");
 		meta.setLore(itemLore);
 		item.setItemMeta(meta);
 		settingsGui.setItem(10,item);
@@ -50,16 +50,16 @@ public class SettingsGui implements Listener {
 		if (game.modeAffichage == "Chill"){
 			item = new ItemStack(Material.IRON_BLOCK);
 			meta = item.getItemMeta();
-			meta.setDisplayName("§b§lAffichage des défis");
-			itemLore.add("§6§l>> §r§eChill");
-			itemLore.add("§7Compétition");
+			meta.setDisplayName("Â§bÂ§lAffichage des dÃ©fis");
+			itemLore.add("Â§6Â§l>> Â§rÂ§eChill");
+			itemLore.add("Â§7CompÃ©tition");
 		}
 		else {
 			item = new ItemStack(Material.NETHERITE_BLOCK);
 			meta = item.getItemMeta();
-			meta.setDisplayName("§b§lAffichage des défis");
-			itemLore.add("§7Chill");
-			itemLore.add("§6§l>> §r§eCompétition");
+			meta.setDisplayName("Â§bÂ§lAffichage des dÃ©fis");
+			itemLore.add("Â§7Chill");
+			itemLore.add("Â§6Â§l>> Â§rÂ§eCompÃ©tition");
 		}
 		meta.setLore(itemLore);
 		item.setItemMeta(meta);
@@ -67,31 +67,31 @@ public class SettingsGui implements Listener {
 			
 		item = new ItemStack(Material.CAULDRON);
 		meta = item.getItemMeta();
-		meta.setDisplayName("§b§lDifficulté de la grille");
+		meta.setDisplayName("Â§bÂ§lDifficultÃ© de la grille");
 		itemLore = new ArrayList<>();
-		itemLore.add("§7>> Clique pour modifier");
+		itemLore.add("Â§7>> Clique pour modifier");
 		meta.setLore(itemLore);
 		item.setItemMeta(meta);
 		settingsGui.setItem(12, item);
 		
 		item = new ItemStack(Material.CRAFTING_TABLE);
 		meta = item.getItemMeta();
-		meta.setDisplayName("§b§lMode de jeu");
+		meta.setDisplayName("Â§bÂ§lMode de jeu");
 		itemLore = new ArrayList<>();
 		if (game.modeJeu == "Classic") {
-			itemLore.add("§6§l>> §r§eClassic");
-			itemLore.add("§7Duel");
-			itemLore.add("§7Handicap");
+			itemLore.add("Â§6Â§l>> Â§rÂ§eClassic");
+			itemLore.add("Â§7Duel");
+			itemLore.add("Â§7Handicap");
 		}
 		else if (game.modeJeu == "Duel") {
-			itemLore.add("§7Classic");
-			itemLore.add("§6§l>> §r§eDuel");
-			itemLore.add("§7Handicap");
+			itemLore.add("Â§7Classic");
+			itemLore.add("Â§6ï¿½l>> Â§rÂ§eDuel");
+			itemLore.add("Â§7Handicap");
 		}
 		else {
-			itemLore.add("§7Classic");
-			itemLore.add("§7Duel");
-			itemLore.add("§6§l>> §r§eHandicap");
+			itemLore.add("Â§7Classic");
+			itemLore.add("Â§7Duel");
+			itemLore.add("Â§6Â§l>> Â§rÂ§eHandicap");
 		}
 		meta.setLore(itemLore);
 		item.setItemMeta(meta);
@@ -99,9 +99,9 @@ public class SettingsGui implements Listener {
 		
 		item = new ItemStack(Material.REDSTONE);
 		meta = item.getItemMeta();
-		meta.setDisplayName("§b§lCondition de victoire");
+		meta.setDisplayName("Â§bÂ§lCondition de victoire");
 		itemLore = new ArrayList<>();
-		itemLore.add("§7>> Clique pour modifier");
+		itemLore.add("Â§7>> Clique pour modifier");
 		meta.setLore(itemLore);
 		item.setItemMeta(meta);
 		settingsGui.setItem(14,item);
@@ -109,16 +109,16 @@ public class SettingsGui implements Listener {
 		if (game.eventDefiBonus == "On") {
 			item = new ItemStack(Material.GLOWSTONE);
 			meta = item.getItemMeta();
-			meta.setDisplayName("§b§lEvent défis bonus");
+			meta.setDisplayName("Â§bÂ§lEvent dÃ©fis bonus");
 			itemLore = new ArrayList<>();
-			itemLore.add("§e§lOn §r§7/ Off");	
+			itemLore.add("Â§eÂ§lOn Â§rÂ§7/ Off");	
 		}
 		else {
 			item = new ItemStack(Material.REDSTONE_LAMP);
 			meta = item.getItemMeta();
-			meta.setDisplayName("§b§lEvent défis bonus");
+			meta.setDisplayName("Â§bÂ§lEvent dÃ©fis bonus");
 			itemLore = new ArrayList<>();
-			itemLore.add("§7On /§e§l Off");	
+			itemLore.add("Â§7On /Â§eÂ§l Off");	
 		}
 		meta.setLore(itemLore);
 		item.setItemMeta(meta);
@@ -126,7 +126,7 @@ public class SettingsGui implements Listener {
 		
 		ItemStack resetBlock = new ItemStack(Material.REDSTONE_BLOCK);
 		ItemMeta resetMeta = resetBlock.getItemMeta();
-		resetMeta.setDisplayName("§c§lReset");
+		resetMeta.setDisplayName("Â§cÂ§lReset");
 		resetBlock.setItemMeta(resetMeta);
 		settingsGui.setItem(16,resetBlock);
 		
@@ -134,42 +134,42 @@ public class SettingsGui implements Listener {
 	}
 	
 	public void openTeamsSettingsGui(Player p){
-		Inventory teamsSettingsGui = Bukkit.createInventory(p, 27 ,"§3§lParamètres teams");
+		Inventory teamsSettingsGui = Bukkit.createInventory(p, 27 ,"Â§3Â§lParamÃ¨tres teams");
 		ItemStack plus = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjA1NmJjMTI0NGZjZmY5OTM0NGYxMmFiYTQyYWMyM2ZlZTZlZjZlMzM1MWQyN2QyNzNjMTU3MjUzMWYifX19");
 		ItemMeta plusMeta = plus.getItemMeta();
-		plusMeta.setDisplayName("§a+");
+		plusMeta.setDisplayName("Â§a+");
 		plus.setItemMeta(plusMeta);
 		teamsSettingsGui.setItem(3, plus);
 		teamsSettingsGui.setItem(5,plus);
 		ItemStack moins = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGU0YjhiOGQyMzYyYzg2NGUwNjIzMDE0ODdkOTRkMzI3MmE2YjU3MGFmYmY4MGMyYzViMTQ4Yzk1NDU3OWQ0NiJ9fX0=");
 		ItemMeta moinsMeta = moins.getItemMeta();
-		moinsMeta.setDisplayName("§c-");
+		moinsMeta.setDisplayName("Â§c-");
 		moins.setItemMeta(moinsMeta);
 		teamsSettingsGui.setItem(21, moins);
 		teamsSettingsGui.setItem(23,moins);
 		ItemStack nombreTeams = new ItemStack(Material.DIAMOND_HORSE_ARMOR, game.teams.nombreTeams);
 		ItemMeta nombreTeamsMeta = nombreTeams.getItemMeta();
-		nombreTeamsMeta.setDisplayName("§bNombre de teams");
+		nombreTeamsMeta.setDisplayName("Â§bNombre de teams");
 		nombreTeams.setItemMeta(nombreTeamsMeta);
 		teamsSettingsGui.setItem(12,nombreTeams);
 		ItemStack nombreJoueursTeams = new ItemStack(Material.PUFFERFISH, game.teams.nombreJoueursParTeams);
 		ItemMeta nombreJoueursTeamsMeta = nombreJoueursTeams.getItemMeta();
-		nombreJoueursTeamsMeta.setDisplayName("§bNombre de joueurs");
+		nombreJoueursTeamsMeta.setDisplayName("Â§bNombre de joueurs");
 		nombreJoueursTeams.setItemMeta(nombreJoueursTeamsMeta);
 		teamsSettingsGui.setItem(14,nombreJoueursTeams);
 		ItemStack back = new ItemStack(Material.BARRIER);
 		ItemMeta backMeta = back.getItemMeta();
-		backMeta.setDisplayName("§cRetour");
+		backMeta.setDisplayName("Â§cRetour");
 		back.setItemMeta(backMeta);
 		teamsSettingsGui.setItem(26, back);
 		p.openInventory(teamsSettingsGui);
 	}
 	
 	public void openDiffGui(Player p){
-		Inventory diffGui = Bukkit.createInventory(p, 27, "§3§lParamètres grille");
+		Inventory diffGui = Bukkit.createInventory(p, 27, "Â§3Â§lParamÃ¨tres grille");
 		ItemStack plus = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjA1NmJjMTI0NGZjZmY5OTM0NGYxMmFiYTQyYWMyM2ZlZTZlZjZlMzM1MWQyN2QyNzNjMTU3MjUzMWYifX19");
 		ItemMeta plusMeta = plus.getItemMeta();
-		plusMeta.setDisplayName("§a+");
+		plusMeta.setDisplayName("Â§a+");
 		plus.setItemMeta(plusMeta);
 		diffGui.setItem(1, plus);
 		diffGui.setItem(3,plus);
@@ -177,7 +177,7 @@ public class SettingsGui implements Listener {
 		diffGui.setItem(7,plus);
 		ItemStack moins = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGU0YjhiOGQyMzYyYzg2NGUwNjIzMDE0ODdkOTRkMzI3MmE2YjU3MGFmYmY4MGMyYzViMTQ4Yzk1NDU3OWQ0NiJ9fX0=");
 		ItemMeta moinsMeta = moins.getItemMeta();
-		moinsMeta.setDisplayName("§c-");
+		moinsMeta.setDisplayName("Â§c-");
 		moins.setItemMeta(moinsMeta);
 		diffGui.setItem(19, moins);
 		diffGui.setItem(21,moins);;
@@ -200,27 +200,27 @@ public class SettingsGui implements Listener {
 			extreme = new ItemStack(Material.NETHERITE_SCRAP, game.defis.extreme);
 		}
 		ItemMeta easyMeta = easy.getItemMeta();
-		easyMeta.setDisplayName("§8Défi(s) facile(s)");
+		easyMeta.setDisplayName("Â§8DÃ©fi(s) facile(s)");
 		ArrayList<String> easyLore = new ArrayList<>();
-		easyLore.add("§7[ "+ game.defis.easy + " / "+ game.defis.nbreEasy+" ]");
+		easyLore.add("Â§7[ "+ game.defis.easy + " / "+ game.defis.nbreEasy+" ]");
 		easyMeta.setLore(easyLore);
 		easy.setItemMeta(easyMeta);
 		ItemMeta mediumMeta = medium.getItemMeta();
-		mediumMeta.setDisplayName("§6Défi(s) moyen(s)");
+		mediumMeta.setDisplayName("Â§6DÃ©fi(s) moyen(s)");
 		ArrayList<String> mediumLore = new ArrayList<>();
-		mediumLore.add("§7[ "+ game.defis.medium + " / "+ game.defis.nbreMedium+" ]");
+		mediumLore.add("Â§7[ "+ game.defis.medium + " / "+ game.defis.nbreMedium+" ]");
 		mediumMeta.setLore(mediumLore);
 		medium.setItemMeta(mediumMeta);
 		ItemMeta hardMeta = hard.getItemMeta();
-		hardMeta.setDisplayName("§dDéfi(s) dur(s)");
+		hardMeta.setDisplayName("Â§dDÃ©fi(s) dur(s)");
 		ArrayList<String> hardLore = new ArrayList<>();
-		hardLore.add("§7[ "+ game.defis.hard + " / "+ game.defis.nbreHard+" ]");
+		hardLore.add("Â§7[ "+ game.defis.hard + " / "+ game.defis.nbreHard+" ]");
 		hardMeta.setLore(hardLore);
 		hard.setItemMeta(hardMeta);
 		ItemMeta extremeMeta = extreme.getItemMeta();
-		extremeMeta.setDisplayName("§4Défi(s) extrême(s)");
+		extremeMeta.setDisplayName("Â§4DÃ©fi(s) extrÃªme(s)");
 		ArrayList<String> extremeLore = new ArrayList<>();
-		extremeLore.add("§7[ "+ game.defis.extreme + " / "+ game.defis.nbreExtreme+" ]");
+		extremeLore.add("Â§7[ "+ game.defis.extreme + " / "+ game.defis.nbreExtreme+" ]");
 		extremeMeta.setLore(extremeLore);
 		extreme.setItemMeta(extremeMeta);
 		diffGui.setItem(10,easy);
@@ -229,45 +229,45 @@ public class SettingsGui implements Listener {
 		diffGui.setItem(16,extreme);
 		ItemStack back = new ItemStack(Material.BARRIER);
 		ItemMeta backMeta = back.getItemMeta();
-		backMeta.setDisplayName("§cRetour");
+		backMeta.setDisplayName("Â§cRetour");
 		back.setItemMeta(backMeta);
 		diffGui.setItem(26, back);
 		p.openInventory(diffGui);
 	}
 	
 	public void openWinGui(Player p){
-		Inventory winGui = Bukkit.createInventory(p, 27,"§3§lParamètres victoire");
+		Inventory winGui = Bukkit.createInventory(p, 27,"Â§3Â§lParamÃ¨tres victoire");
 		ItemStack plus = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjA1NmJjMTI0NGZjZmY5OTM0NGYxMmFiYTQyYWMyM2ZlZTZlZjZlMzM1MWQyN2QyNzNjMTU3MjUzMWYifX19");
 		ItemMeta plusMeta = plus.getItemMeta();
-		plusMeta.setDisplayName("§a+");
+		plusMeta.setDisplayName("Â§a+");
 		plus.setItemMeta(plusMeta);
 		winGui.setItem(3, plus);
 		ItemStack moins = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGU0YjhiOGQyMzYyYzg2NGUwNjIzMDE0ODdkOTRkMzI3MmE2YjU3MGFmYmY4MGMyYzViMTQ4Yzk1NDU3OWQ0NiJ9fX0=");
 		ItemMeta moinsMeta = moins.getItemMeta();
-		moinsMeta.setDisplayName("§c-");
+		moinsMeta.setDisplayName("Â§c-");
 		moins.setItemMeta(moinsMeta);
 		winGui.setItem(21, moins);
 		ItemStack nombreBingos = new ItemStack(Material.SPECTRAL_ARROW, game.nombreBingos);
 		ItemMeta nombreBingosMeta = nombreBingos.getItemMeta();
-		nombreBingosMeta.setDisplayName("§b§lNombre de bingos");
+		nombreBingosMeta.setDisplayName("Â§bÂ§lNombre de bingos");
 		nombreBingos.setItemMeta(nombreBingosMeta);
 		winGui.setItem(12, nombreBingos);
 		ItemStack winMode = new ItemStack(Material.TARGET);
 		ItemMeta winMeta = winMode.getItemMeta();
-		winMeta.setDisplayName("§b§lMode de victoire");
+		winMeta.setDisplayName("Â§bÂ§lMode de victoire");
 		ArrayList<String> winLore = new ArrayList<>();
 		if (game.modeVictoire == "Bingo"){
-			winLore.add("§eBingos§7 / Défis");
+			winLore.add("Â§eBingosÂ§7 / DÃ©fis");
 		}
 		else {
-			winLore.add("§7Bingos /§e Défis");
+			winLore.add("Â§7Bingos /Â§e DÃ©fis");
 		}
 		winMeta.setLore(winLore);
 		winMode.setItemMeta(winMeta);
 		winGui.setItem(14,winMode);
 		ItemStack back = new ItemStack(Material.BARRIER);
 		ItemMeta backMeta = back.getItemMeta();
-		backMeta.setDisplayName("§cRetour");
+		backMeta.setDisplayName("Â§cRetour");
 		back.setItemMeta(backMeta);
 		winGui.setItem(26, back);
 		p.openInventory(winGui);
@@ -286,12 +286,12 @@ public class SettingsGui implements Listener {
 	public void inventoryClick(InventoryClickEvent e) {
 		if (e.getCurrentItem() != null) {
 			if (game.InSetup == true) {
-				if (e.getView().getTitle().equalsIgnoreCase("§3§lParamètres")) {
+				if (e.getView().getTitle().equalsIgnoreCase("Â§3Â§lParamï¿½tres")) {
 					Material currentItem = e.getCurrentItem().getType();
 					Player player = (Player) e.getWhoClicked();
 					if (currentItem == Material.IRON_BLOCK) {
 						player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_WORK_LIBRARIAN, 500.0f, 1.0f);
-						game.modeAffichage = "Compétition";
+						game.modeAffichage = "CompÃ©tition";
 						openSettingsGui(player);
 					} else if (currentItem == Material.CRAFTING_TABLE) {
 						player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_WORK_LIBRARIAN, 500.0f, 1.0f);
@@ -329,7 +329,7 @@ public class SettingsGui implements Listener {
 						player.playSound(player.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_BREAK, 500.0f, 1.0f);
 						openSettingsGui(player);
 					}
-				} else if (e.getView().getTitle().equalsIgnoreCase("§3§lParamètres Teams")) {
+				} else if (e.getView().getTitle().equalsIgnoreCase("Â§3Â§lParamÃ¨tres Teams")) {
 					Material currentItem = e.getCurrentItem().getType();
 					Player player = (Player) e.getWhoClicked();
 					if (currentItem == Material.BARRIER) {
@@ -374,7 +374,7 @@ public class SettingsGui implements Listener {
 							openTeamsSettingsGui(player);
 						}
 					}
-				} else if (e.getView().getTitle().equalsIgnoreCase("§3§lParamètres grille")) {
+				} else if (e.getView().getTitle().equalsIgnoreCase("Â§3Â§lParamÃ¨tres grille")) {
 					Material currentItem = e.getCurrentItem().getType();
 					Player player = (Player) e.getWhoClicked();
 					int cursor = e.getSlot();
@@ -426,7 +426,7 @@ public class SettingsGui implements Listener {
 							openDiffGui(player);
 						}
 					}
-				} else if (e.getView().getTitle().equalsIgnoreCase("§3§lParamètres victoire")) {
+				} else if (e.getView().getTitle().equalsIgnoreCase("Â§3Â§lParamÃ¨tres victoire")) {
 					Material currentItem = e.getCurrentItem().getType();
 					Player player = (Player) e.getWhoClicked();
 					int cursor = e.getSlot();
@@ -435,7 +435,7 @@ public class SettingsGui implements Listener {
 					} else if (currentItem == Material.TARGET) {
 						player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_WORK_LIBRARIAN, 500.0f, 1.0f);
 						if (game.modeVictoire == "Bingo") {
-							game.modeVictoire = "Défis";
+							game.modeVictoire = "Dï¿½fis";
 							openWinGui(player);
 						} else {
 							game.modeVictoire = "Bingo";

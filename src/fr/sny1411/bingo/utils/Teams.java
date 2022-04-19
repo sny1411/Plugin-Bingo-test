@@ -96,7 +96,7 @@ public class Teams {
 			teamsHash.put(nameTeams, teamPlayers);
 			player.setPlayerListName(prefixeColorTeams.get(nameTeams) + player.getName());
 		} else {
-			player.sendMessage("§aCette §quipe est pleine");
+			player.sendMessage("§aCette équipe est pleine");
 		}
 	}
 	

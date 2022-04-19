@@ -9,16 +9,19 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Levelled;
+import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Turtle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.CauldronLevelChangeEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTameEvent;
@@ -89,7 +92,6 @@ public class DefiListener implements Listener {
 	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nJésus des neiges");
 	    }
 	}
-	
 	@EventHandler
 	private void cauldronExtinguish(CauldronLevelChangeEvent e) {
 		if (e.getReason().toString().equals("EXTINGUISH")) {
@@ -271,7 +273,7 @@ public class DefiListener implements Listener {
 	}
 	
 	@EventHandler
-	private void nametagBatman(PlayerInteractEntityEvent e) {
+	private void playerInteractMob(PlayerInteractEntityEvent e) {
 		if (e.getRightClicked().getType().toString().equals("BAT")) {
 			if (e.getPlayer().getInventory().getItemInMainHand().getType().toString().equals("NAME_TAG")) {
 				if (e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().toString().equals("Batman")) {
@@ -284,13 +286,26 @@ public class DefiListener implements Listener {
 				}
 			}
 		}
+		if (e.getRightClicked().getType().toString().equals("TURTLE")) {
+			Turtle turtle = (Turtle) e.getRightClicked();
+			if (e.getPlayer().getInventory().getItemInMainHand().getType().toString().equals("SEAGRASS") || e.getPlayer().getInventory().getItemInOffHand().getType().toString().equals("SEAGRASS")) {
+				List<Entity> proches = turtle.getNearbyEntities(50, 50, 50);
+				int lenListe = proches.size();
+				for (int i=0; i<lenListe; i++) {
+					if (proches.get(i).getType().toString().equals("TURTLE")) {
+						if (((Turtle) proches.get(i)).isLoveMode()) {
+							Bukkit.broadcastMessage("ce bordel "+e.getPlayer().toString());
+						}
+					}	
+				}
+			}
+		}
 	}
 	
 	@EventHandler
 	private void boneMealComposter(PlayerInteractEvent e) {
 		if (e.getClickedBlock().getType().toString().equals("COMPOSTER")) {
 			Block block = e.getClickedBlock();
-			BlockState state = block.getState();
 			BlockData data = block.getBlockData();
 			Levelled lev = (Levelled)data;
 			if (lev.getLevel() == lev.getMaximumLevel()) {
