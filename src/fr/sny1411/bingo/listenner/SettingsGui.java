@@ -85,7 +85,7 @@ public class SettingsGui implements Listener {
 		}
 		else if (game.modeJeu == "Duel") {
 			itemLore.add("§7Classic");
-			itemLore.add("§6�l>> §r§eDuel");
+			itemLore.add("§6§l>> §r§eDuel");
 			itemLore.add("§7Handicap");
 		}
 		else {
@@ -286,7 +286,7 @@ public class SettingsGui implements Listener {
 	public void inventoryClick(InventoryClickEvent e) {
 		if (e.getCurrentItem() != null) {
 			if (game.InSetup == true) {
-				if (e.getView().getTitle().equalsIgnoreCase("§3§lParam�tres")) {
+				if (e.getView().getTitle().equalsIgnoreCase("§3§lParamètres")) {
 					Material currentItem = e.getCurrentItem().getType();
 					Player player = (Player) e.getWhoClicked();
 					if (currentItem == Material.IRON_BLOCK) {
@@ -435,7 +435,7 @@ public class SettingsGui implements Listener {
 					} else if (currentItem == Material.TARGET) {
 						player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_WORK_LIBRARIAN, 500.0f, 1.0f);
 						if (game.modeVictoire == "Bingo") {
-							game.modeVictoire = "D�fis";
+							game.modeVictoire = "Défis";
 							openWinGui(player);
 						} else {
 							game.modeVictoire = "Bingo";

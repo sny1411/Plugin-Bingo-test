@@ -1,5 +1,6 @@
 package fr.sny1411.bingo.listenner;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -8,6 +9,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import fr.sny1411.bingo.utils.Game;
 
@@ -40,18 +42,30 @@ public class EventsListener implements Listener{
 		}
 	}
 	
+	@EventHandler
+	public void onPlayerQuit(PlayerQuitEvent e) {
+		Player player = e.getPlayer();
+		String teamPlayer = game.teams.findTeamPlayer(player);
+		if (teamPlayer.equalsIgnoreCase("Spectator")) {
+			game.teams.listSpectator.remove(player);
+		} else if (!teamPlayer.equalsIgnoreCase("")) { // si le joueur Ã  une team
+			game.teams.removePlayer(teamPlayer, player);
+		}
+	}
+	
 	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		if (game.InSetup == true) {
 			game.inventorySelectTeams(e.getPlayer());
 		}
+		
 	}
 	
 	@EventHandler
 	public void playerQuitGui(InventoryCloseEvent e) {
 		if (game.InSetup == true) {
-			if (e.getView().getTitle().equalsIgnoreCase("§3§lSélection des équipes")) {
+			if (e.getView().getTitle().equalsIgnoreCase("Â§3Â§lSÃ©lection des Ã©quipes")) {
 				game.teams.playerInGui.remove(e.getPlayer());
 			}
 		}
@@ -61,9 +75,9 @@ public class EventsListener implements Listener{
 	public void OnPlayerSendMessage(AsyncPlayerChatEvent e) {
 		String teamPlayer = game.teams.findTeamPlayer(e.getPlayer());
 		if (teamPlayer.equalsIgnoreCase("Spectator")) {
-			e.setFormat("§8§l%s §r§e» §7%s");
+			e.setFormat("Â§8Â§l%s Â§rÂ§eÂ» Â§7%s");
 		} else {
-			e.setFormat(game.teams.prefixeColorTeams.get(teamPlayer) + "§l%s §r§e» §7%s");
+			e.setFormat(game.teams.prefixeColorTeams.get(teamPlayer) + "Â§l%s Â§rÂ§eÂ» Â§7%s");
 		}
 	}
 }

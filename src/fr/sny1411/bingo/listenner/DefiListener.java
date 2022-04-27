@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Levelled;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
@@ -33,19 +32,14 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerLevelChangeEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.raid.RaidTriggerEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import fr.sny1411.bingo.utils.Game;
-import fr.sny1411.bingo.utils.Teams;
-import net.minecraft.world.item.ItemEnchantedBook;
-import net.minecraft.world.item.enchantment.EnchantmentMending;
 
 public class DefiListener implements Listener {
 	private Game game;
-	private Teams teams;
 	
 	public DefiListener(Game game) {
 		this.game = game;
@@ -139,7 +133,7 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	private void lightningStrike(EntityDamageByEntityEvent e) {
-		if (e.getCause().toString().equals("LIGHTNING")) {
+		if (e.getCause().toString().equals("LIGHTNING") && e.getEntity() instanceof Player) {
 			game.teams.defiDone.get(game.teams.findTeamPlayer((Player) e.getEntity())).put("§d§lCoup de foudre", true);
 		}
 	}
@@ -321,6 +315,9 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	private void boneMealComposter(PlayerInteractEvent e) {
+		if (e.getClickedBlock() == null) {
+			return;
+		}
 		if (e.getClickedBlock().getType().toString().equals("COMPOSTER")) {
 			Block block = e.getClickedBlock();
 			BlockData data = block.getBlockData();

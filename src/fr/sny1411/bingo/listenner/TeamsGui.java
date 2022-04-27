@@ -94,9 +94,11 @@ public class TeamsGui implements Listener {
 	public void clickItemInGui(InventoryClickEvent e) {
 		if (e.getCurrentItem() != null) {
 			if (game.InSetup == true) {
+				System.out.println(game.teams.playerInGui);
 				if (e.getView().getTitle().equalsIgnoreCase("§3§lSélection des équipes")) {
 					if (e.getCurrentItem().getType() == Material.ORANGE_BANNER) {
 						String teamPlayer = game.teams.findTeamPlayer((Player) e.getWhoClicked());
+						if (teamPlayer.equalsIgnoreCase("Orange")) return;
 						if (!(teamPlayer == "")) {
 							game.teams.removePlayer(teamPlayer, (Player) e.getWhoClicked());
 						} else if (teamPlayer == "Spectator") {
@@ -106,6 +108,7 @@ public class TeamsGui implements Listener {
 						updateGui(game.teams.playerInGui);
 					} else if (e.getCurrentItem().getType() == Material.RED_BANNER){
 						String teamPlayer = game.teams.findTeamPlayer((Player) e.getWhoClicked());
+						if (teamPlayer.equalsIgnoreCase("Rouge")) return;
 						if (!(teamPlayer == "")) {
 							game.teams.removePlayer(teamPlayer, (Player) e.getWhoClicked());
 						} else if (teamPlayer == "Spectator") {
@@ -115,6 +118,7 @@ public class TeamsGui implements Listener {
 						updateGui(game.teams.playerInGui);
 					} else if (e.getCurrentItem().getType() == Material.PURPLE_BANNER){
 						String teamPlayer = game.teams.findTeamPlayer((Player) e.getWhoClicked());
+						if (teamPlayer.equalsIgnoreCase("Violet")) return;
 						if (!(teamPlayer == "")) {
 							game.teams.removePlayer(teamPlayer, (Player) e.getWhoClicked());
 						} else if (teamPlayer == "Spectator") {
@@ -124,6 +128,7 @@ public class TeamsGui implements Listener {
 						updateGui(game.teams.playerInGui);
 					} else if (e.getCurrentItem().getType() == Material.PINK_BANNER) {
 						String teamPlayer = game.teams.findTeamPlayer((Player) e.getWhoClicked());
+						if (teamPlayer.equalsIgnoreCase("Rose")) return;
 						if (!(teamPlayer == "")) {
 							game.teams.removePlayer(teamPlayer, (Player) e.getWhoClicked());
 						} else if (teamPlayer == "Spectator") {
@@ -133,6 +138,7 @@ public class TeamsGui implements Listener {
 						updateGui(game.teams.playerInGui);
 					} else if (e.getCurrentItem().getType() == Material.LIME_BANNER) {
 						String teamPlayer = game.teams.findTeamPlayer((Player) e.getWhoClicked());
+						if (teamPlayer.equalsIgnoreCase("Vert")) return;
 						if (!(teamPlayer == "")) {
 							game.teams.removePlayer(teamPlayer, (Player) e.getWhoClicked());
 						} else if (teamPlayer == "Spectator") {
@@ -142,6 +148,7 @@ public class TeamsGui implements Listener {
 						updateGui(game.teams.playerInGui);
 					} else if (e.getCurrentItem().getType() == Material.LIGHT_BLUE_BANNER) {
 						String teamPlayer = game.teams.findTeamPlayer((Player) e.getWhoClicked());
+						if (teamPlayer.equalsIgnoreCase("Bleu")) return;
 						if (!(teamPlayer == "")) {
 							game.teams.removePlayer(teamPlayer, (Player) e.getWhoClicked());
 						} else if (teamPlayer == "Spectator") {
@@ -150,15 +157,15 @@ public class TeamsGui implements Listener {
 						game.teams.addPlayer("Bleu", (Player) e.getWhoClicked());
 						updateGui(game.teams.playerInGui);
 					} else if (e.getCurrentItem().getType() == Material.ENDER_EYE) {
-						System.out.println("ender");
 						String teamPlayer = game.teams.findTeamPlayer((Player) e.getWhoClicked());
+						if (teamPlayer.equalsIgnoreCase("Spectator")) return;
 						if (!(teamPlayer == "Spectator")) {
 							if (!(teamPlayer == "")) {
 								game.teams.removePlayer(teamPlayer, (Player) e.getWhoClicked());
 							}
 							game.teams.listSpectator.add((Player) e.getWhoClicked());
 							((Player) e.getWhoClicked()).setPlayerListName(game.teams.prefixeColorTeams.get("Spectator") + e.getWhoClicked().getName());
-							System.out.println(game.teams.listSpectator);
+							updateGui(game.teams.playerInGui);
 						}
 					}
 						
