@@ -23,18 +23,6 @@ public class BingoGui implements Listener {
 		this.game = game;
 	}
 
-	private ItemStack createItemDefi(int i) {
-    	List<String> listeDefis = game.defis.defi.get(i);
-    	ItemStack item = game.defis.grilleDisplay.get(listeDefis);
-    	ItemMeta itemMeta = item.getItemMeta();
-    	itemMeta.setDisplayName(listeDefis.get(0));
-    	ArrayList<String> itemLore = new ArrayList<>();
-    	itemLore.add(listeDefis.get(1));
-    	itemMeta.setLore(itemLore);
-    	item.setItemMeta(itemMeta);
-    	return item;
-    	}
-    
     public void openGui(Player p) {
     	inv = Bukkit.createInventory(p, 45, "§3§lBINGO");
     	ItemStack item = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
@@ -88,24 +76,6 @@ public class BingoGui implements Listener {
                 break;
             }
     	}
-    	int compteurItem = 0;
-    	List<ItemStack> defiFinaux = new ArrayList<ItemStack>();
-    	for (int i = 0; i<=24; i++) {
-    		List<String> defi = game.defis.defi.get(compteurItem);
-    		String difficultyDefi = defi.get(2);
-    		boolean defiIsLibre = verifDiff(difficultyDefi);
-    		while (defiIsLibre==false) {
-				compteurItem++;
-				defi = game.defis.defi.get(compteurItem);
-	    		difficultyDefi = defi.get(2);
-	    		defiIsLibre = verifDiff(difficultyDefi);
-	    	}
-    		if (defiIsLibre==true) {
-                defiFinaux.add(createItemDefi(compteurItem));
-    		}
-    		compteurItem++;
-		}
-		Collections.shuffle(defiFinaux);
 		int index = 0;
     	for (int i = 3; i < 44; i++) {
     		if (i == 8) {
@@ -120,38 +90,10 @@ public class BingoGui implements Listener {
     		else if (i == 35) {
     			i=39;
     		}
-    		inv.setItem(i, defiFinaux.get(index));
+    		inv.setItem(i, game.grilleBingo.get(index));
     		index++;
     	}
     	p.openInventory(inv);
-    }
-    
-    public boolean verifDiff(String diff) {
-    	if (diff.equalsIgnoreCase("easy")) {
-    		if (game.defis.easy != 0) {
-				game.defis.easy-=1;
-    			return true;			
-    		}
-    	}
-    	else if (diff.equalsIgnoreCase("medium")) {
-    		if (game.defis.medium != 0) {
-				game.defis.medium-=1;
-    			return true;			
-    		}
-    	}
-    	else if (diff.equalsIgnoreCase("hard")) {
-    		if (game.defis.hard != 0) {
-				game.defis.hard-=1;
-    			return true;			
-    		}
-    	}
-    	else {
-    		if (game.defis.extreme != 0) {
-				game.defis.extreme-=1;
-    			return true;			
-    		}
-    	}
-    	return false;
     }
 }
 

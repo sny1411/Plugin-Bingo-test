@@ -49,6 +49,7 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	public void testAchievements(PlayerAdvancementDoneEvent e) {
+		if (!game.gameLaunch) return;
 		Player player = e.getPlayer();
 		String teamPlayer = game.teams.findTeamPlayer(player);
 		String Nameplayer = player.getName();
@@ -105,6 +106,7 @@ public class DefiListener implements Listener {
 	}
 	@EventHandler
 	private void cauldronExtinguish(CauldronLevelChangeEvent e) {
+		if (!game.gameLaunch) return;
 		if (e.getReason().toString().equals("EXTINGUISH")) {
 			if (e.getEntity().getWorld().toString().contains("nether")) {
 				game.teams.defiDone.get(game.teams.findTeamPlayer((Player) e.getEntity())).put("§d§lSéance jacuzzi", true);
@@ -114,6 +116,7 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	private void projectileHitkMob(ProjectileHitEvent e) {
+		if (!game.gameLaunch) return;
 		if (e.getHitEntity().getType().toString().equals("PIG")) {
 			if (e.getEntity().getType().toString().equals("FIREWORK")) {
 				e.getHitEntity().setCustomName("§e ");
@@ -133,6 +136,7 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	private void lightningStrike(EntityDamageByEntityEvent e) {
+		if (!game.gameLaunch) return;
 		if (e.getCause().toString().equals("LIGHTNING") && e.getEntity() instanceof Player) {
 			game.teams.defiDone.get(game.teams.findTeamPlayer((Player) e.getEntity())).put("§d§lCoup de foudre", true);
 		}
@@ -140,6 +144,7 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	private void mobKill(EntityDeathEvent e) {
+		if (!game.gameLaunch) return;
 		if (e.getEntity() instanceof Player) {
 			//if (game.teams.defiDone.get(game.teams.findTeamPlayer((Player) e.getEntity()).equals("§d§lVa te faire foutre",true))) {
 			//}
@@ -186,6 +191,7 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	private void tameMob(EntityTameEvent e) {
+		if (!game.gameLaunch) return;
 		if (e.getEntityType().toString().equals("WOLF")){
 			Bukkit.broadcastMessage("");
 		}
@@ -199,6 +205,7 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	private void parrotDismount(CreatureSpawnEvent e) {
+		if (!game.gameLaunch) return;
 		if (e.getSpawnReason().toString().equals("SHOULDER_ENTITY")) {
 			Bukkit.broadcastMessage("");
 		}
@@ -206,11 +213,13 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	private void raidTrigger(RaidTriggerEvent e) {
+		if (!game.gameLaunch) return;
 		Bukkit.broadcastMessage(e.getPlayer().getName().toString());
 	}
 	
 	@EventHandler
 	private void breakBlock(BlockBreakEvent e) {
+		if (!game.gameLaunch) return;
 		if (e.getBlock().getBiome().toString().equals("ICE_SPIKES")) {
 			if (e.getBlock().getType().toString().equals("CHAIN")) {
 				Bukkit.broadcastMessage("");
@@ -223,6 +232,7 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	private void candleIgnite(BlockIgniteEvent e) {
+		if (!game.gameLaunch) return;
 		if (e.getBlock().getType().toString().contains("CANDLE")) {
 			Bukkit.broadcastMessage("");
 		}
@@ -230,6 +240,7 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	private void eatFood(PlayerItemConsumeEvent e) {
+		if (!game.gameLaunch) return;
 		if (e.getItem().getType().toString().equals("COOKIE")) {
 			Bukkit.broadcastMessage(e.getPlayer().toString());
 		}
@@ -244,6 +255,7 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	private void piglinTrade(PiglinBarterEvent e) {
+		if (!game.gameLaunch) return;
 		List<Entity> proches = e.getEntity().getNearbyEntities(50, 50, 50);
 		int lenListe = proches.size();
 		for (int i=0; i<lenListe;i++) {
@@ -255,6 +267,7 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	private void expChange(PlayerLevelChangeEvent e) {
+		if (!game.gameLaunch) return;
 		System.out.println(e.getPlayer().getLevel());
 		if (e.getPlayer().getLevel() >= 30) {
 			Bukkit.broadcastMessage("30");
@@ -263,6 +276,7 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	private void sheepShear(PlayerShearEntityEvent e) {
+		if (!game.gameLaunch) return;
 		Sheep sheep = (Sheep) e.getEntity();
 		Bukkit.broadcastMessage(sheep.getColor().toString());
 		if (sheep.getType().toString().equals("SHEEP")) {
@@ -274,6 +288,7 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	private void endermanLook(EntityTargetLivingEntityEvent e) {
+		if (!game.gameLaunch) return;
 		if (e.getEntityType().toString().equals("ENDERMAN")) {
 			if (e.getTarget() instanceof Player) {
 				if (e.getReason().toString().equals("CLOSEST_PLAYER")) {
@@ -285,6 +300,7 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	private void playerInteractMob(PlayerInteractEntityEvent e) {
+		if (!game.gameLaunch) return;
 		if (e.getRightClicked().getType().toString().equals("BAT")) {
 			if (e.getPlayer().getInventory().getItemInMainHand().getType().toString().equals("NAME_TAG")) {
 				if (e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().toString().equals("Batman")) {
@@ -315,6 +331,7 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	private void boneMealComposter(PlayerInteractEvent e) {
+		if (!game.gameLaunch) return;
 		if (e.getClickedBlock() == null) {
 			return;
 		}
@@ -336,6 +353,7 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	public void testItems(InventoryClickEvent e) {
+		if (!game.gameLaunch) return;
 		if (e.getView().getTitle().equalsIgnoreCase("§3§lBINGO")) {
 			ItemStack item = e.getCurrentItem();
 			Player p = (Player) e.getWhoClicked();

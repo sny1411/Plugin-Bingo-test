@@ -20,6 +20,7 @@ public class Start implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (sender instanceof Player) {
 			if (game.InSetup == true) {
+				game.createGrille();
 				
 			} else {
 				sender.sendMessage("Crée une nouvelle partie avant ! (/newGame)");

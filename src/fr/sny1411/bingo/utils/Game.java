@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class Game {
+	public List<ItemStack> grilleBingo = new ArrayList<ItemStack>(); 
 	public String modeAffichage = "Chill";
 	public String modeJeu = "Classic";
 	public String eventDefiBonus = "Off";
@@ -32,6 +33,66 @@ public class Game {
 	public void setClassDefis(Defis defis) {
 		this.defis = defis;
 	}
+
+	public void createGrille() {
+		int compteurItem = 0;
+		for (int i = 0; i <= 24; i++) {
+			List<String> defi = game.defis.defi.get(compteurItem);
+			String difficultyDefi = defi.get(20);
+			boolean defiIsLibre = verifDiff(difficultyDefi);
+			while (defiIsLibre == false) {
+				compteurItem++;
+				defi = game.defis.get(compteurItem);
+				difficultyDefi = defi.get(2)
+				defiIsLibre = verifDiff(difficultyDefi);
+			}
+			if (defiIsLibre) {
+				grilleBingo.add(createItemDefi(compteurItem));
+			}
+			compteurItem++;
+		}
+		Collections.shuffle(grilleBingo);
+	}
+
+	private ItemStack createItemDefi(int i) {
+    	List<String> listeDefis = game.defis.defi.get(i);
+    	ItemStack item = game.defis.grilleDisplay.get(listeDefis);
+    	ItemMeta itemMeta = item.getItemMeta();
+    	itemMeta.setDisplayName(listeDefis.get(0));
+    	ArrayList<String> itemLore = new ArrayList<>();
+    	itemLore.add(listeDefis.get(1));
+    	itemMeta.setLore(itemLore);
+    	item.setItemMeta(itemMeta);
+    	return item;
+    	}
+
+	public boolean verifDiff(String diff) {
+    	if (diff.equalsIgnoreCase("easy")) {
+    		if (game.defis.easy != 0) {
+				game.defis.easy-=1;
+    			return true;			
+    		}
+    	}
+    	else if (diff.equalsIgnoreCase("medium")) {
+    		if (game.defis.medium != 0) {
+				game.defis.medium-=1;
+    			return true;			
+    		}
+    	}
+    	else if (diff.equalsIgnoreCase("hard")) {
+    		if (game.defis.hard != 0) {
+				game.defis.hard-=1;
+    			return true;			
+    		}
+    	}
+    	else {
+    		if (game.defis.extreme != 0) {
+				game.defis.extreme-=1;
+    			return true;			
+    		}
+    	}
+    	return false;
+    }
 
 	public void setup() {
 		teams.createTeams();
@@ -100,6 +161,7 @@ public class Game {
 	}
 	
 	public void resetGame() {
+		this.grilleBingo = new ArrayList<ItemStack>();
 		this.gameLaunch = false;
 		this.InSetup = false; 
 		this.DamagePlayer = true;
