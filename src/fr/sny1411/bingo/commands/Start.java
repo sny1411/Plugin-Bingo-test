@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import java.util.concurrent.TimeUnit;
 
 import fr.sny1411.bingo.utils.Game;
 
@@ -21,7 +22,12 @@ public class Start implements CommandExecutor {
 		if (sender instanceof Player) {
 			if (game.InSetup == true) {
 				game.createGrille();
-				
+				for (int i = 3; i >= 0; i--) {
+					for (Player player : Bukkit.getPlayers()) {
+						player.sendTitle("§a" + i);
+					}
+					TimeUnit.SECONDS.sleep(1);
+				}
 			} else {
 				sender.sendMessage("Crée une nouvelle partie avant ! (/newGame)");
 			}
