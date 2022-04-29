@@ -1,5 +1,6 @@
 package fr.sny1411.bingo.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,8 +18,17 @@ public class Bingo implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		BingoGui grille = new BingoGui(game);
-		grille.openGui((Player) sender);
+		if (sender instanceof Player) {
+			if (game.gameLaunch) {
+				BingoGui grille = new BingoGui(game);
+				grille.openGui((Player) sender);
+			} else {
+				sender.sendMessage("La partie n'a pas encore commencé !");
+			}
+		} else {
+			Bukkit.getConsoleSender().sendMessage("§c[Bingo] commande non executable par la console");
+		}
+		
 		return false;
 	}
 

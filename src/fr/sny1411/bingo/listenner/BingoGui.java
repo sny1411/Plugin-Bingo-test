@@ -2,8 +2,6 @@ package fr.sny1411.bingo.listenner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
