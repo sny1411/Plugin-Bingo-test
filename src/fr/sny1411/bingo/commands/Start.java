@@ -1,6 +1,5 @@
 package fr.sny1411.bingo.commands;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,14 +29,15 @@ public class Start implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (sender instanceof Player) {
-			Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, (Runnable) Bukkit.getScheduler().runTask(plugin, new Runnable() {
+			/*Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, (Runnable) Bukkit.getScheduler().runTask(plugin, new Runnable() {
 				
 				@Override
 				public void run() {
 					startGame((Player) sender);
 					
 				}
-			}), 0L, 700L);
+			}), 0L, 700L);*/
+			startGame((Player) sender);
 		} else {
 			Bukkit.getConsoleSender().sendMessage("Commande executable qu'en jeu");
 		}
@@ -74,12 +74,13 @@ public class Start implements CommandExecutor {
 			Bukkit.dispatchCommand(console, "fill -20 201 -20 20 203 -20 void_air replace");
 			Bukkit.dispatchCommand(console, "fill 20 201 20 -20 203 20 void_air replace");
 			Bukkit.dispatchCommand(console, "fill 20 201 20 20 203 -20 void_air replace");
-			try {
+			/*try {
 				TimeUnit.SECONDS.sleep(30);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-			}
+			}*/
 			game.DamagePlayer = true;
+			
 			Bukkit.broadcastMessage("Les dégats des joueurs sont activé !");
 		} else {
 			sender.sendMessage("Crée une nouvelle partie avant ! (/newGame)");
