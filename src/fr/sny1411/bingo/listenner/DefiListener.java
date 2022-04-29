@@ -5,10 +5,12 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.Statistic;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Turtle;
@@ -52,56 +54,39 @@ public class DefiListener implements Listener {
 		if (!game.gameLaunch) return;
 		Player player = e.getPlayer();
 		String teamPlayer = game.teams.findTeamPlayer(player);
-		String Nameplayer = player.getName();
 		String advancement = e.getAdvancement().getKey().getKey();
 		if (advancement.equals("story/enter_the_nether")) {
-			Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + "§ra terminé le défi §d§nBienvenue en Enfer");
 			game.teams.defiDone.get(teamPlayer).put("§d§lBienvenue en Enfer", true); // pour mettre que le defi est fait :)
 		} else if (advancement.equals("story/follow_ender_eye")) {
 			game.teams.defiDone.get(teamPlayer).put("§d§lEn suivant les yeux...", true);
-			Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nEn suivant les yeux...");
 		} else if (advancement.equals("story/cure_zombie_villager")) {
 			game.teams.defiDone.get(teamPlayer).put("§d§lDoctor Strange", true);
-			Bukkit.broadcastMessage("§7[§eBINGO§7]" + Nameplayer + " §ra terminé le défi §d§nDoctor Strange");
 		} else if (advancement.equals("nether/obtain_ancient_debris")) {
 			game.teams.defiDone.get(teamPlayer).put("§d§lAu fond des profondeurs", true);
-			Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nAu fond des profondeurs");
 		} else if (advancement.equals("nether/explore_nether")) {
 			game.teams.defiDone.get(teamPlayer).put("§d§lVoyage au bout de l'Enfer", true);
-			Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nVoyage au bout de l'Enfer");
 		} else if (advancement.equals("nether/obtain_crying_obsidian")) {
 			game.teams.defiDone.get(teamPlayer).put("§d§lSortez les mouchoirs", true);
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nSortez les mouchoirs");
 	    } else if (advancement.equals("nether/get_wither_skull")) {
 			game.teams.defiDone.get(teamPlayer).put("§d§lUn bout de Cerbère", true);
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nUn bout de Cerbère");
 	    } else if (advancement.equals("nether/find_bastion")) {
 			game.teams.defiDone.get(teamPlayer).put("§d§lLes mystérieuses cités d'or", true);
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nLes mystérieuses cités d'or");
 	    } else if (advancement.equals("nether/charge_respawn_anchor")) {
 			game.teams.defiDone.get(teamPlayer).put("§d§lChargé à bloc", true);
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nChargé à bloc");
 	    } else if (advancement.equals("nether/return_to_sender")) {
 			game.teams.defiDone.get(teamPlayer).put("§d§lRetour à l'envoyeur", true);
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nRetour à l'envoyeur");
 	    } else if (advancement.equals("end/root")) {
 			game.teams.defiDone.get(teamPlayer).put("§d§lC'est la fin?", true);
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nC'est la fin?");
 	    } else if (advancement.equals("adventure/sleep_in_bed")) {
 			game.teams.defiDone.get(teamPlayer).put("§d§lBonne nuit les petits", true);
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nBonne nuit les petits");
 	    } else if (advancement.equals("adventure/bullseye")) {
 			game.teams.defiDone.get(teamPlayer).put("§d§lDans le mille", true);
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nDans le mille");
 	    } else if (advancement.equals("adventure/spyglass_at_ghast")) {
 			game.teams.defiDone.get(teamPlayer).put("§d§lC'est un ballon?", true);
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nC'est un ballon?");
 	    } else if (advancement.equals("nether/trade")) {
 			game.teams.defiDone.get(teamPlayer).put("§d§lStonks Industries", true);
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nStonks Industries");
 	    } else if (advancement.equals("adventure/walk_on_powder_snow_with_leather_boots")) {
 			game.teams.defiDone.get(teamPlayer).put("§d§lJésus des neiges", true);
-	    	Bukkit.broadcastMessage("§7[§eBINGO§7] " + Nameplayer + " §ra terminé le défi §d§nJésus des neiges");
 	    }
 	}
 	@EventHandler
@@ -146,46 +131,39 @@ public class DefiListener implements Listener {
 	private void mobKill(EntityDeathEvent e) {
 		if (!game.gameLaunch) return;
 		if (e.getEntity() instanceof Player) {
-			//if (game.teams.defiDone.get(game.teams.findTeamPlayer((Player) e.getEntity()).equals("§d§lVa te faire foutre",true))) {
-			//}
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lVa te faire foutre!", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("WITCH")) {
-			Bukkit.broadcastMessage("");
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lAurevoir Sabrina !", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("SLIME")) {
-			Bukkit.broadcastMessage("");
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lSlime Rancher", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("DOLPHIN")) {
-			Bukkit.broadcastMessage("");
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lFaut pas Flipper", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("FOX")) {
-			Bukkit.broadcastMessage("");
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lWhat does the fox say?", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("STRIDER")) {
-			Bukkit.broadcastMessage("");
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lDestrier des Enfers", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("CAVE_SPIDER")) {
-			Bukkit.broadcastMessage("");
-		}
-		else if (e.getEntity().getType().toString().equals("ZOMBIE")) {
-			Bukkit.broadcastMessage("");
-		}
-		else if (e.getEntity().getType().toString().equals("GLOW_SQUID")) {
-			Bukkit.broadcastMessage("");
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lArachnophobe", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("ELDER_GUARDIAN")) {
-			Bukkit.broadcastMessage("");
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lIl est bon mon poisson", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("IRON_GOLEM")) {
-			Bukkit.broadcastMessage("");
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lLe géant de fer", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("PIG")) {
 			if (e.getEntity().getName().toString().equals("§e ")) {
-				Bukkit.broadcastMessage("ptn");
+				game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lC'est la fête de trop", Boolean.valueOf(true));
 			}
 		}
 		else if (e.getEntity().getType().toString().equals("SILVERFISH")) {
-			Bukkit.broadcastMessage("");
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lTéma la taille du rat", Boolean.valueOf(true));
 		}
 	}
 	
@@ -207,14 +185,20 @@ public class DefiListener implements Listener {
 	private void parrotDismount(CreatureSpawnEvent e) {
 		if (!game.gameLaunch) return;
 		if (e.getSpawnReason().toString().equals("SHOULDER_ENTITY")) {
-			Bukkit.broadcastMessage("");
+			List<Entity> proches = e.getEntity().getNearbyEntities(5, 5, 5);
+			int lenListe = proches.size();
+			for (int i=0; i<lenListe; i++) {
+				if (proches.get(i).getType().toString().equals("PLAYER")) {
+					game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player) proches.get(i))).put("§d§lPirate des Caraïbes", Boolean.valueOf(true));
+				}
+			}
 		}
 	}
 	
 	@EventHandler
 	private void raidTrigger(RaidTriggerEvent e) {
 		if (!game.gameLaunch) return;
-		Bukkit.broadcastMessage(e.getPlayer().getName().toString());
+		game.teams.defiDone.get(this.game.teams.findTeamPlayer(e.getPlayer())).put("§d§lNous sommes en guerre", Boolean.valueOf(true));
 	}
 	
 	@EventHandler
@@ -222,11 +206,11 @@ public class DefiListener implements Listener {
 		if (!game.gameLaunch) return;
 		if (e.getBlock().getBiome().toString().equals("ICE_SPIKES")) {
 			if (e.getBlock().getType().toString().equals("CHAIN")) {
-				Bukkit.broadcastMessage("");
+				game.teams.defiDone.get(this.game.teams.findTeamPlayer(e.getPlayer())).put("§d§lLibérée, Délivrée", Boolean.valueOf(true));
 			}
 		}
 		else if (e.getBlock().getType().toString().equals("SPAWNER")){
-			Bukkit.broadcastMessage(e.getBlock().toString());
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer(e.getPlayer())).put("§d§lMonster Hunter", Boolean.valueOf(true));
 		}
 	}
 	
@@ -234,20 +218,20 @@ public class DefiListener implements Listener {
 	private void candleIgnite(BlockIgniteEvent e) {
 		if (!game.gameLaunch) return;
 		if (e.getBlock().getType().toString().contains("CANDLE")) {
-			Bukkit.broadcastMessage("");
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer(e.getPlayer())).put("§d§lT'es pas net Baptiste?", Boolean.valueOf(true));
 		}
 	}
 	
 	@EventHandler
-	private void eatFood(PlayerItemConsumeEvent e) {
+	private void playerConsume(PlayerItemConsumeEvent e) {
 		if (!game.gameLaunch) return;
 		if (e.getItem().getType().toString().equals("COOKIE")) {
-			Bukkit.broadcastMessage(e.getPlayer().toString());
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer(e.getPlayer())).put("§d§lCookie Monster", Boolean.valueOf(true));
 		}
 		else if (e.getItem().getType().toString().equals("POTION")) {
 	    	if (e.getItem().getItemMeta().toString().contains("strong_swiftness")) {
 	    		if (e.getPlayer().getInventory().getItemInOffHand().getType().toString().equals("BREAD")) {
-		    		Bukkit.broadcastMessage(" "); 
+	    			game.teams.defiDone.get(this.game.teams.findTeamPlayer(e.getPlayer())).put("§d§lTu es un sorcier Harry !", Boolean.valueOf(true));
 	    		}
 	    	}
 		}
@@ -260,7 +244,7 @@ public class DefiListener implements Listener {
 		int lenListe = proches.size();
 		for (int i=0; i<lenListe;i++) {
 			if (proches.get(i).getType().toString().equals("PLAYER")) {
-				Bukkit.broadcastMessage(proches.get(i).getName());
+				game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player) proches.get(i))).put("§d§lUne affaire en or", Boolean.valueOf(true));
 			}
 		}
 	}
@@ -268,9 +252,8 @@ public class DefiListener implements Listener {
 	@EventHandler
 	private void expChange(PlayerLevelChangeEvent e) {
 		if (!game.gameLaunch) return;
-		System.out.println(e.getPlayer().getLevel());
 		if (e.getPlayer().getLevel() >= 30) {
-			Bukkit.broadcastMessage("30");
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer(e.getPlayer())).put("§d§lExpérimenté", Boolean.valueOf(true));
 		}
 	}
 	
@@ -278,10 +261,9 @@ public class DefiListener implements Listener {
 	private void sheepShear(PlayerShearEntityEvent e) {
 		if (!game.gameLaunch) return;
 		Sheep sheep = (Sheep) e.getEntity();
-		Bukkit.broadcastMessage(sheep.getColor().toString());
 		if (sheep.getType().toString().equals("SHEEP")) {
 			if (sheep.getColor().equals(DyeColor.PURPLE)) {
-				Bukkit.broadcastMessage(" ");
+    			game.teams.defiDone.get(this.game.teams.findTeamPlayer(e.getPlayer())).put("§d§lTricot", Boolean.valueOf(true));
 			}
 		}
 	}
@@ -292,7 +274,7 @@ public class DefiListener implements Listener {
 		if (e.getEntityType().toString().equals("ENDERMAN")) {
 			if (e.getTarget() instanceof Player) {
 				if (e.getReason().toString().equals("CLOSEST_PLAYER")) {
-					Bukkit.broadcastMessage("youpi");
+	    			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player) e.getTarget())).put("§d§lDuel de regard", Boolean.valueOf(true));
 				}
 			}
 		}
@@ -304,12 +286,12 @@ public class DefiListener implements Listener {
 		if (e.getRightClicked().getType().toString().equals("BAT")) {
 			if (e.getPlayer().getInventory().getItemInMainHand().getType().toString().equals("NAME_TAG")) {
 				if (e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().toString().equals("Batman")) {
-				Bukkit.broadcastMessage("batman");
+	    			game.teams.defiDone.get(this.game.teams.findTeamPlayer(e.getPlayer())).put("§d§lBatman", Boolean.valueOf(true));
 				}
 			}
 			else if (e.getPlayer().getInventory().getItemInOffHand().getType().toString().equals("NAME_TAG")) {
 				if (e.getPlayer().getInventory().getItemInOffHand().getItemMeta().getDisplayName().toString().equals("Batman")) {
-				Bukkit.broadcastMessage("batman");
+	    			game.teams.defiDone.get(this.game.teams.findTeamPlayer(e.getPlayer())).put("§d§lBatman", Boolean.valueOf(true));
 				}
 			}
 		}
@@ -321,7 +303,7 @@ public class DefiListener implements Listener {
 				for (int i=0; i<lenListe; i++) {
 					if (proches.get(i).getType().toString().equals("TURTLE")) {
 						if (((Turtle) proches.get(i)).isLoveMode()) {
-							Bukkit.broadcastMessage("ce bordel "+e.getPlayer().toString());
+			    			game.teams.defiDone.get(this.game.teams.findTeamPlayer(e.getPlayer())).put("§d§lMichelangelo?", Boolean.valueOf(true));
 						}
 					}	
 				}
@@ -340,7 +322,7 @@ public class DefiListener implements Listener {
 			BlockData data = block.getBlockData();
 			Levelled lev = (Levelled)data;
 			if (lev.getLevel() == lev.getMaximumLevel()) {
-				Bukkit.broadcastMessage("gay");
+    			game.teams.defiDone.get(this.game.teams.findTeamPlayer(e.getPlayer())).put("§d§Recyclage", Boolean.valueOf(true));
 			}
 		}
 	}
@@ -358,8 +340,8 @@ public class DefiListener implements Listener {
 			ItemStack item = e.getCurrentItem();
 			Player p = (Player) e.getWhoClicked();
 			if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lVa te faire foutre")) {
-				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get("§d§lVa te faire foutre") == true) {
-					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put("§d§lVa te faire foutre",true);
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
 				}
 		    }
 			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBoulets de canon")) {
@@ -408,9 +390,9 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAurevoir Sabrina !")){
-		    /*	if (){
-		     
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lHalloween")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.JACK_O_LANTERN), 1)) {
@@ -443,14 +425,14 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSlime Rancher")) {
-		    /* if () {
-		     
-		     	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lFaut pas Flipper")) {
-		    /*	if () {
-		    	
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lFée Clocharde")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.FEATHER), 31)) {
@@ -467,29 +449,29 @@ public class DefiListener implements Listener {
 		    	} 
 		    } 
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lWolf Gang")) {
-		    /*	if (){
-		     
-		     	}*/
+		    	if (p.getStatistic(Statistic.ANIMALS_BRED, EntityType.WOLF)>=2){
+		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		     	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lNyan Cat")) {
-		    /*	if (){
-		     
-		     	}*/
+		    	if (p.getStatistic(Statistic.ANIMALS_BRED, EntityType.CAT)>=1){
+		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		     	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lWhat does the fox say?")) {
-		    /*	if (){
-		     
-		     	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLe cheval c'est trop génial")) {
-		    /*	if (){
-		     
-		     	}*/
+		    	if (p.getStatistic(Statistic.ANIMALS_BRED, EntityType.HORSE)>=1){
+		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBonne nuit les petits")) {
-		    /*	if (){
-		     
-		     	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTout est bon dans le cochon")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.PORKCHOP), 22)) {
@@ -502,9 +484,9 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDestrier des Enfers")) {
-		    /*	if (){
-		     
-		     	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lY'a du bambou là !")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.BAMBOO), 64)) {
@@ -533,23 +515,24 @@ public class DefiListener implements Listener {
 		    	} 
 			}
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTu es un sorcier Harry !")) {
-		    	//
-		    	//
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBienvenue en Enfer")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lArachnophobe")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lVoyage au bout de l'Enfer")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCoffre du néant")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.ENDER_CHEST), 1)) {
@@ -577,14 +560,14 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSortez les mouchoirs")) {
-		    /*	if (){
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lThe Walking Dead")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+		    	if (p.getStatistic(Statistic.KILL_ENTITY, EntityType.ZOMBIE)>=29){
+		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSOS Fantômes")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.PHANTOM_MEMBRANE), 1)) {
@@ -676,21 +659,21 @@ public class DefiListener implements Listener {
 			    }
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAu fond des profondeurs")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lEn suivant les yeux...")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
 			    }
+		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAssurance vie")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.TOTEM_OF_UNDYING), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
-			    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBienvenue au pays des Schtroumpfs")) {
+			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBienvenue au pays des Schtroumpfs")) {
 		    	if (p.getLocation().getBlock().getBiome().toString().contains("MUSHROOM")) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
@@ -701,14 +684,14 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lC'est la fin?")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLa plus grosse racaille")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-	    		}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 			}
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMon précieux")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.AMETHYST_BLOCK), 16)) {
@@ -716,14 +699,14 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lUn bout de Cerbère")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDes paillettes dans ma vie Kévin")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+		    	if (p.getStatistic(Statistic.KILL_ENTITY, EntityType.GLOW_SQUID)>=3){
+		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAxo-loto")) {
 		    /*	ItemStack axolotl = new ItemStack(Material.AXOLOTL_BUCKET);
@@ -739,9 +722,9 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLes mystérieuses cités d'or")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCa pique...")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.POINTED_DRIPSTONE), 20)) {
@@ -749,19 +732,19 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDans le mille")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCoup de foudre")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPirate des Caraïbes")) {
-			/*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lManoir hanté")) {
 		    /*	if () {
@@ -774,39 +757,39 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lNous sommes en guerre")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLibérée, Délivrée")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCombat d'anthologie")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lT'es pas net Baptiste?")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lJésus des neiges")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lChargé à bloc")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lUne affaire en or")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPlutôt Krokmou ou Spyro?")) {
 		    	if (p.getInventory().getHelmet().equals(new ItemStack(Material.DRAGON_HEAD))) {
@@ -814,9 +797,9 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSéance jacuzzi")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAux armes citoyens")) {
 				for (int i=0; i<p.getInventory().getSize(); i++) {
@@ -831,9 +814,9 @@ public class DefiListener implements Listener {
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRetour à l'envoyeur")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lHallucinogènes")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.BROWN_MUSHROOM), 1)) {
@@ -868,44 +851,44 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lExpérimenté")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMichelangelo?")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lStonks Industries")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lIl est gros le poisson")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lIl est bon mon poisson")) {
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTricot")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLe géant de fer")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRecyclage")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBatman")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRemède magique")) {
 		    	PotionEffect effect = p.getPotionEffect(PotionEffectType.REGENERATION);
@@ -937,9 +920,9 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lC'est la fête de trop")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDrôle de porte bonheur")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.RABBIT_FOOT), 1)) {
@@ -947,9 +930,9 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTéma la taille du rat")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRéparation express !")) {
 		    	if (p.getInventory().getHelmet().getType().toString().equals("IRON_HELMET")) {
@@ -959,9 +942,9 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCookie Monster")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lFishing Planet")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SALMON), 1)) {
@@ -975,22 +958,25 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDuel de regard")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMonster Hunter")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDoctor Strange")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAffamé")) {
-		    	
+		    	PotionEffect effect = p.getPotionEffect(PotionEffectType.HUNGER);
+		    	if (effect != null && effect.getAmplifier()==0) {
+		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    	}
 		    }
 	    }
 	}
