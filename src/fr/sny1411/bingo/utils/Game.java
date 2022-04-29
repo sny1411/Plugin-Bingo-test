@@ -7,8 +7,6 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Statistic;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -68,15 +66,19 @@ public class Game {
     		itemMeta.setLore(itemLore);
     		item.setItemMeta(itemMeta);
     	} else {
-    		String[] splitLore = listeDefis.get(1).split("(?<=\\G.{30}");
-    		for (int i1 = 0; i1 > splitLore.length-1; i1++) {
-    			while (splitLore[i1].substring(splitLore[i1].length()-1) != " " && splitLore[i1+1].substring(0, 1) != " ") {
+    		String[] splitLore = listeDefis.get(1).split("(?<=\\G.{30})");
+    		Integer len = splitLore.length;
+    		for (int i1 = 0; i1 < splitLore.length-1; i1++) {
+    			while (splitLore[i1].substring(splitLore[i1].length()-1) != " " && splitLore[i1+1].charAt(0) != ' ') {
+    				System.out.println(splitLore[i1+1].substring(0, 1));
     				String letter = splitLore[i1].substring(splitLore[i1].length()-1);
     				splitLore[i1] = splitLore[i1].substring(0, splitLore[i1].length()-1);
     				splitLore[i1+1] = letter + splitLore[i1+1];
     			}
+    			splitLore[i1+1] = "§e§o" + splitLore[i1+1].substring(1);
     			itemLore.add(splitLore[i1]);
     		}
+    		itemLore.add(splitLore[len-1]);
     		itemMeta.setLore(itemLore);
     		item.setItemMeta(itemMeta);
     	}
