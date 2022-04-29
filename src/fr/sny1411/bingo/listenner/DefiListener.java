@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
+import org.bukkit.StructureType;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Levelled;
@@ -747,9 +749,13 @@ public class DefiListener implements Listener {
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lManoir hanté")) {
-		    /*	if () {
-		    		Bukkit.broadcastMessage(""); 
-		    	}*/
+		    	Location manoir = p.getWorld().locateNearestStructure(p.getLocation(), StructureType.WOODLAND_MANSION, 0, false);
+		    	Integer distanceX = (int) (p.getLocation().getX() - manoir.getX());
+		    	Integer distanceY = (int) (p.getLocation().getY() - manoir.getY());
+		    	Integer distanceZ = (int) (p.getLocation().getZ() - manoir.getZ());
+		    	if ((distanceX+distanceY+distanceZ) <= 5) {
+		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString()); 
+		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPoséidon")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.TRIDENT), 1)) {

@@ -61,11 +61,25 @@ public class Game {
     	ItemMeta itemMeta = item.getItemMeta();
     	itemMeta.setDisplayName(listeDefis.get(0));
     	ArrayList<String> itemLore = new ArrayList<>();
-    	itemLore.add(listeDefis.get(1));
-    	itemMeta.setLore(itemLore);
-    	item.setItemMeta(itemMeta);
-    	return item;
+    	if (listeDefis.get(1).length() <= 30) {
+    		itemLore.add(listeDefis.get(1));
+    		itemMeta.setLore(itemLore);
+    		item.setItemMeta(itemMeta);
+    	} else {
+    		String[] splitLore = listeDefis.get(1).split("(?<=\\G.{30}");
+    		for (int i1 = 0; i1 > splitLore.length-1; i1++) {
+    			while (splitLore[i1].substring(splitLore[i1].length()-1) != " " && splitLore[i1+1].substring(0, 1) != " ") {
+    				String letter = splitLore[i1].substring(splitLore[i1].length()-1);
+    				splitLore[i1] = splitLore[i1].substring(0, splitLore[i1].length()-1);
+    				splitLore[i1+1] = letter + splitLore[i1+1];
+    			}
+    			itemLore.add(splitLore[i1]);
+    		}
+    		itemMeta.setLore(itemLore);
+    		item.setItemMeta(itemMeta);
     	}
+    	return item;
+    }
 
 	public boolean verifDiff(String diff) {
     	if (diff.equalsIgnoreCase("easy")) {
