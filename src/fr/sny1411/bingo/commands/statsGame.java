@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+
 import fr.sny1411.bingo.utils.Game;
 
 public class statsGame implements CommandExecutor {

@@ -32,7 +32,7 @@ public class Plugin extends JavaPlugin{
 		getCommand("bingo").setExecutor(new Bingo(game));
 		getCommand("newGame").setExecutor(new NewGame(game));
 		getCommand("statsGame").setExecutor(new statsGame(game));
-		getCommand("start").setExecutor(new Start(game));
+		getCommand("start").setExecutor(new Start(game,this));
 		Bukkit.getServer().getPluginManager().registerEvents(new EventsListener(game), this);
 		Bukkit.getServer().getPluginManager().registerEvents(teamsGui, this);
 		Bukkit.getServer().getPluginManager().registerEvents(new BingoGui(game), this);
