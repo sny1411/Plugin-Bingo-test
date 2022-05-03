@@ -1,5 +1,7 @@
 package fr.sny1411.bingo.listenner;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -58,6 +60,8 @@ public class EventsListener implements Listener{
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		if (game.InSetup == true) {
 			game.inventorySelectTeams(e.getPlayer());
+			Location spawn = new Location(Bukkit.getServer().getWorld("world"), 0, 204, 0);
+			e.getPlayer().teleport(spawn);
 		}
 		
 	}

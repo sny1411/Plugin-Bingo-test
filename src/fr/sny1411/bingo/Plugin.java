@@ -15,6 +15,7 @@ import fr.sny1411.bingo.listenner.TeamsGui;
 import fr.sny1411.bingo.utils.Defis;
 import fr.sny1411.bingo.utils.Game;
 import fr.sny1411.bingo.utils.Teams;
+import fr.sny1411.bingo.utils.Timer;
 
 
 
@@ -24,9 +25,11 @@ public class Plugin extends JavaPlugin{
 	private Defis defis = new Defis();
 	private Teams teams = new Teams(teamsGui,game);
 	private DefiListener defiListener = new DefiListener(game);
+	private Timer timer = new Timer(game);
 
 	@Override
 	public void onEnable() {
+		game.setClassTimer(timer);
 		game.setClassTeams(teams);
 		game.setClassDefis(defis);
 		getCommand("bingo").setExecutor(new Bingo(game));

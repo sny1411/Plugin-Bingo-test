@@ -14,6 +14,8 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
+
 import fr.sny1411.bingo.utils.Game;
 
 public class Start implements CommandExecutor {
@@ -29,19 +31,37 @@ public class Start implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (sender instanceof Player) {
-			/*Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, (Runnable) Bukkit.getScheduler().runTask(plugin, new Runnable() {
-				
-				@Override
-				public void run() {
-					startGame((Player) sender);
-					
-				}
-			}), 0L, 700L);*/
-			startGame((Player) sender);
+			Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+			    @Override
+			    public void run() {
+			       startGame((Player) sender);
+			    }
+			});
+			
 		} else {
 			Bukkit.getConsoleSender().sendMessage("Commande executable qu'en jeu");
 		}
+		
+		new BukkitRunnable() {
+			
+			@Override
+			public void run() {
+				destroySpawn();
+				
+			}
+		}.runTaskLater(plugin, 60);
+		game.timer.startTimer();
 		return false;
+	}
+	
+	private void destroySpawn() {
+		ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+		Bukkit.dispatchCommand(console, "fill -20 200 -20 20 200 20 void_air replace");
+		Bukkit.dispatchCommand(console, "fill -19 200 -19 19 200 19 void_air replace");
+		Bukkit.dispatchCommand(console, "fill -20 201 -20 -20 203 20 void_air replace");
+		Bukkit.dispatchCommand(console, "fill -20 201 -20 20 203 -20 void_air replace");
+		Bukkit.dispatchCommand(console, "fill 20 201 20 -20 203 20 void_air replace");
+		Bukkit.dispatchCommand(console, "fill 20 201 20 20 203 -20 void_air replace");
 	}
 	
 	private void startGame(Player sender) {
@@ -67,18 +87,12 @@ public class Start implements CommandExecutor {
 					player.sendTitle("§1Lezzzgoo !", "", 0, 20, 0);
 				}
 			}
-			ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-			Bukkit.dispatchCommand(console, "fill -20 200 -20 20 200 20 void_air replace");
-			Bukkit.dispatchCommand(console, "fill -19 200 -19 19 200 19 void_air replace");
-			Bukkit.dispatchCommand(console, "fill -20 201 -20 -20 203 20 void_air replace");
-			Bukkit.dispatchCommand(console, "fill -20 201 -20 20 203 -20 void_air replace");
-			Bukkit.dispatchCommand(console, "fill 20 201 20 -20 203 20 void_air replace");
-			Bukkit.dispatchCommand(console, "fill 20 201 20 20 203 -20 void_air replace");
-			/*try {
+			
+			try {
 				TimeUnit.SECONDS.sleep(30);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-			}*/
+			}
 			game.DamagePlayer = true;
 			
 			Bukkit.broadcastMessage("Les dégats des joueurs sont activé !");

@@ -15,6 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class Game {
 	public List<ItemStack> grilleBingo = new ArrayList<ItemStack>(); 
+	public int timeGame = 7200; // en secondes
 	public String modeAffichage = "Chill";
 	public String modeJeu = "Classic";
 	public String eventDefiBonus = "Off";
@@ -26,7 +27,11 @@ public class Game {
 	public Teams teams;
 	private ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 	public Defis defis;
+	public Timer timer;
 	
+	public void setClassTimer(Timer timer) {
+		this.timer = timer;
+	}
 	public void setClassTeams(Teams teams) {
 		this.teams = teams;
 	}
@@ -169,6 +174,7 @@ public class Game {
 	}
 	
 	public void resetSettings() {
+		this.timeGame = 7200;
 		this.modeVictoire = "Bingo";
 		this.nombreBingos = 1;
 		this.eventDefiBonus = "Off";
@@ -180,6 +186,7 @@ public class Game {
 	}
 	
 	public void resetGame() {
+		this.resetSettings();
 		this.grilleBingo = new ArrayList<ItemStack>();
 		this.gameLaunch = false;
 		this.InSetup = false; 
