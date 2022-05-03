@@ -58,10 +58,15 @@ public class EventsListener implements Listener{
 	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
-		if (game.InSetup == true) {
+		if (game.InSetup) {
 			game.inventorySelectTeams(e.getPlayer());
 			Location spawn = new Location(Bukkit.getServer().getWorld("world"), 0, 204, 0);
 			e.getPlayer().teleport(spawn);
+		} else if (game.gameLaunch) {
+			Player player = e.getPlayer();
+			if (game.teams.findTeamPlayer(player) == "") {
+				game.teams.listSpectator.add(player);
+			}
 		}
 		
 	}

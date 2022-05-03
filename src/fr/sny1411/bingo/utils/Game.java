@@ -28,7 +28,11 @@ public class Game {
 	private ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 	public Defis defis;
 	public Timer timer;
+	public ScoreBoard scoreBoard;
 	
+	public void setClassScoreBoard(ScoreBoard scoreBoard) {
+		this.scoreBoard = scoreBoard;
+	}
 	public void setClassTimer(Timer timer) {
 		this.timer = timer;
 	}
@@ -75,7 +79,6 @@ public class Game {
     		Integer len = splitLore.length;
     		for (int i1 = 0; i1 < splitLore.length-1; i1++) {
     			while (splitLore[i1].substring(splitLore[i1].length()-1) != " " && splitLore[i1+1].charAt(0) != ' ') {
-    				System.out.println(splitLore[i1+1].substring(0, 1));
     				String letter = splitLore[i1].substring(splitLore[i1].length()-1);
     				splitLore[i1] = splitLore[i1].substring(0, splitLore[i1].length()-1);
     				splitLore[i1+1] = letter + splitLore[i1+1];

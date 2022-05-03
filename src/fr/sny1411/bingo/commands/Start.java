@@ -2,6 +2,7 @@ package fr.sny1411.bingo.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +16,9 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.Team;
 
 import fr.sny1411.bingo.utils.Game;
 
@@ -30,6 +34,21 @@ public class Start implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		ScoreboardManager manager = Bukkit.getScoreboardManager();
+		Scoreboard board = manager.getNewScoreboard();
+		Hashtable<String,Team> teams = new Hashtable<String, Team>();
+		for (int i = 0; i < game.teams.nombreTeams; i++) {
+			String colorTeam = game.teams.colorTeams.get(i);
+			Team team = board.registerNewTeam(colorTeam);
+			team.setPrefix(game.teams.prefixeColorTeams.get(colorTeam));
+			teams.put(colorTeam,team);
+		}
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			String NameTeamPlayer = game.teams.findTeamPlayer(player);
+			if (NameTeamPlayer != "" || NameTeamPlayer != "Spectator") {
+				teams.get(NameTeamPlayer).addEntry(player.getName());
+			}
+		}
 		if (sender instanceof Player) {
 			Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 			    @Override
