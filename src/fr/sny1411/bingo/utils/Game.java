@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import fr.sny1411.bingo.utils.ScoreBoard;
 
 public class Game {
 	public List<ItemStack> grilleBingo = new ArrayList<ItemStack>(); 
@@ -29,7 +30,7 @@ public class Game {
 	public Defis defis;
 	public Timer timer;
 	public ScoreBoard scoreBoard;
-	
+	 
 	public void setClassScoreBoard(ScoreBoard scoreBoard) {
 		this.scoreBoard = scoreBoard;
 	}
