@@ -2,7 +2,6 @@ package fr.sny1411.bingo.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -16,11 +15,10 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
-import org.bukkit.scoreboard.Team;
+import org.bukkit.scheduler.BukkitTask;
 
 import fr.sny1411.bingo.utils.Game;
+import net.md_5.bungee.api.ChatColor;
 
 public class Start implements CommandExecutor {
 	
@@ -34,42 +32,34 @@ public class Start implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		ScoreboardManager manager = Bukkit.getScoreboardManager();
-		Scoreboard board = manager.getNewScoreboard();
-		Hashtable<String,Team> teams = new Hashtable<String, Team>();
-		for (int i = 0; i < game.teams.nombreTeams; i++) {
-			String colorTeam = game.teams.colorTeams.get(i);
-			Team team = board.registerNewTeam(colorTeam);
-			team.setPrefix(game.teams.prefixeColorTeams.get(colorTeam));
-			teams.put(colorTeam,team);
-		}
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			String NameTeamPlayer = game.teams.findTeamPlayer(player);
-			if (NameTeamPlayer != "" || NameTeamPlayer != "Spectator") {
-				teams.get(NameTeamPlayer).addEntry(player.getName());
-			}
-		}
 		if (sender instanceof Player) {
-			Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				if (game.teams.findTeamPlayer(player) == "") {
+					sender.sendMessage(ChatColor.DARK_RED + "il y a des joueurs qui ne possede pas de teams");
+					Bukkit.broadcastMessage(ChatColor.GOLD + "Veuillez rejoindre une team !");
+					return false;
+				}
+			}
+			BukkitTask taskStart = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 			    @Override
 			    public void run() {
 			       startGame((Player) sender);
 			    }
 			});
+			game.plugin.listTask.add(taskStart);
 			
 		} else {
 			Bukkit.getConsoleSender().sendMessage("Commande executable qu'en jeu");
 		}
 		
-		new BukkitRunnable() {
+		BukkitTask taskDestroySpawn = new BukkitRunnable() {
 			
 			@Override
 			public void run() {
 				destroySpawn();
-				
 			}
 		}.runTaskLater(plugin, 60);
-		game.timer.startTimer();
+		game.plugin.listTask.add(taskDestroySpawn);
 		return false;
 	}
 	
@@ -102,18 +92,33 @@ public class Start implements CommandExecutor {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				for (Player player : Bukkit.getOnlinePlayers()) {
-					player.sendTitle("§1Lezzzgoo !", "", 0, 20, 0);
-				}
 			}
-			
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				player.sendTitle("§1Lezzzgoo !", "", 0, 20, 0);
+				player.getInventory().clear();
+			}
+			BukkitTask taskTimer = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+				
+				@Override
+				public void run() {
+					game.timer.startTimer();
+				}
+			});
+			game.plugin.listTask.add(taskTimer);
+			BukkitTask taskScoreBoard = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+				
+				@Override
+				public void run() {
+					game.scoreBoard.createScoreBoard();
+				}
+			});
+			game.plugin.listTask.add(taskScoreBoard);
 			try {
 				TimeUnit.SECONDS.sleep(30);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			game.DamagePlayer = true;
-			
 			Bukkit.broadcastMessage("Les dégats des joueurs sont activé !");
 		} else {
 			sender.sendMessage("Crée une nouvelle partie avant ! (/newGame)");

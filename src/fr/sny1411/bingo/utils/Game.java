@@ -12,11 +12,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import fr.sny1411.bingo.Plugin;
+import fr.sny1411.bingo.listenner.BingoGui;
 import fr.sny1411.bingo.utils.ScoreBoard;
 
 public class Game {
 	public List<ItemStack> grilleBingo = new ArrayList<ItemStack>(); 
-	public int timeGame = 7200; // en secondes
+	public int timeGameHour = 2;
+	public int timeGameMinutes = 0;
 	public String modeAffichage = "Chill";
 	public String modeJeu = "Classic";
 	public String eventDefiBonus = "Off";
@@ -30,7 +34,12 @@ public class Game {
 	public Defis defis;
 	public Timer timer;
 	public ScoreBoard scoreBoard;
+	public Plugin plugin;
+	public BingoGui bingoGui;
 	 
+	public Game(Plugin plugin) {
+		this.plugin = plugin;
+	}
 	public void setClassScoreBoard(ScoreBoard scoreBoard) {
 		this.scoreBoard = scoreBoard;
 	}
@@ -43,6 +52,10 @@ public class Game {
 	
 	public void setClassDefis(Defis defis) {
 		this.defis = defis;
+	}
+	
+	public void setClassBingoGui(BingoGui bingoGui) {
+		this.bingoGui = bingoGui;
 	}
 
 	public void createGrille() {
@@ -178,7 +191,8 @@ public class Game {
 	}
 	
 	public void resetSettings() {
-		this.timeGame = 7200;
+		this.timeGameHour = 2;
+		this.timeGameMinutes = 0;
 		this.modeVictoire = "Bingo";
 		this.nombreBingos = 1;
 		this.eventDefiBonus = "Off";

@@ -1,5 +1,6 @@
 package fr.sny1411.bingo.listenner;
 
+import java.util.Hashtable;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -9,8 +10,10 @@ import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.StructureType;
 import org.bukkit.block.Block;
+import org.bukkit.block.EnchantingTable;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Levelled;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -36,6 +39,7 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerLevelChangeEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.raid.RaidTriggerEvent;
+import org.bukkit.inventory.EnchantingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -44,12 +48,24 @@ import fr.sny1411.bingo.utils.Game;
 
 public class DefiListener implements Listener {
 	private Game game;
+	private Hashtable<Player, Integer> numberWolfTame = new Hashtable<Player, Integer>();
 	
 	public DefiListener(Game game) {
 		this.game = game;
 	}
 	
-	
+	private void afficheValid(Player player,String message) {
+		if (game.modeAffichage == "Chill") {
+			Bukkit.broadcastMessage(player.getName() + message); // pas terminé 
+		} else {
+			String teamPlayer = game.teams.findTeamPlayer(player);
+			for (Player playerInTeam : game.teams.teamsHash.get(teamPlayer)) {
+				if (playerInTeam.isOnline()) {
+					playerInTeam.sendMessage(message);
+				}
+			}
+		}
+	}
 	
 	@EventHandler
 	public void testAchievements(PlayerAdvancementDoneEvent e) {
@@ -58,7 +74,7 @@ public class DefiListener implements Listener {
 		String teamPlayer = game.teams.findTeamPlayer(player);
 		String advancement = e.getAdvancement().getKey().getKey();
 		if (advancement.equals("story/enter_the_nether")) {
-			game.teams.defiDone.get(teamPlayer).put("§d§lBienvenue en Enfer", true); // pour mettre que le defi est fait :)
+			game.teams.defiDone.get(teamPlayer).put("§d§lBienvenue en Enfer", true);
 		} else if (advancement.equals("story/follow_ender_eye")) {
 			game.teams.defiDone.get(teamPlayer).put("§d§lEn suivant les yeux...", true);
 		} else if (advancement.equals("story/cure_zombie_villager")) {
@@ -103,6 +119,7 @@ public class DefiListener implements Listener {
 	
 	@EventHandler
 	private void projectileHitkMob(ProjectileHitEvent e) {
+		if (e.getHitEntity() == null) return;
 		if (!game.gameLaunch) return;
 		if (e.getHitEntity().getType().toString().equals("PIG")) {
 			if (e.getEntity().getType().toString().equals("FIREWORK")) {
@@ -132,40 +149,42 @@ public class DefiListener implements Listener {
 	@EventHandler
 	private void mobKill(EntityDeathEvent e) {
 		if (!game.gameLaunch) return;
+		if (!(e.getEntity().getKiller() instanceof Player)) return;
+		Player killer = e.getEntity().getKiller();
 		if (e.getEntity() instanceof Player) {
 			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lVa te faire foutre!", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("WITCH")) {
-			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lAurevoir Sabrina !", Boolean.valueOf(true));
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer(killer)).put("§d§lAurevoir Sabrina !", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("SLIME")) {
-			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lSlime Rancher", Boolean.valueOf(true));
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer(killer)).put("§d§lSlime Rancher", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("DOLPHIN")) {
-			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lFaut pas Flipper", Boolean.valueOf(true));
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer(killer)).put("§d§lFaut pas Flipper", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("FOX")) {
-			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lWhat does the fox say?", Boolean.valueOf(true));
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer(killer)).put("§d§lWhat does the fox say?", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("STRIDER")) {
-			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lDestrier des Enfers", Boolean.valueOf(true));
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer(killer)).put("§d§lDestrier des Enfers", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("CAVE_SPIDER")) {
-			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lArachnophobe", Boolean.valueOf(true));
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer(killer)).put("§d§lArachnophobe", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("ELDER_GUARDIAN")) {
-			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lIl est bon mon poisson", Boolean.valueOf(true));
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer(killer)).put("§d§lIl est bon mon poisson", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("IRON_GOLEM")) {
-			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lLe géant de fer", Boolean.valueOf(true));
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer(killer)).put("§d§lLe géant de fer", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("PIG")) {
 			if (e.getEntity().getName().toString().equals("§e ")) {
-				game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lC'est la fête de trop", Boolean.valueOf(true));
+				game.teams.defiDone.get(this.game.teams.findTeamPlayer(killer)).put("§d§lC'est la fête de trop", Boolean.valueOf(true));
 			}
 		}
 		else if (e.getEntity().getType().toString().equals("SILVERFISH")) {
-			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lTéma la taille du rat", Boolean.valueOf(true));
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer(killer)).put("§d§lTéma la taille du rat", Boolean.valueOf(true));
 		}
 	}
 	
@@ -173,13 +192,22 @@ public class DefiListener implements Listener {
 	private void tameMob(EntityTameEvent e) {
 		if (!game.gameLaunch) return;
 		if (e.getEntityType().toString().equals("WOLF")){
-			Bukkit.broadcastMessage("");
+			Player player = (Player) e.getOwner();
+			if (numberWolfTame.containsKey(player)) {
+				Integer nbWolf = numberWolfTame.get(player);
+				numberWolfTame.put(player, nbWolf + 1);
+				if (nbWolf >= 2) {
+					game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lWolf gang", Boolean.valueOf(true));
+				}
+			} else {
+				numberWolfTame.put(player, 1);
+			}
 		}
 		else if (e.getEntityType().toString().equals("CAT")) {
-			Bukkit.broadcastMessage("");
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lNyan Cat", Boolean.valueOf(true));
 		}
 		else if (e.getEntityType().toString().equals("HORSE")) {
-			Bukkit.broadcastMessage("");
+			Bukkit.broadcastMessage("sdfdsfs");
 		}
 	}
 	
@@ -340,105 +368,128 @@ public class DefiListener implements Listener {
 		if (!game.gameLaunch) return;
 		if (e.getView().getTitle().equalsIgnoreCase("§3§lBINGO")) {
 			ItemStack item = e.getCurrentItem();
+			if (item == null) {
+				return;
+			}
 			Player p = (Player) e.getWhoClicked();
 			if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lVa te faire foutre")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, "§d§lVa te faire foutre");
 				}
 		    }
 			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBoulets de canon")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.FIRE_CHARGE), 6)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, "§d§lBoulets de canon");
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDéforestation")) {
 			    if (p.getInventory().containsAtLeast(new ItemStack(Material.ACACIA_LOG), 64)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 			    }
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAllahu Akbar")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.TNT), 5)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTop Chef")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.CAKE), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lForgeron")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.ANVIL), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLa dame du CDI")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.BOOK), 16)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lVers l'infini et au-delà")) {
 		    	if (p.getLocation().getY() >= 320) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lIngénieur informaticien")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.REDSTONE_BLOCK), 16)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAlgoculteur")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.DRIED_KELP_BLOCK), 16)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAurevoir Sabrina !")){
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lHalloween")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.JACK_O_LANTERN), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCa colle...")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.HONEY_BOTTLE), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lEtrange pomme d'amour")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.GOLDEN_APPLE), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMcDonald's")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.POISONOUS_POTATO), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lFarming Simulator")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.HAY_BLOCK), 32)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCauchemar en cuisine")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SUSPICIOUS_STEW), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSlime Rancher")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lFaut pas Flipper")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lFée Clocharde")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.FEATHER), 31)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAddict des seaux")) {
@@ -446,53 +497,63 @@ public class DefiListener implements Listener {
 		      		if (p.getInventory().containsAtLeast(new ItemStack(Material.LAVA_BUCKET), 1)) {
 		        		if (p.getInventory().containsAtLeast(new ItemStack(Material.MILK_BUCKET), 1)) {
 				    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+				    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		        		}
 		      		}
 		    	} 
 		    } 
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lWolf Gang")) {
-		    	if (p.getStatistic(Statistic.ANIMALS_BRED, EntityType.WOLF)>=2){
-		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
-		     	}
+		    	if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+		    		game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
+		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lNyan Cat")) {
-		    	if (p.getStatistic(Statistic.ANIMALS_BRED, EntityType.CAT)>=1){
-		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
-		     	}
+		    	if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+		    		game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
+		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lWhat does the fox say?")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLe cheval c'est trop génial")) {
 		    	if (p.getStatistic(Statistic.ANIMALS_BRED, EntityType.HORSE)>=1){
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBonne nuit les petits")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTout est bon dans le cochon")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.PORKCHOP), 22)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTu es grosse Mélissandre")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.PUMPKIN_PIE), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDestrier des Enfers")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lY'a du bambou là !")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.BAMBOO), 64)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCollectionneur")) {
@@ -506,6 +567,7 @@ public class DefiListener implements Listener {
 		                  					if (p.getInventory().containsAtLeast(new ItemStack(Material.EMERALD_BLOCK), 1)) {
 		                    					if (p.getInventory().containsAtLeast(new ItemStack(Material.QUARTZ_BLOCK), 1)) {
 		                    			    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		                    			    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		                    					}
 		                  					} 
 		                				} 
@@ -519,76 +581,91 @@ public class DefiListener implements Listener {
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTu es un sorcier Harry !")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBienvenue en Enfer")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lArachnophobe")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lVoyage au bout de l'Enfer")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCoffre du néant")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.ENDER_CHEST), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTrésor enfoui")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.HEART_OF_THE_SEA), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lIndiana Jones")) {
 		    	if (p.getLocation().getBlock().getBiome().toString().contains("JUNGLE")) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMerlin l'enchanteur")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.ENCHANTING_TABLE), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lJ'ai le bâton en feu !")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.BLAZE_ROD), 2)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSortez les mouchoirs")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lThe Walking Dead")) {
 		    	if (p.getStatistic(Statistic.KILL_ENTITY, EntityType.ZOMBIE)>=29){
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSOS Fantômes")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.PHANTOM_MEMBRANE), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lJe veux tes yeux")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.ENDER_PEARL), 3)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lChâteau rouge")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.RED_NETHER_BRICKS), 17)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lOld Town Road")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SADDLE), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTerre colorée")) {
@@ -643,71 +720,87 @@ public class DefiListener implements Listener {
 				}
 				if (terracotta >= 10) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBob l'éponge cubique")) {
 			    if (p.getInventory().containsAtLeast(new ItemStack(Material.SPONGE), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 			    }
 			}
-			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMayo l'éponge")) {
-				if (p.getInventory().containsAtLeast(new ItemStack(Material.HONEY_BLOCK), 1)) {
-		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
-				}
+			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMayo l'abeille")) {
+				for (ItemStack itemInventory : p.getInventory().getContents()) {
+		    		if (itemInventory.getType().equals(Material.HONEY_BLOCK)) {
+		    			setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString()); 
+			    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
+		    		}
+		    	}
 			}
 			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSous l'océan")) {
 			    if (p.getInventory().containsAtLeast(new ItemStack(Material.TROPICAL_FISH_BUCKET), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 			    }
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAu fond des profondeurs")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lEn suivant les yeux...")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 			    }
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAssurance vie")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.TOTEM_OF_UNDYING), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBienvenue au pays des Schtroumpfs")) {
 		    	if (p.getLocation().getBlock().getBiome().toString().contains("MUSHROOM")) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lQui dit mieux?")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.NETHERITE_INGOT), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lC'est la fin?")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLa plus grosse racaille")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 			}
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMon précieux")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.AMETHYST_BLOCK), 16)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lUn bout de Cerbère")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDes paillettes dans ma vie Kévin")) {
 		    	if (p.getStatistic(Statistic.KILL_ENTITY, EntityType.GLOW_SQUID)>=3){
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAxo-loto")) {
@@ -721,90 +814,109 @@ public class DefiListener implements Listener {
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBoules scintillantes")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.GLOW_BERRIES), 5)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLes mystérieuses cités d'or")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCa pique...")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.POINTED_DRIPSTONE), 20)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDans le mille")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCoup de foudre")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPirate des Caraïbes")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lManoir hanté")) {
-		    	Location manoir = p.getWorld().locateNearestStructure(p.getLocation(), StructureType.WOODLAND_MANSION, 0, false);
-		    	Integer distanceX = (int) (p.getLocation().getX() - manoir.getX());
-		    	Integer distanceY = (int) (p.getLocation().getY() - manoir.getY());
-		    	Integer distanceZ = (int) (p.getLocation().getZ() - manoir.getZ());
-		    	if ((distanceX+distanceY+distanceZ) <= 5) {
+		    	Location manoir = p.getWorld().locateNearestStructure(p.getLocation(), StructureType.WOODLAND_MANSION, 30000, false);
+		    	Integer distanceX = Math.abs((int) (p.getLocation().getX() - manoir.getX()));
+		    	Integer distanceY = Math.abs((int) (p.getLocation().getY() - manoir.getY()));
+		    	if ((Math.pow(distanceX, 2) + Math.pow(distanceY, 2)) <= 40) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString()); 
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPoséidon")) {
-		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.TRIDENT), 1)) {
-		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    	for (ItemStack itemInventory : p.getInventory().getContents()) {
+		    		if (itemInventory.getType().equals(Material.TRIDENT)) {
+		    			setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString()); 
+			    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
+		    		}
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lNous sommes en guerre")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLibérée, Délivrée")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCombat d'anthologie")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lT'es pas net Baptiste?")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lJésus des neiges")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lChargé à bloc")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lUne affaire en or")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPlutôt Krokmou ou Spyro?")) {
+		    	if (p.getInventory().getHelmet() == null) e.setCancelled(true);
 		    	if (p.getInventory().getHelmet().equals(new ItemStack(Material.DRAGON_HEAD))) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSéance jacuzzi")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAux armes citoyens")) {
@@ -812,9 +924,11 @@ public class DefiListener implements Listener {
 					if (p.getInventory().getItem(i) != null && p.getInventory().getItem(i).toString().contains("SHIELD")) {
 						if (p.getInventory().getItem(i).getItemMeta().toString().equals("TILE_ENTITY_META:{meta-type=TILE_ENTITY, internal=H4sIAAAAAAAA/+NiYOBi4HPKyU/Ods0rySypDElMZ2ZgcUosTmUAAk4GjoDEkpLUorxiLiCXiYOBHcpnYMopZmZgdc7PyS8CynAzIEsVIUvxAaWYMlMYBHIz81KTixLTSqySEvPyUoFyAG4OTLd+AAAA, blockMaterial=SHIELD}")) {
 				    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+				    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 						}
 						else if (p.getInventory().getItem(i).getItemMeta().toString().equals("TILE_ENTITY_META:{meta-type=TILE_ENTITY, internal=H4sIAAAAAAAA/+NiYOBi4HPKyU/Ods0rySypDElMZ2ZgcUosTmUAAk4GjoDEkpLUorxiLiCXiYOBHcpnYCoqZmZgdc7PyS8CyvAxIEvlIEtxA6WYMlMYBHIz81KTixLTSqySEvPyUoFyAMyYM/V+AAAA, blockMaterial=SHIELD}")) {
 				    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+				    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 						}
 					}
 				}
@@ -822,6 +936,7 @@ public class DefiListener implements Listener {
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRetour à l'envoyeur")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lHallucinogènes")) {
@@ -830,6 +945,7 @@ public class DefiListener implements Listener {
 		    			if (p.getInventory().containsAtLeast(new ItemStack(Material.CRIMSON_FUNGUS), 1)) {
 		    				if (p.getInventory().containsAtLeast(new ItemStack(Material.WARPED_FUNGUS), 1)) {
 		    		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    				}
 		    			}
 		    		}
@@ -838,14 +954,20 @@ public class DefiListener implements Listener {
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lNouvelle énergie")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.DAYLIGHT_DETECTOR), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLady Gaga")) {
+		    	if (p.getInventory().getHelmet() == null && p.getInventory().getBoots() == null && p.getInventory().getLeggings() == null && p.getInventory().getChestplate() == null) {
+		    		e.setCancelled(true);
+		    		return;
+		    	}
 		    	if (p.getInventory().getHelmet().equals(new ItemStack(Material.GOLDEN_HELMET))) {
 			    	if (p.getInventory().getChestplate().equals(new ItemStack(Material.GOLDEN_CHESTPLATE))) {
 				    	if (p.getInventory().getLeggings().equals(new ItemStack(Material.GOLDEN_LEGGINGS))) {
 					    	if (p.getInventory().getBoots().equals(new ItemStack(Material.GOLDEN_BOOTS))) {
 					    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+					    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 					    	}
 				    	}
 			    	}
@@ -854,60 +976,75 @@ public class DefiListener implements Listener {
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSac à dos, sac à dos")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SHULKER_BOX), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lExpérimenté")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMichelangelo?")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lStonks Industries")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lIl est bon mon poisson")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTricot")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLe géant de fer")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRecyclage")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBatman")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRemède magique")) {
 		    	PotionEffect effect = p.getPotionEffect(PotionEffectType.REGENERATION);
 		    	if (effect != null && effect.getAmplifier()==1) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lArmure étincelante")) {
+		    	if (p.getInventory().getHelmet() == null && p.getInventory().getBoots() == null && p.getInventory().getLeggings() == null && p.getInventory().getChestplate() == null) {
+		    		e.setCancelled(true);
+		    		return;
+		    	}
 		    	if (p.getInventory().getHelmet().equals(new ItemStack(Material.DIAMOND_HELMET))) {
 			    	if (p.getInventory().getChestplate().equals(new ItemStack(Material.DIAMOND_CHESTPLATE))) {
 				    	if (p.getInventory().getLeggings().equals(new ItemStack(Material.DIAMOND_LEGGINGS))) {
 					    	if (p.getInventory().getBoots().equals(new ItemStack(Material.DIAMOND_BOOTS))) {
 					    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+					    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 					    	}
 				    	}
 			    	}
@@ -916,40 +1053,52 @@ public class DefiListener implements Listener {
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lJusqu'aux cieux")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.BEACON), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRails de coke")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.SUGAR), 32)) {
 		    		if (p.getInventory().containsAtLeast(new ItemStack(Material.RAIL), 32)) {
 			    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+			    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    		}
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lC'est la fête de trop")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDrôle de porte bonheur")) {
 		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.RABBIT_FOOT), 1)) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lTéma la taille du rat")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRéparation express !")) {
-		    	if (p.getInventory().getHelmet().getType().toString().equals("IRON_HELMET")) {
+		    	if (p.getInventory().getHelmet() == null) {
+		    		 e.setCancelled(true);
+		    		 return;
+		    	}
+		    	ItemStack helmetPlayer = p.getInventory().getHelmet();
+		    	if (helmetPlayer.getType().equals(Material.IRON_HELMET)) {
 		    		if (p.getInventory().getHelmet().getEnchantments().toString().contains("minecraft:mending")) {
 			    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+			    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    		}
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCookie Monster")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lFishing Planet")) {
@@ -958,6 +1107,7 @@ public class DefiListener implements Listener {
 				    	if (p.getInventory().containsAtLeast(new ItemStack(Material.PUFFERFISH), 1)) {
 					    	if (p.getInventory().containsAtLeast(new ItemStack(Material.TROPICAL_FISH), 1)) {
 					    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+					    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 					    	}
 				    	}
 			    	}
@@ -966,24 +1116,30 @@ public class DefiListener implements Listener {
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDuel de regard")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMonster Hunter")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lDoctor Strange")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
 					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lAffamé")) {
 		    	PotionEffect effect = p.getPotionEffect(PotionEffectType.HUNGER);
 		    	if (effect != null && effect.getAmplifier()==0) {
 		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
+		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
 		    	}
 		    }
+			game.bingoGui.openGui(p, game.teams.findTeamPlayer(p));
+			e.setCancelled(true);
 	    }
 	}
 }

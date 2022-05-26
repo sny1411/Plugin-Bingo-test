@@ -21,7 +21,7 @@ public class Bingo implements CommandExecutor {
 		if (sender instanceof Player) {
 			if (game.gameLaunch) {
 				BingoGui grille = new BingoGui(game);
-				grille.openGui((Player) sender);
+				grille.openGui((Player) sender, game.teams.findTeamPlayer((Player) sender));
 			} else {
 				sender.sendMessage("La partie n'a pas encore commencé !");
 			}
