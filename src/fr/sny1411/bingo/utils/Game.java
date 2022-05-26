@@ -13,8 +13,14 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import fr.sny1411.bingo.Plugin;
+import fr.sny1411.bingo.listenner.BingoGui;
+import fr.sny1411.bingo.utils.ScoreBoard;
+
 public class Game {
 	public List<ItemStack> grilleBingo = new ArrayList<ItemStack>(); 
+	public int timeGameHour = 2;
+	public int timeGameMinutes = 0;
 	public String modeAffichage = "Chill";
 	public String modeJeu = "Classic";
 	public String eventDefiBonus = "Off";
@@ -26,13 +32,30 @@ public class Game {
 	public Teams teams;
 	private ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 	public Defis defis;
-	
+	public Timer timer;
+	public ScoreBoard scoreBoard;
+	public Plugin plugin;
+	public BingoGui bingoGui;
+	 
+	public Game(Plugin plugin) {
+		this.plugin = plugin;
+	}
+	public void setClassScoreBoard(ScoreBoard scoreBoard) {
+		this.scoreBoard = scoreBoard;
+	}
+	public void setClassTimer(Timer timer) {
+		this.timer = timer;
+	}
 	public void setClassTeams(Teams teams) {
 		this.teams = teams;
 	}
 	
 	public void setClassDefis(Defis defis) {
 		this.defis = defis;
+	}
+	
+	public void setClassBingoGui(BingoGui bingoGui) {
+		this.bingoGui = bingoGui;
 	}
 
 	public void createGrille() {
@@ -70,7 +93,6 @@ public class Game {
     		Integer len = splitLore.length;
     		for (int i1 = 0; i1 < splitLore.length-1; i1++) {
     			while (splitLore[i1].substring(splitLore[i1].length()-1) != " " && splitLore[i1+1].charAt(0) != ' ') {
-    				System.out.println(splitLore[i1+1].substring(0, 1));
     				String letter = splitLore[i1].substring(splitLore[i1].length()-1);
     				splitLore[i1] = splitLore[i1].substring(0, splitLore[i1].length()-1);
     				splitLore[i1+1] = letter + splitLore[i1+1];
@@ -169,6 +191,8 @@ public class Game {
 	}
 	
 	public void resetSettings() {
+		this.timeGameHour = 2;
+		this.timeGameMinutes = 0;
 		this.modeVictoire = "Bingo";
 		this.nombreBingos = 1;
 		this.eventDefiBonus = "Off";
@@ -180,6 +204,7 @@ public class Game {
 	}
 	
 	public void resetGame() {
+		this.resetSettings();
 		this.grilleBingo = new ArrayList<ItemStack>();
 		this.gameLaunch = false;
 		this.InSetup = false; 

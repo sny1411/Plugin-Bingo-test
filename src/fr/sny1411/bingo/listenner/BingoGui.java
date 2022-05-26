@@ -21,7 +21,7 @@ public class BingoGui implements Listener {
 		this.game = game;
 	}
 
-    public void openGui(Player p) {
+    public void openGui(Player p, String teamPlayer) {
     	inv = Bukkit.createInventory(p, 45, "§3§lBINGO");
     	ItemStack item = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
     	ItemMeta meta = item.getItemMeta();
@@ -88,7 +88,14 @@ public class BingoGui implements Listener {
     		else if (i == 35) {
     			i=39;
     		}
-    		inv.setItem(i, game.grilleBingo.get(index));
+    		ItemStack itemGrille = game.grilleBingo.get(index);
+    		if (game.teams.defiValid.get(teamPlayer).get(itemGrille.getItemMeta().getDisplayName())) {
+    			itemGrille = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
+    			ItemMeta metaGrille = itemGrille.getItemMeta();
+    			metaGrille.setDisplayName(" ");
+    			itemGrille.setItemMeta(metaGrille);
+    		}
+    		inv.setItem(i, itemGrille);
     		index++;
     	}
     	p.openInventory(inv);

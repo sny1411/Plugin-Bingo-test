@@ -14,7 +14,11 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
+
 import fr.sny1411.bingo.utils.Game;
+import net.md_5.bungee.api.ChatColor;
 
 public class Start implements CommandExecutor {
 	
@@ -29,19 +33,44 @@ public class Start implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (sender instanceof Player) {
-			/*Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, (Runnable) Bukkit.getScheduler().runTask(plugin, new Runnable() {
-				
-				@Override
-				public void run() {
-					startGame((Player) sender);
-					
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				if (game.teams.findTeamPlayer(player) == "") {
+					sender.sendMessage(ChatColor.DARK_RED + "il y a des joueurs qui ne possede pas de teams");
+					Bukkit.broadcastMessage(ChatColor.GOLD + "Veuillez rejoindre une team !");
+					return false;
 				}
-			}), 0L, 700L);*/
-			startGame((Player) sender);
+			}
+			BukkitTask taskStart = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+			    @Override
+			    public void run() {
+			       startGame((Player) sender);
+			    }
+			});
+			game.plugin.listTask.add(taskStart);
+			
 		} else {
 			Bukkit.getConsoleSender().sendMessage("Commande executable qu'en jeu");
 		}
+		
+		BukkitTask taskDestroySpawn = new BukkitRunnable() {
+			
+			@Override
+			public void run() {
+				destroySpawn();
+			}
+		}.runTaskLater(plugin, 60);
+		game.plugin.listTask.add(taskDestroySpawn);
 		return false;
+	}
+	
+	private void destroySpawn() {
+		ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+		Bukkit.dispatchCommand(console, "fill -20 200 -20 20 200 20 void_air replace");
+		Bukkit.dispatchCommand(console, "fill -19 200 -19 19 200 19 void_air replace");
+		Bukkit.dispatchCommand(console, "fill -20 201 -20 -20 203 20 void_air replace");
+		Bukkit.dispatchCommand(console, "fill -20 201 -20 20 203 -20 void_air replace");
+		Bukkit.dispatchCommand(console, "fill 20 201 20 -20 203 20 void_air replace");
+		Bukkit.dispatchCommand(console, "fill 20 201 20 20 203 -20 void_air replace");
 	}
 	
 	private void startGame(Player sender) {
@@ -63,24 +92,33 @@ public class Start implements CommandExecutor {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				for (Player player : Bukkit.getOnlinePlayers()) {
-					player.sendTitle("§1Lezzzgoo !", "", 0, 20, 0);
-				}
 			}
-			ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-			Bukkit.dispatchCommand(console, "fill -20 200 -20 20 200 20 void_air replace");
-			Bukkit.dispatchCommand(console, "fill -19 200 -19 19 200 19 void_air replace");
-			Bukkit.dispatchCommand(console, "fill -20 201 -20 -20 203 20 void_air replace");
-			Bukkit.dispatchCommand(console, "fill -20 201 -20 20 203 -20 void_air replace");
-			Bukkit.dispatchCommand(console, "fill 20 201 20 -20 203 20 void_air replace");
-			Bukkit.dispatchCommand(console, "fill 20 201 20 20 203 -20 void_air replace");
-			/*try {
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				player.sendTitle("§1Lezzzgoo !", "", 0, 20, 0);
+				player.getInventory().clear();
+			}
+			BukkitTask taskTimer = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+				
+				@Override
+				public void run() {
+					game.timer.startTimer();
+				}
+			});
+			game.plugin.listTask.add(taskTimer);
+			BukkitTask taskScoreBoard = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+				
+				@Override
+				public void run() {
+					game.scoreBoard.createScoreBoard();
+				}
+			});
+			game.plugin.listTask.add(taskScoreBoard);
+			try {
 				TimeUnit.SECONDS.sleep(30);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-			}*/
+			}
 			game.DamagePlayer = true;
-			
 			Bukkit.broadcastMessage("Les dégats des joueurs sont activé !");
 		} else {
 			sender.sendMessage("Crée une nouvelle partie avant ! (/newGame)");
