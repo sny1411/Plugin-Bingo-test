@@ -57,6 +57,23 @@ public class Game {
 	public void setClassBingoGui(BingoGui bingoGui) {
 		this.bingoGui = bingoGui;
 	}
+	
+	public void verifGrille() {
+		List<List<ItemStack>> grilleLigne = new ArrayList<List<ItemStack>>();
+		int j = 0;
+		for (int i = 0; i > 24; i ++) {
+			ArrayList<ItemStack> ligne = new ArrayList<ItemStack>();
+			if (j < 4) {
+				ligne.add(grilleBingo.get(i));
+				j++;
+			} else {
+				grilleLigne.add(ligne);
+				ligne = new ArrayList<ItemStack>();
+				j = 0;
+			}
+		}
+		System.out.println(grilleLigne);
+	}
 
 	public void createGrille() {
 		int compteurItem = 0;
