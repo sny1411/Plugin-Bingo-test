@@ -37,7 +37,7 @@ public class Plugin extends JavaPlugin{
 	private BingoGui bingoGui = new BingoGui(game);
 	public List<BukkitTask> listTask = new ArrayList<BukkitTask>();
 
-	
+
 	@Override
 	public void onEnable() {
 		this.manager = Bukkit.getScoreboardManager();
