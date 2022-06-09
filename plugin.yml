@@ -7,8 +7,6 @@ api-version: 1.18
 commands:
   newGame:
     description: cree une nouvelle partie
-  statsGame:
-    description: affiche les variables du jeux
   bingo:
     description: affiche la grille de bingo
   start:
