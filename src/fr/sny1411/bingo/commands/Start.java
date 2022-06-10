@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
 import org.bukkit.Statistic;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -71,6 +72,9 @@ public class Start implements CommandExecutor {
 		Bukkit.dispatchCommand(console, "fill -20 201 -20 20 203 -20 void_air replace");
 		Bukkit.dispatchCommand(console, "fill 20 201 20 -20 203 20 void_air replace");
 		Bukkit.dispatchCommand(console, "fill 20 201 20 20 203 -20 void_air replace");
+		Bukkit.getWorld("world").setDifficulty(Difficulty.HARD);
+		game.InSetup = false;
+		game.gameLaunch = true;
 	}
 	
 	private void startGame(Player sender) {
@@ -80,8 +84,6 @@ public class Start implements CommandExecutor {
 				player.setStatistic(Statistic.KILL_ENTITY,EntityType.GLOW_SQUID, 0);
 			}
 			game.createGrille();
-			game.InSetup = false;
-			game.gameLaunch = true;
 			List<String> colorStart = new ArrayList<String>(Arrays.asList("§b","§9","§1"));
 			for (int i = 3; i > 0; i--) {
 				for (Player player : Bukkit.getOnlinePlayers()) {

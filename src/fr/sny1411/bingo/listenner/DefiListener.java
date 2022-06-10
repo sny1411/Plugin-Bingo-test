@@ -62,6 +62,18 @@ public class DefiListener implements Listener {
 				}
 			}
 		}
+		String teamPlayer = game.teams.findTeamPlayer(player);
+		if (game.modeJeu.equalsIgnoreCase("Bingo")) {
+			game.verifGrilleBingo(player);
+			int nDefis = game.teams.nbreDefiValid.get(teamPlayer);
+			game.teams.nbreDefiValid.put(teamPlayer, nDefis+1);
+		} else {
+			int nDefis = game.teams.nbreDefiValid.get(teamPlayer);
+			game.teams.nbreDefiValid.put(teamPlayer, nDefis+1);
+			if ((nDefis+1) == 25) {
+				game.finDuJeu();
+			}
+		}
 	}
 	
 	@EventHandler
@@ -1349,6 +1361,13 @@ public class DefiListener implements Listener {
 		    	}
 		    }
 			game.bingoGui.openGui(p, game.teams.findTeamPlayer(p));
+			if (game.modeVictoire.equalsIgnoreCase("Bingo")) {
+				game.verifGrilleBingo(p);
+			} else {
+				if (game.teams.nbreDefiValid.get(teamPLayer) == 25) {
+					// mettre fonction pour la fin du jeu
+				}
+			}
 			e.setCancelled(true);
 	    }
 	}

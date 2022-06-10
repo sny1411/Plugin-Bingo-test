@@ -11,3 +11,5 @@ commands:
     description: affiche la grille de bingo
   start:
     description: demarre une partie
+  stopGame:
+    description: stop la game

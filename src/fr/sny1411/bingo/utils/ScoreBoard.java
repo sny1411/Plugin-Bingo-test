@@ -36,10 +36,10 @@ public class ScoreBoard {
 					Score score = objective.getScore("  Equipes §7: §e" + game.teams.nombreTeams);
 					score.setScore(6);   
 					if (game.modeVictoire.equalsIgnoreCase("Bingo")) {         
-			            Score score1 = objective.getScore("  Bingos §7: §e" + 1); // nombres de bingo
+			            Score score1 = objective.getScore("  Bingos §7: §e" + game.teams.nbreBingoValid.get(game.teams.findTeamPlayer(player)));
 			            score1.setScore(5);
 					} else {  
-			            Score score1 = objective.getScore("  Défis §7: §e" + game.teams.nbreDefiValid);
+			            Score score1 = objective.getScore("  Défis §7: §e" + game.teams.nbreDefiValid.get(game.teams.findTeamPlayer(player)));
 			            score1.setScore(5);
 					}      
 		            Score score2 = objective.getScore("  Mode §7: §e" + game.modeJeu);

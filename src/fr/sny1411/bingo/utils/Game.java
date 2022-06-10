@@ -25,7 +25,7 @@ public class Game {
 	public String modeJeu = "Classic";
 	public String eventDefiBonus = "Off";
 	public String modeVictoire = "Bingo";
-	public int nombreBingos = 1;
+	public int nombreBingos = 3;
 	public boolean InSetup = false;
 	public boolean gameLaunch = false;
 	public boolean DamagePlayer = true;
@@ -57,22 +57,60 @@ public class Game {
 	public void setClassBingoGui(BingoGui bingoGui) {
 		this.bingoGui = bingoGui;
 	}
-	
-	public void verifGrille() {
+		
+	public void verifGrilleBingo(Player player) {
 		List<List<ItemStack>> grilleLigne = new ArrayList<List<ItemStack>>();
-		int j = 0;
-		for (int i = 0; i > 24; i ++) {
-			ArrayList<ItemStack> ligne = new ArrayList<ItemStack>();
-			if (j < 4) {
-				ligne.add(grilleBingo.get(i));
-				j++;
-			} else {
+		List<ItemStack> ligne = new ArrayList<ItemStack>();
+		for (int i = 0; i < 25; i++) {
+			ligne.add(grilleBingo.get(i));
+			if (((i+1) % 5) == 0) {
 				grilleLigne.add(ligne);
 				ligne = new ArrayList<ItemStack>();
-				j = 0;
+			}	
+		}
+		String teamPlayer = teams.findTeamPlayer(player);
+		int nbBingo = 0;
+		for (List<ItemStack> items : grilleLigne) {
+			int nbValid = 0;
+			for (ItemStack item : items) {
+				if (teams.defiValid.get(teamPlayer).get(item.getItemMeta().getDisplayName())) {
+					nbValid++;
+				}
+			}
+			if (nbValid == 5) {
+				nbBingo++;
 			}
 		}
-		System.out.println(grilleLigne);
+		for (int i = 0; i < 5; i++) {
+			int nbValid = 0;
+			for (int j = 0; j < 5; j++) {
+				ItemStack item = grilleLigne.get(j).get(i);
+				if (teams.defiValid.get(teamPlayer).get(item.getItemMeta().getDisplayName())) {
+					nbValid++;
+				}
+			}
+			if (nbValid == 5) {
+				nbBingo++;
+			}
+		}
+		if (nbBingo == nombreBingos) {
+			finDuJeu();
+		}
+		teams.nbreDefiValid.put(teamPlayer, nbBingo);
+	}
+	
+	public void finDuJeu() {
+		timer.timerRun = false;
+		Bukkit.dispatchCommand(console, "fill -20 200 -20 20 200 20 white_stained_glass replace");
+		Bukkit.dispatchCommand(console, "fill -19 200 -19 19 200 19 barrier replace");
+		Bukkit.dispatchCommand(console, "fill -20 201 -20 -20 203 20 cyan_stained_glass_pane replace");
+		Bukkit.dispatchCommand(console, "fill -20 201 -20 20 203 -20 cyan_stained_glass_pane replace");
+		Bukkit.dispatchCommand(console, "fill 20 201 20 -20 203 20 cyan_stained_glass_pane replace");
+		Bukkit.dispatchCommand(console, "fill 20 201 20 20 203 -20 cyan_stained_glass_pane replace");
+		Bukkit.dispatchCommand(console, "tp @a 0 204 0");
+		Bukkit.dispatchCommand(console, "clear @a");
+		Bukkit.getWorld("world").setDifficulty(Difficulty.PEACEFUL);
+		
 	}
 
 	public void createGrille() {
@@ -211,7 +249,7 @@ public class Game {
 		this.timeGameHour = 2;
 		this.timeGameMinutes = 0;
 		this.modeVictoire = "Bingo";
-		this.nombreBingos = 1;
+		this.nombreBingos = 3;
 		this.eventDefiBonus = "Off";
 		this.modeJeu = "Classic";
 		this.modeAffichage = "Chill";
