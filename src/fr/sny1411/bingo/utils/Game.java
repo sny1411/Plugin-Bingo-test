@@ -93,10 +93,10 @@ public class Game {
 				nbBingo++;
 			}
 		}
+		teams.nbreBingoValid.put(teamPlayer, nbBingo);
 		if (nbBingo == nombreBingos) {
 			finDuJeu();
 		}
-		teams.nbreDefiValid.put(teamPlayer, nbBingo);
 	}
 	
 	public void finDuJeu() {

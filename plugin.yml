@@ -13,3 +13,5 @@ commands:
     description: demarre une partie
   stopGame:
     description: stop la game
+  result:
+    description: affiche les resultats de la partie

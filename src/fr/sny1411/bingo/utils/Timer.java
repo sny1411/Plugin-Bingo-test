@@ -32,6 +32,7 @@ public class Timer {
 				}
 			}
 		}
+		game.finDuJeu();
 	}
 	public void reset() {
 		this.timerRun = false;
