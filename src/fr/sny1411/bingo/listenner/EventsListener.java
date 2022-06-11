@@ -1,5 +1,7 @@
 package fr.sny1411.bingo.listenner;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -66,9 +68,20 @@ public class EventsListener implements Listener{
 			e.getPlayer().teleport(spawn);
 		} else if (game.gameLaunch) {
 			Player player = e.getPlayer();
-			if (game.teams.findTeamPlayer(player) == "") {
-				game.teams.listSpectator.add(player);
+			for (String nameTeam : game.teams.teamsHash.keySet()) {
+				List<Player> listPlayerTeam = game.teams.teamsHash.get(nameTeam);
+				int i = 0;
+				for (Player playerInTeam : listPlayerTeam) {
+					if (playerInTeam.getName().equalsIgnoreCase(player.getName())) {
+						listPlayerTeam.set(i, player);
+						player.setPlayerListName(game.teams.prefixeColorTeams.get(nameTeam) + player.getName());
+						return;
+					}
+					i++;
+				}
 			}
+			game.teams.listSpectator.add(player);
+			player.setPlayerListName(game.teams.prefixeColorTeams.get("Spectator") + player.getName());
 		}
 		
 	}

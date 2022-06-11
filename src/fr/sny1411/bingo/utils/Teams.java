@@ -23,6 +23,7 @@ public class Teams {
 	public Hashtable<String, Hashtable<String,Boolean>> defiDone = new Hashtable<String, Hashtable<String,Boolean>>(); // liste les defis réalisé (pas validé)
 	public Hashtable<String, Hashtable<String,Boolean>> defiValid = new Hashtable<String, Hashtable<String,Boolean>>(); // liste tout les defis validé dans la grille
 	public Hashtable<String, Integer> nbreDefiValid = new Hashtable<String, Integer>();
+	public Hashtable<String, Integer> nbreBingoValid = new Hashtable<String, Integer>();
 	public List<Player> listSpectator = new ArrayList<Player>();
 	private Game game;
 	
@@ -44,6 +45,7 @@ public class Teams {
 		for (int i = 0; i < nombreTeams; i++) {
 			teamsHash.put(colorTeams.get(i), new ArrayList<Player>());
 			nbreDefiValid.put(colorTeams.get(i), 0);
+			nbreBingoValid.put(colorTeams.get(i), 0);
 			defiDone.put(colorTeams.get(i), new Hashtable<String,Boolean>());
 			defiValid.put(colorTeams.get(i), new Hashtable<String,Boolean>());
 			for (List<String> def : game.defis.defi) {

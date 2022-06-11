@@ -7,7 +7,7 @@ public class Timer {
 	public Integer minutes = 0;
 	public Integer hours = 0;
 	private Game game;
-	private boolean timerRun = false;
+	public boolean timerRun = false;
 	
 	public Timer(Game game) {
 		this.game = game;
@@ -32,6 +32,7 @@ public class Timer {
 				}
 			}
 		}
+		game.finDuJeu();
 	}
 	public void reset() {
 		this.timerRun = false;

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
 import org.bukkit.Statistic;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -71,6 +72,7 @@ public class Start implements CommandExecutor {
 		Bukkit.dispatchCommand(console, "fill -20 201 -20 20 203 -20 void_air replace");
 		Bukkit.dispatchCommand(console, "fill 20 201 20 -20 203 20 void_air replace");
 		Bukkit.dispatchCommand(console, "fill 20 201 20 20 203 -20 void_air replace");
+		Bukkit.getWorld("world").setDifficulty(Difficulty.PEACEFUL);
 	}
 	
 	private void startGame(Player sender) {
