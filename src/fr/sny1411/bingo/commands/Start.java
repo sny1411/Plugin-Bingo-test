@@ -19,12 +19,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import fr.sny1411.bingo.utils.Game;
-import net.md_5.bungee.api.ChatColor;
 
 public class Start implements CommandExecutor {
 	
 	private Game game;
 	private Plugin plugin;
+	private Boolean noTeam = false;
 
 	public Start(Game game, fr.sny1411.bingo.Plugin plugin) {
 		this.game = game;
@@ -33,13 +33,17 @@ public class Start implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		noTeam = false;
 		if (sender instanceof Player) {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				if (game.teams.findTeamPlayer(player) == "") {
-					sender.sendMessage(ChatColor.DARK_RED + "il y a des joueurs qui ne possede pas de teams");
-					Bukkit.broadcastMessage(ChatColor.GOLD + "Veuillez rejoindre une team !");
-					return false;
+					player.sendMessage("§8[§c⚠§8] §fVeuillez rejoindre une équipe");
+					noTeam = true;
 				}
+			}
+			if (noTeam) {
+				sender.sendMessage("§8[§c⚠§8] §fDes joueurs ne possèdent pas d'équipe");
+				return false;
 			}
 			BukkitTask taskStart = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 			    @Override
