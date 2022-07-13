@@ -28,6 +28,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTameEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.entity.PiglinBarterEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
@@ -60,18 +61,6 @@ public class DefiListener implements Listener {
 				if (playerInTeam.isOnline()) {
 					playerInTeam.sendMessage(player.getName() + "à réalisé le défi : " + message);
 				}
-			}
-		}
-		String teamPlayer = game.teams.findTeamPlayer(player);
-		if (game.modeJeu.equalsIgnoreCase("Bingo")) {
-			game.verifGrilleBingo(player);
-			int nDefis = game.teams.nbreDefiValid.get(teamPlayer);
-			game.teams.nbreDefiValid.put(teamPlayer, nDefis+1);
-		} else {
-			int nDefis = game.teams.nbreDefiValid.get(teamPlayer);
-			game.teams.nbreDefiValid.put(teamPlayer, nDefis+1);
-			if ((nDefis+1) == 25) {
-				game.finDuJeu();
 			}
 		}
 	}
@@ -156,14 +145,18 @@ public class DefiListener implements Listener {
 	}
 	
 	@EventHandler
+	private void onPlayerDeath(PlayerDeathEvent e) {
+		if (e.getEntity() instanceof Player) {
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lVa te faire foutre!", Boolean.valueOf(true));
+		}
+	}
+	
+	@EventHandler
 	private void mobKill(EntityDeathEvent e) {
 		if (!game.gameLaunch) return;
 		if (!(e.getEntity().getKiller() instanceof Player)) return;
 		Player killer = e.getEntity().getKiller();
-		if (e.getEntity() instanceof Player) {
-			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lVa te faire foutre!", Boolean.valueOf(true));
-		}
-		else if (e.getEntity().getType().toString().equals("WITCH")) {
+		if (e.getEntity().getType().toString().equals("WITCH")) {
 			game.teams.defiDone.get(this.game.teams.findTeamPlayer(killer)).put("§d§lAurevoir Sabrina !", Boolean.valueOf(true));
 		}
 		else if (e.getEntity().getType().toString().equals("SLIME")) {
@@ -216,7 +209,7 @@ public class DefiListener implements Listener {
 			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lNyan Cat", Boolean.valueOf(true));
 		}
 		else if (e.getEntityType().toString().equals("HORSE")) {
-			Bukkit.broadcastMessage("sdfdsfs");
+			game.teams.defiDone.get(this.game.teams.findTeamPlayer((Player)e.getEntity())).put("§d§lLe cheval c'est trop génial", Boolean.valueOf(true));
 		}
 	}
 	
@@ -579,12 +572,12 @@ public class DefiListener implements Listener {
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lLe cheval c'est trop génial")) {
-		    	if (p.getStatistic(Statistic.ANIMALS_BRED, EntityType.HORSE)>=1){
-		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString());
-		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
-		    		int i = game.teams.nbreDefiValid.get(teamPLayer);
+		    	if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
+					int i = game.teams.nbreDefiValid.get(teamPLayer);
 					game.teams.nbreDefiValid.put(teamPLayer, i + 1);
-		    	}
+				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lBonne nuit les petits")) {
 				if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
@@ -836,14 +829,13 @@ public class DefiListener implements Listener {
 			    }
 			}
 			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lMayo l'abeille")) {
-				for (ItemStack itemInventory : p.getInventory().getContents()) {
-		    		if (itemInventory.getType().equals(Material.HONEY_BLOCK)) {
-		    			setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString()); 
-			    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
-			    		int i = game.teams.nbreDefiValid.get(teamPLayer);
-						game.teams.nbreDefiValid.put(teamPLayer, i + 1);
-		    		}
+		    	if (p.getInventory().containsAtLeast(new ItemStack(Material.HONEY_BLOCK), 1)) {
+		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString()); 
+			    	afficheValid(p, item.getItemMeta().getDisplayName().toString());
+			    	int i = game.teams.nbreDefiValid.get(teamPLayer);
+					game.teams.nbreDefiValid.put(teamPLayer, i + 1);
 		    	}
+	
 			}
 			else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lSous l'océan")) {
 			    if (p.getInventory().containsAtLeast(new ItemStack(Material.TROPICAL_FISH_BUCKET), 1)) {
@@ -990,22 +982,27 @@ public class DefiListener implements Listener {
 				}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lManoir hanté")) {
-		    	Location manoir = p.getWorld().locateNearestStructure(p.getLocation(), StructureType.WOODLAND_MANSION, 30000, false);
-		    	Integer distanceX = Math.abs((int) (p.getLocation().getX() - manoir.getX()));
-		    	Integer distanceY = Math.abs((int) (p.getLocation().getY() - manoir.getY()));
-		    	if ((Math.pow(distanceX, 2) + Math.pow(distanceY, 2)) <= 40) {
-		    		setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString()); 
-		    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
-		    		int i = game.teams.nbreDefiValid.get(teamPLayer);
-					game.teams.nbreDefiValid.put(teamPLayer, i + 1);
-		    	}
-		    }
+                Location manoir = p.getWorld().locateNearestStructure(p.getLocation(), StructureType.WOODLAND_MANSION, 10, false);
+                System.out.println("MANOIR");
+                System.out.println(manoir);
+                if (manoir != null) {
+                    Integer distanceX = (int) (p.getLocation().getX() - manoir.getX());
+                    Integer distanceZ = (int) (p.getLocation().getZ() - manoir.getZ());
+                    System.out.println(Math.sqrt((Math.pow(distanceX, 2) + Math.pow(distanceZ, 2))));
+                    if (Math.sqrt((Math.pow(distanceX, 2) + Math.pow(distanceZ, 2))) <= 80) {
+                        setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString()); 
+                        afficheValid(p, item.getItemMeta().getDisplayName().toString());
+                        int i = game.teams.nbreDefiValid.get(teamPLayer);
+                        game.teams.nbreDefiValid.put(teamPLayer, i + 1);
+                    }
+                }
+            }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPoséidon")) {
 		    	for (ItemStack itemInventory : p.getInventory().getContents()) {
 		    		if (itemInventory.getType().equals(Material.TRIDENT)) {
-		    			setDefiDoneAndValid(p, item.getItemMeta().getDisplayName().toString()); 
-			    		afficheValid(p, item.getItemMeta().getDisplayName().toString());
-			    		int i = game.teams.nbreDefiValid.get(teamPLayer);
+		    			game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+						afficheValid(p, item.getItemMeta().getDisplayName().toString());
+						int i = game.teams.nbreDefiValid.get(teamPLayer);
 						game.teams.nbreDefiValid.put(teamPLayer, i + 1);
 		    		}
 		    	}

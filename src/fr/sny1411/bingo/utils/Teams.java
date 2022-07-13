@@ -22,6 +22,7 @@ public class Teams {
 	// les deux variables suivante prennent en parametre le nom de la team et renvoie la liste des défis de celle-ci
 	public Hashtable<String, Hashtable<String,Boolean>> defiDone = new Hashtable<String, Hashtable<String,Boolean>>(); // liste les defis réalisé (pas validé)
 	public Hashtable<String, Hashtable<String,Boolean>> defiValid = new Hashtable<String, Hashtable<String,Boolean>>(); // liste tout les defis validé dans la grille
+	public Hashtable<String, Boolean> teamCanSpectator = new Hashtable<>();
 	public Hashtable<String, Integer> nbreDefiValid = new Hashtable<String, Integer>();
 	public Hashtable<String, Integer> nbreBingoValid = new Hashtable<String, Integer>();
 	public List<Player> listSpectator = new ArrayList<Player>();
@@ -48,6 +49,7 @@ public class Teams {
 			nbreBingoValid.put(colorTeams.get(i), 0);
 			defiDone.put(colorTeams.get(i), new Hashtable<String,Boolean>());
 			defiValid.put(colorTeams.get(i), new Hashtable<String,Boolean>());
+			teamCanSpectator.put(colorTeams.get(i), false);
 			for (List<String> def : game.defis.defi) {
 				defiDone.get(colorTeams.get(i)).put(def.get(0), false);
 				defiValid.get(colorTeams.get(i)).put(def.get(0), false);

@@ -84,10 +84,9 @@ public class Start implements CommandExecutor {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				player.setStatistic(Statistic.KILL_ENTITY,EntityType.ZOMBIE, 0);
 				player.setStatistic(Statistic.KILL_ENTITY,EntityType.GLOW_SQUID, 0);
+				player.getInventory().clear();
 			}
 			game.createGrille();
-			game.InSetup = false;
-			game.gameLaunch = true;
 			List<String> colorStart = new ArrayList<String>(Arrays.asList("§b","§9","§1"));
 			for (int i = 3; i > 0; i--) {
 				for (Player player : Bukkit.getOnlinePlayers()) {
@@ -99,9 +98,10 @@ public class Start implements CommandExecutor {
 					e.printStackTrace();
 				}
 			}
+			game.InSetup = false;
+			game.gameLaunch = true;
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				player.sendTitle("§1Lezzzgoo !", "", 0, 20, 0);
-				player.getInventory().clear();
 			}
 			BukkitTask taskTimer = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 				

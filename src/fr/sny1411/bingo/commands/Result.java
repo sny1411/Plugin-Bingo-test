@@ -1,5 +1,6 @@
 package fr.sny1411.bingo.commands;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class Result implements CommandExecutor {
 
 	private Game game;
 	private Plugin plugin;
-	public List<Hashtable<String, String>> classement;
+	public List<Hashtable<String, String>> classement = new ArrayList<>();
 	
 	public Result(Game game, Plugin plugin) {
 		this.game = game;
@@ -30,7 +31,7 @@ public class Result implements CommandExecutor {
 			sender.sendMessage("§8[§c⚠§8] §fCommande non exécutable par la console");
 		}
 		if (!game.gameLaunch) {
-			BukkitTask taskStart = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+			BukkitTask taskStart = Bukkit.getScheduler().runTask(plugin, new Runnable() {
 			    @Override
 			    public void run() {
 			       displayResult();
@@ -46,6 +47,9 @@ public class Result implements CommandExecutor {
 	private void displayResult() {
 		positionCalculation();
 		// affiche la fin
+		for (Hashtable<String, String> team : classement) {
+			System.out.println(team);
+		}
 	}
 	
 	private void positionCalculation() {

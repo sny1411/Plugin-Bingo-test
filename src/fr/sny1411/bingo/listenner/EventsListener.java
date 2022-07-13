@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -43,6 +44,13 @@ public class EventsListener implements Listener{
 			e.setCancelled(true);
 		}
 	}
+	
+	@EventHandler
+	public void onBlockPlace(BlockPlaceEvent e) {
+		if (game.InSetup == true) {
+			e.setCancelled(true);
+		}
+ 	} 
 	
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent e) {

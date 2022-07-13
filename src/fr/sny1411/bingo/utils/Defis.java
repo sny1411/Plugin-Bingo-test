@@ -164,7 +164,7 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lTricot","§e§oTondre un mouton violet","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lLe géant de fer","§e§oTuer un golem de fer","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lRecyclage","§e§oFaire de la bone meal depuis un composteur","easy")));
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lBatman","§e§oUtiliser un nametag sur une chauve-souris","medium")));
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lBatman","§e§oRenommer une chauve-souris Batman","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lRemède magique","§e§oAvoir l'effet régenération II","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lArmure étincelante","§e§oPorter une armure full diams","hard")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lJusqu'aux cieux","§e§oPosséder un beacon","extreme")));

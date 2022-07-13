@@ -2,6 +2,7 @@ package fr.sny1411.bingo.utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Hashtable;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -14,8 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.sny1411.bingo.Plugin;
+import fr.sny1411.bingo.commands.Result;
 import fr.sny1411.bingo.listenner.BingoGui;
-import fr.sny1411.bingo.utils.ScoreBoard;
 
 public class Game {
 	public List<ItemStack> grilleBingo = new ArrayList<ItemStack>(); 
@@ -36,6 +37,7 @@ public class Game {
 	public ScoreBoard scoreBoard;
 	public Plugin plugin;
 	public BingoGui bingoGui;
+	public Result result;
 	 
 	public Game(Plugin plugin) {
 		this.plugin = plugin;
@@ -56,6 +58,10 @@ public class Game {
 	
 	public void setClassBingoGui(BingoGui bingoGui) {
 		this.bingoGui = bingoGui;
+	}
+	
+	public void setClassResult(Result result) {
+		this.result = result;
 	}
 		
 	public void verifGrilleBingo(Player player) {
@@ -94,13 +100,57 @@ public class Game {
 			}
 		}
 		teams.nbreBingoValid.put(teamPlayer, nbBingo);
+		System.out.println(Bukkit.getOnlinePlayers());
 		if (nbBingo == nombreBingos) {
-			finDuJeu();
+			teams.teamCanSpectator.put(teamPlayer, true);
+			Hashtable<String, String> teamClassement = new Hashtable<>();
+			teamClassement.put("team", teamPlayer);
+			if (timeGameHour == 0) {
+            	String temps = "";
+            	int seconds = timer.seconds;
+            	int minutes = timer.minutes;
+            	if (minutes < 10) {
+            		temps += ("0" + minutes);
+            	} else {
+            		temps += (minutes);
+            	}
+            	if (seconds < 10) {
+            		temps += (":0" + seconds);
+            	} else {
+            		temps += (":" + seconds);
+            	}
+            	teamClassement.put("time", temps);
+            } else {
+            	String temps = "";
+            	int seconds = timer.seconds;
+            	int minutes = timer.minutes;
+            	if (minutes < 10) {
+            		temps += (":0" + minutes);
+            	} else {
+            		temps += (":" + minutes);
+            	}
+            	if (seconds < 10) {
+            		temps += (":0" + seconds);
+            	} else {
+            		temps += (":" + seconds);
+            	}
+            	teamClassement.put("time", temps);
+            }
+			result.classement.add(teamClassement);
+			for (Player player1 : Bukkit.getOnlinePlayers()) {
+				player1.sendMessage("§7[§eBINGO§7] §fL'équipe " + teams.prefixeColorTeams.get(teamPlayer) + teamPlayer + " §fa fini sa partie");
+				player1.sendMessage("Elle peut continuer de jouer ou devenir spectatrice");
+				if (teams.teamsHash.get(teamPlayer).contains(player1)) {
+					player1.sendMessage("§7§oUtilisez la commande §e§o/spec §7§opour devenir spectateur");
+				}
+			}
 		}
 	}
 	
 	public void finDuJeu() {
 		timer.timerRun = false;
+		this.gameLaunch = false;
+		this.DamagePlayer = false;
 		Bukkit.dispatchCommand(console, "fill -20 200 -20 20 200 20 white_stained_glass replace");
 		Bukkit.dispatchCommand(console, "fill -19 200 -19 19 200 19 barrier replace");
 		Bukkit.dispatchCommand(console, "fill -20 201 -20 -20 203 20 cyan_stained_glass_pane replace");

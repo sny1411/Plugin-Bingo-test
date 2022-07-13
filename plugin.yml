@@ -15,3 +15,5 @@ commands:
     description: stop la game
   result:
     description: affiche les resultats de la partie
+  spec:
+    description: permet au joueur de se mettre en spectateur

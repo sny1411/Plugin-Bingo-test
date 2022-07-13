@@ -12,6 +12,7 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import fr.sny1411.bingo.commands.Bingo;
 import fr.sny1411.bingo.commands.NewGame;
 import fr.sny1411.bingo.commands.Result;
+import fr.sny1411.bingo.commands.Spec;
 import fr.sny1411.bingo.commands.Start;
 import fr.sny1411.bingo.commands.StopGame;
 import fr.sny1411.bingo.listenner.BingoGui;
@@ -37,6 +38,7 @@ public class Plugin extends JavaPlugin{
 	private Timer timer = new Timer(game);
 	private ScoreBoard scoreBoard = new ScoreBoard(game,this);
 	private BingoGui bingoGui = new BingoGui(game);
+	private Result result = new Result(game, this);
 	public List<BukkitTask> listTask = new ArrayList<BukkitTask>();
 
 
@@ -48,11 +50,14 @@ public class Plugin extends JavaPlugin{
 		game.setClassTeams(teams);
 		game.setClassDefis(defis);
 		game.setClassBingoGui(bingoGui);
+		game.setClassResult(result);
+		
 		getCommand("bingo").setExecutor(new Bingo(game));
 		getCommand("newGame").setExecutor(new NewGame(game));
 		getCommand("start").setExecutor(new Start(game,this));
 		getCommand("stopGame").setExecutor(new StopGame(game));
-		getCommand("result").setExecutor(new Result(game,this));
+		getCommand("result").setExecutor(result);
+		getCommand("spec").setExecutor(new Spec(game));;
 		Bukkit.getServer().getPluginManager().registerEvents(new EventsListener(game), this);
 		Bukkit.getServer().getPluginManager().registerEvents(teamsGui, this);
 		Bukkit.getServer().getPluginManager().registerEvents(bingoGui, this);
