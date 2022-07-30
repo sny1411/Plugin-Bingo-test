@@ -41,6 +41,7 @@ import org.bukkit.event.raid.RaidTriggerEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.spigotmc.event.entity.EntityMountEvent;
 
 import fr.sny1411.bingo.utils.Game;
 
@@ -105,6 +106,16 @@ public class DefiListener implements Listener {
 			game.teams.defiDone.get(teamPlayer).put("§d§lJésus des neiges", true);
 	    }
 	}
+	
+	public void rideEvent (EntityMountEvent e) {
+		if (e.getMount().getType().toString().equals("PIG")) {
+			if (e.getMount().getLocation().getBlockY() >= 320) {
+				game.teams.defiDone.get(game.teams.findTeamPlayer((Player) e.getEntity())).put("§d§lRedBull donne des ailes", true);
+			}
+		}
+	}
+	
+	
 	@EventHandler
 	private void cauldronExtinguish(CauldronLevelChangeEvent e) {
 		if (!game.gameLaunch) return;
@@ -998,13 +1009,15 @@ public class DefiListener implements Listener {
                 }
             }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPoséidon")) {
-		    	for (ItemStack itemInventory : p.getInventory().getContents()) {
-		    		if (itemInventory.getType().equals(Material.TRIDENT)) {
-		    			game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
-						afficheValid(p, item.getItemMeta().getDisplayName().toString());
-						int i = game.teams.nbreDefiValid.get(teamPLayer);
-						game.teams.nbreDefiValid.put(teamPLayer, i + 1);
-		    		}
+		    	if (p.getInventory().getContents() != null) {
+			    	for (ItemStack itemInventory : p.getInventory().getContents()) {
+			    		if (itemInventory.getType().equals(Material.TRIDENT)) {
+			    			game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+							afficheValid(p, item.getItemMeta().getDisplayName().toString());
+							int i = game.teams.nbreDefiValid.get(teamPLayer);
+							game.teams.nbreDefiValid.put(teamPLayer, i + 1);
+			    		}
+			    	}
 		    	}
 		    }
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lNous sommes en guerre")) {
@@ -1356,13 +1369,15 @@ public class DefiListener implements Listener {
 		    		int i = game.teams.nbreDefiValid.get(teamPLayer);
 					game.teams.nbreDefiValid.put(teamPLayer, i + 1);
 		    	}
+		    } else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRedBull donne des ailes")) {
+		    	
 		    }
 			game.bingoGui.openGui(p, game.teams.findTeamPlayer(p));
 			if (game.modeVictoire.equalsIgnoreCase("Bingo")) {
 				game.verifGrilleBingo(p);
 			} else {
 				if (game.teams.nbreDefiValid.get(teamPLayer) == 25) {
-					// mettre fonction pour la fin du jeu
+					game.teams.teamCanSpectator.put(teamPLayer, true);
 				}
 			}
 			e.setCancelled(true);

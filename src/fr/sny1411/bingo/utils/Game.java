@@ -65,6 +65,8 @@ public class Game {
 	}
 		
 	public void verifGrilleBingo(Player player) {
+		String teamPlayer = teams.findTeamPlayer(player);
+		if (teams.teamCanSpectator.get(teamPlayer)) return;
 		List<List<ItemStack>> grilleLigne = new ArrayList<List<ItemStack>>();
 		List<ItemStack> ligne = new ArrayList<ItemStack>();
 		for (int i = 0; i < 25; i++) {
@@ -74,7 +76,7 @@ public class Game {
 				ligne = new ArrayList<ItemStack>();
 			}	
 		}
-		String teamPlayer = teams.findTeamPlayer(player);
+		
 		int nbBingo = 0;
 		for (List<ItemStack> items : grilleLigne) {
 			int nbValid = 0;
@@ -101,7 +103,7 @@ public class Game {
 		}
 		teams.nbreBingoValid.put(teamPlayer, nbBingo);
 		System.out.println(Bukkit.getOnlinePlayers());
-		if (nbBingo == nombreBingos) {
+		if (nbBingo == nombreBingos || teams.nbreDefiValid.get(teamPlayer) == 25) {
 			teams.teamCanSpectator.put(teamPlayer, true);
 			Hashtable<String, String> teamClassement = new Hashtable<>();
 			teamClassement.put("team", teamPlayer);

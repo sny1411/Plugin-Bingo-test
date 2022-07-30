@@ -125,7 +125,7 @@ public class Start implements CommandExecutor {
 				e.printStackTrace();
 			}
 			game.DamagePlayer = true;
-			Bukkit.broadcastMessage("Les dégats des joueurs sont activé !");
+			Bukkit.broadcastMessage("§7[§eBINGO§7] §fLes dégats des joueurs sont §lactivés§r !");
 		} else {
 			sender.sendMessage("Crée une nouvelle partie avant ! (/newGame)");
 		}

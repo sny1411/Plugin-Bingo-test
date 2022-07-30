@@ -183,6 +183,7 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lMonster Hunter","§e§oCasser un spawner","medium")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lDoctor Strange","§e§oGuérir un zombie villageois","hard")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lAffamé","§e§oAvoir l'effet hunger","easy")));	
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lRedBull donne des ailes","§e§oMonter sur un cochon à la hauteur maximale","medium")));	
 		
 		for (List<String> def : defi) {
 			if (def.get(2) == "easy") {
@@ -339,6 +340,7 @@ public class Defis {
 		grilleDisplay.put(defi.get(102), new ItemStack(Material.SPAWNER));
 		grilleDisplay.put(defi.get(103), new ItemStack(Material.ROTTEN_FLESH));
 		grilleDisplay.put(defi.get(104), new ItemStack(Material.SPIDER_EYE));
+		grilleDisplay.put(defi.get(105), new ItemStack(Material.CARROT_ON_A_STICK));
 		melangeDefis();
 	}
 	
