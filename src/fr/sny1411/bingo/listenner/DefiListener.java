@@ -981,7 +981,7 @@ public class DefiListener implements Listener {
 					game.teams.nbreDefiValid.put(teamPLayer, i + 1);
 				}
 		    }
-		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lManoir hanté")) {
+		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lManoir hanté")) { // DESACTIVER (PROBLEME AVEC LOCATE)
                 Location manoir = p.getWorld().locateNearestStructure(p.getLocation(), StructureType.WOODLAND_MANSION, 10, false);
                 System.out.println("MANOIR");
                 System.out.println(manoir);

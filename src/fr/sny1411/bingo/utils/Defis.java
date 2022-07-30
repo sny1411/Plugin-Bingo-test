@@ -140,7 +140,11 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lDans le mille","§e§oTirer une flèche dans le centre d'un target block à plus de 30 blocks","easy")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lCoup de foudre","§e§oSe faire frapper par la foudre","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lPirate des Caraïbes","§e§oFaire monter et descendre un perroquet de son épaule","medium")));
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lManoir hanté","§e§oTrouver un manoir","hard")));
+		//defi.add(new ArrayList<String>(Arrays.asList("§d§lManoir hanté","§e§oTrouver un manoir","hard")));
+		/* 
+		 * 			DESACTIVER CAR PROBLEME LOCATE (RETURN NULL)
+		 * */
+		
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lPoséidon","§e§oPosséder un trident","hard")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lNous sommes en guerre","§e§oDémarrer un raid dans un village","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lLibérée, Délivrée","§e§oPoser puis casser une chaîne dans un biome Ice Spikes","medium")));
@@ -273,19 +277,23 @@ public class Defis {
 		grilleDisplay.put(defi.get(65), new ItemStack(Material.LIGHTNING_ROD));
 		ItemStack parrot = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmM2NDcxZjIzNTQ3YjJkYmRmNjAzNDdlYTEyOGY4ZWIyYmFhNmE3OWIwNDAxNzI0ZjIzYmQ0ZTI1NjRhMmI2MSJ9fX0=");
 		grilleDisplay.put(defi.get(66), parrot);
-		grilleDisplay.put(defi.get(67), new ItemStack(Material.DARK_OAK_PLANKS));
-		grilleDisplay.put(defi.get(68), new ItemStack(Material.TRIDENT));
+		//grilleDisplay.put(defi.get(67), new ItemStack(Material.DARK_OAK_PLANKS));
+		/* 
+		 * 			DESACTIVER CAR PROBLEME LOCATE (RETURN NULL)
+		 *  		NBRE DECALER DE -1 APRES 
+		 * */
+		grilleDisplay.put(defi.get(67), new ItemStack(Material.TRIDENT));
 		ItemStack pillager = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmUzOWI0NmY4MWZkNmUxMjYxZTE0ODU4OGNkOWEzOWYxZjA5OWQzMDA1YTExODljN2JmN2IzZjc4MGNkMGU3NyJ9fX0=");
-		grilleDisplay.put(defi.get(69), pillager);
-		grilleDisplay.put(defi.get(70), new ItemStack(Material.CHAIN));
-		grilleDisplay.put(defi.get(71), new ItemStack(Material.SNOWBALL));
-		grilleDisplay.put(defi.get(72), new ItemStack(Material.CANDLE));
-		grilleDisplay.put(defi.get(73), new ItemStack(Material.LEATHER_BOOTS));
-		grilleDisplay.put(defi.get(74), new ItemStack(Material.RESPAWN_ANCHOR));
+		grilleDisplay.put(defi.get(68), pillager);
+		grilleDisplay.put(defi.get(69), new ItemStack(Material.CHAIN));
+		grilleDisplay.put(defi.get(70), new ItemStack(Material.SNOWBALL));
+		grilleDisplay.put(defi.get(71), new ItemStack(Material.CANDLE));
+		grilleDisplay.put(defi.get(72), new ItemStack(Material.LEATHER_BOOTS));
+		grilleDisplay.put(defi.get(73), new ItemStack(Material.RESPAWN_ANCHOR));
 		ItemStack piglin = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTBiYzlkYmI0NDA0YjgwMGY4Y2YwMjU2MjIwZmY3NGIwYjcxZGJhOGI2NjYwMGI2NzM0ZjRkNjMzNjE2MThmNSJ9fX0=");
-		grilleDisplay.put(defi.get(75), piglin);
-		grilleDisplay.put(defi.get(76), new ItemStack(Material.DRAGON_HEAD));
-		grilleDisplay.put(defi.get(77), new ItemStack(Material.CAULDRON));
+		grilleDisplay.put(defi.get(74), piglin);
+		grilleDisplay.put(defi.get(75), new ItemStack(Material.DRAGON_HEAD));
+		grilleDisplay.put(defi.get(76), new ItemStack(Material.CAULDRON));
 		ItemStack shield = new ItemStack(Material.SHIELD);
 		BlockStateMeta blockStateMeta = (BlockStateMeta) shield.getItemMeta();
 		Banner banner = (Banner) blockStateMeta.getBlockState();
@@ -294,43 +302,43 @@ public class Defis {
 		banner.update();
 		blockStateMeta.setBlockState(banner);
 		shield.setItemMeta(blockStateMeta);
-		grilleDisplay.put(defi.get(78), shield);
+		grilleDisplay.put(defi.get(77), shield);
 		ItemStack ghast = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGI2YTcyMTM4ZDY5ZmJiZDJmZWEzZmEyNTFjYWJkODcxNTJlNGYxYzk3ZTVmOTg2YmY2ODU1NzFkYjNjYzAifX19");
-		grilleDisplay.put(defi.get(79), ghast);
-		grilleDisplay.put(defi.get(80), new ItemStack(Material.BROWN_MUSHROOM));
-		grilleDisplay.put(defi.get(81), new ItemStack(Material.DAYLIGHT_DETECTOR));
-		grilleDisplay.put(defi.get(82), new ItemStack(Material.GOLDEN_HELMET));
-		grilleDisplay.put(defi.get(83), new ItemStack(Material.SHULKER_BOX));
-		grilleDisplay.put(defi.get(84), new ItemStack(Material.EXPERIENCE_BOTTLE));
-		grilleDisplay.put(defi.get(85), new ItemStack(Material.TURTLE_EGG));
-		grilleDisplay.put(defi.get(86), new ItemStack(Material.EMERALD));
+		grilleDisplay.put(defi.get(78), ghast);
+		grilleDisplay.put(defi.get(79), new ItemStack(Material.BROWN_MUSHROOM));
+		grilleDisplay.put(defi.get(80), new ItemStack(Material.DAYLIGHT_DETECTOR));
+		grilleDisplay.put(defi.get(81), new ItemStack(Material.GOLDEN_HELMET));
+		grilleDisplay.put(defi.get(82), new ItemStack(Material.SHULKER_BOX));
+		grilleDisplay.put(defi.get(83), new ItemStack(Material.EXPERIENCE_BOTTLE));
+		grilleDisplay.put(defi.get(84), new ItemStack(Material.TURTLE_EGG));
+		grilleDisplay.put(defi.get(85), new ItemStack(Material.EMERALD));
 		ItemStack elderGuardian = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWM3OTc0ODJhMTRiZmNiODc3MjU3Y2IyY2ZmMWI2ZTZhOGI4NDEzMzM2ZmZiNGMyOWE2MTM5Mjc4YjQzNmIifX19");
-		grilleDisplay.put(defi.get(87), elderGuardian);
-		grilleDisplay.put(defi.get(88), new ItemStack(Material.PURPLE_WOOL));
+		grilleDisplay.put(defi.get(86), elderGuardian);
+		grilleDisplay.put(defi.get(87), new ItemStack(Material.PURPLE_WOOL));
 		ItemStack ironGolem = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODkwOTFkNzllYTBmNTllZjdlZjk0ZDdiYmE2ZTVmMTdmMmY3ZDQ1NzJjNDRmOTBmNzZjNDgxOWE3MTQifX19");
-		grilleDisplay.put(defi.get(89), ironGolem);
-		grilleDisplay.put(defi.get(90), new ItemStack(Material.COMPOSTER));
-		grilleDisplay.put(defi.get(91), new ItemStack(Material.NAME_TAG));
+		grilleDisplay.put(defi.get(88), ironGolem);
+		grilleDisplay.put(defi.get(89), new ItemStack(Material.COMPOSTER));
+		grilleDisplay.put(defi.get(90), new ItemStack(Material.NAME_TAG));
 		ItemStack regen = new ItemStack(Material.POTION);
 		PotionMeta regenMeta = (PotionMeta)regen.getItemMeta();;
 		regenMeta.setBasePotionData(new PotionData(PotionType.REGEN,false,true));
 		regen.setItemMeta(regenMeta);
-		grilleDisplay.put(defi.get(92), regen);
-		grilleDisplay.put(defi.get(93), new ItemStack(Material.DIAMOND_CHESTPLATE));
-		grilleDisplay.put(defi.get(94), new ItemStack(Material.BEACON));
-		grilleDisplay.put(defi.get(95), new ItemStack(Material.RAIL));
-		grilleDisplay.put(defi.get(96), new ItemStack(Material.FIREWORK_ROCKET));
-		grilleDisplay.put(defi.get(97), new ItemStack(Material.RABBIT_FOOT));
+		grilleDisplay.put(defi.get(91), regen);
+		grilleDisplay.put(defi.get(92), new ItemStack(Material.DIAMOND_CHESTPLATE));
+		grilleDisplay.put(defi.get(93), new ItemStack(Material.BEACON));
+		grilleDisplay.put(defi.get(94), new ItemStack(Material.RAIL));
+		grilleDisplay.put(defi.get(95), new ItemStack(Material.FIREWORK_ROCKET));
+		grilleDisplay.put(defi.get(96), new ItemStack(Material.RABBIT_FOOT));
 		ItemStack silverfish = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGE5MWRhYjgzOTFhZjVmZGE1NGFjZDJjMGIxOGZiZDgxOWI4NjVlMWE4ZjFkNjIzODEzZmE3NjFlOTI0NTQwIn19fQ==");
-		grilleDisplay.put(defi.get(98), silverfish);
-		grilleDisplay.put(defi.get(99), new ItemStack(Material.ENCHANTED_BOOK));
-		grilleDisplay.put(defi.get(100), new ItemStack(Material.COOKIE));
-		grilleDisplay.put(defi.get(101), new ItemStack(Material.SALMON));
+		grilleDisplay.put(defi.get(97), silverfish);
+		grilleDisplay.put(defi.get(98), new ItemStack(Material.ENCHANTED_BOOK));
+		grilleDisplay.put(defi.get(99), new ItemStack(Material.COOKIE));
+		grilleDisplay.put(defi.get(100), new ItemStack(Material.SALMON));
 		ItemStack enderman = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2E1OWJiMGE3YTMyOTY1YjNkOTBkOGVhZmE4OTlkMTgzNWY0MjQ1MDllYWRkNGU2YjcwOWFkYTUwYjljZiJ9fX0=");
-		grilleDisplay.put(defi.get(102), enderman);
-		grilleDisplay.put(defi.get(103), new ItemStack(Material.SPAWNER));
-		grilleDisplay.put(defi.get(104), new ItemStack(Material.ROTTEN_FLESH));
-		grilleDisplay.put(defi.get(105), new ItemStack(Material.SPIDER_EYE));
+		grilleDisplay.put(defi.get(101), enderman);
+		grilleDisplay.put(defi.get(102), new ItemStack(Material.SPAWNER));
+		grilleDisplay.put(defi.get(103), new ItemStack(Material.ROTTEN_FLESH));
+		grilleDisplay.put(defi.get(104), new ItemStack(Material.SPIDER_EYE));
 		melangeDefis();
 	}
 	
