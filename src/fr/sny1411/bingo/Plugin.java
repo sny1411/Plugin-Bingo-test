@@ -31,7 +31,6 @@ import fr.sny1411.bingo.utils.Timer;
 public class Plugin extends JavaPlugin{
 	public ScoreboardManager manager = Bukkit.getScoreboardManager(); 
 	private Game game = new Game(this);
-	BingoGui grille = new BingoGui(game);
 	private TeamsGui teamsGui = new TeamsGui(game);
 	private Defis defis = new Defis();
 	private Teams teams = new Teams(teamsGui,game);
@@ -53,7 +52,7 @@ public class Plugin extends JavaPlugin{
 		game.setClassBingoGui(bingoGui);
 		game.setClassResult(result);
 		
-		getCommand("bingo").setExecutor(new Bingo(game,grille));
+		getCommand("bingo").setExecutor(new Bingo(game,bingoGui));
 		getCommand("newGame").setExecutor(new NewGame(game));
 		getCommand("start").setExecutor(new Start(game,this));
 		getCommand("stopGame").setExecutor(new StopGame(game));
