@@ -26,6 +26,7 @@ public class Teams {
 	public Hashtable<String, Integer> nbreDefiValid = new Hashtable<String, Integer>();
 	public Hashtable<String, Integer> nbreBingoValid = new Hashtable<String, Integer>();
 	public List<Player> listSpectator = new ArrayList<Player>();
+	public Hashtable<String, List<Player>> playersOnBingoGui = new Hashtable<>();
 	private Game game;
 	
 	public Teams(TeamsGui teamsGui2, Game game) {
@@ -44,6 +45,7 @@ public class Teams {
 		prefixeColorTeams.put("Spectator","§8[SPEC] §7§o");
 
 		for (int i = 0; i < nombreTeams; i++) {
+			playersOnBingoGui.put(colorTeams.get(i), new ArrayList<>());
 			teamsHash.put(colorTeams.get(i), new ArrayList<Player>());
 			nbreDefiValid.put(colorTeams.get(i), 0);
 			nbreBingoValid.put(colorTeams.get(i), 0);

@@ -39,7 +39,11 @@ public class BingoGui implements Listener {
     			ItemMeta itemTeamMeta = itemTeam.getItemMeta();
     			itemTeamMeta.setDisplayName(nameTeams.get(i));
     			ArrayList<String> loreTeams = new ArrayList<String>();
-    			loreTeams.add("§9Défi(s) réalisé(s): §f" + game.teams.nbreDefiValid.get(game.teams.colorTeams.get(i)).toString());
+    			if (game.modeAffichage.equalsIgnoreCase("Chill")) {
+    				loreTeams.add("§9Défi(s) réalisé(s): §f" + game.teams.nbreDefiValid.get(game.teams.colorTeams.get(i)).toString());
+    			} else {
+    				loreTeams.add("§9Défi(s) réalisé(s): §f§k!!");
+    			}
     			for (int j = 0; j < game.teams.nombreJoueursParTeams; j++) {
     				if (j < game.teams.teamsHash.get(game.teams.colorTeams.get(i)).size()) {
 						loreTeams.add("§7§o- " + game.teams.teamsHash.get(game.teams.colorTeams.get(i)).get(j).getDisplayName());
@@ -99,6 +103,7 @@ public class BingoGui implements Listener {
     		index++;
     	}
     	p.openInventory(inv);
+    	game.teams.playersOnBingoGui.get(game.teams.findTeamPlayer(p)).add(p);
     }
 }
 

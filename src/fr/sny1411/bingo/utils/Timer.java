@@ -2,6 +2,8 @@ package fr.sny1411.bingo.utils;
 
 import java.util.concurrent.TimeUnit;
 
+import org.bukkit.Bukkit;
+
 public class Timer {
 	public Integer seconds = 0;
 	public Integer minutes = 0;
@@ -30,6 +32,23 @@ public class Timer {
 					minutes = 0;
 					hours++;
 				}
+			}
+			if (game.timeGameHour == (hours - 1) && game.timeGameMinutes == (minutes + 50) && seconds == 0) {
+				Bukkit.broadcastMessage("§7[§eBINGO§7] §f10 minutes restantes");
+			} else if (game.timeGameHour == (hours - 1) && game.timeGameMinutes == (minutes + 55) && seconds == 0) {
+				Bukkit.broadcastMessage("§7[§eBINGO§7] §f5 minutes restantes");
+			} else if (game.timeGameHour == (hours - 1) && game.timeGameMinutes == (minutes + 59) && seconds == 0) {
+				Bukkit.broadcastMessage("§7[§eBINGO§7] §f1 minute restante");
+			} else if (game.timeGameHour == (hours - 1) && game.timeGameMinutes == (minutes + 59) && seconds == 30) {
+				Bukkit.broadcastMessage("§7[§eBINGO§7] §f30 secondes restantes");
+			} else if (game.timeGameHour == (hours - 1) && game.timeGameMinutes == (minutes + 59) && seconds == 50) {
+				Bukkit.broadcastMessage("§7[§eBINGO§7] §f10 secondes restantes");
+			} else if (game.timeGameHour == (hours - 1) && game.timeGameMinutes == (minutes + 59) && seconds == 57) {
+				Bukkit.broadcastMessage("§7[§eBINGO§7] §f3 secondes restantes");
+			} else if (game.timeGameHour == (hours - 1) && game.timeGameMinutes == (minutes + 59) && seconds == 57) {
+				Bukkit.broadcastMessage("§7[§eBINGO§7] §f2 secondes restantes");
+			} else if (game.timeGameHour == (hours - 1) && game.timeGameMinutes == (minutes + 59) && seconds == 57) {
+				Bukkit.broadcastMessage("§7[§eBINGO§7] §f1 seconde restante");
 			}
 		}
 		game.finDuJeu();

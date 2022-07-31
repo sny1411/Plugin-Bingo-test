@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -38,9 +39,13 @@ public class Game {
 	public Plugin plugin;
 	public BingoGui bingoGui;
 	public Result result;
+	public EventDefisBonus eventDefisBonus;
 	 
 	public Game(Plugin plugin) {
 		this.plugin = plugin;
+	}
+	public void setClassEventDefisBonus(EventDefisBonus eventDefisBonus) {
+		this.eventDefisBonus = eventDefisBonus;
 	}
 	public void setClassScoreBoard(ScoreBoard scoreBoard) {
 		this.scoreBoard = scoreBoard;
@@ -153,6 +158,9 @@ public class Game {
 		timer.timerRun = false;
 		this.gameLaunch = false;
 		this.DamagePlayer = false;
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			player.setGameMode(GameMode.SURVIVAL);
+		}
 		Bukkit.dispatchCommand(console, "fill -20 200 -20 20 200 20 white_stained_glass replace");
 		Bukkit.dispatchCommand(console, "fill -19 200 -19 19 200 19 barrier replace");
 		Bukkit.dispatchCommand(console, "fill -20 201 -20 -20 203 20 cyan_stained_glass_pane replace");
@@ -317,4 +325,5 @@ public class Game {
 		this.InSetup = false; 
 		this.DamagePlayer = true;
 	}
+	
 }

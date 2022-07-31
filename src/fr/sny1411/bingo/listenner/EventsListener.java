@@ -3,7 +3,9 @@ package fr.sny1411.bingo.listenner;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,7 +30,9 @@ public class EventsListener implements Listener{
 	@EventHandler
 	public void damageEvent(EntityDamageEvent e) {
 		if (game.DamagePlayer == false) {
-			e.setCancelled(true);
+			if (e.getEntity().getType().toString().equalsIgnoreCase("PLAYER")) {
+				e.setCancelled(true);
+			}
 		}
 	}
 	
@@ -48,14 +52,14 @@ public class EventsListener implements Listener{
 	
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent e) {
-		if (game.InSetup == true) {
+		if (game.InSetup == true || game.gameLaunch == false) {
 			e.setCancelled(true);
 		}
  	} 
 	
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
-		if (game.InSetup) {
+		if (game.InSetup || game.gameLaunch == false) {
 			e.setCancelled(true);
 		}
 	}
@@ -98,6 +102,7 @@ public class EventsListener implements Listener{
 			}
 			game.teams.listSpectator.add(player);
 			player.setPlayerListName(game.teams.prefixeColorTeams.get("Spectator") + player.getName());
+			player.setGameMode(GameMode.SPECTATOR);
 		}
 		
 	}
@@ -108,6 +113,8 @@ public class EventsListener implements Listener{
 			if (e.getView().getTitle().equalsIgnoreCase("§3§lSélection des équipes")) {
 				game.teams.playerInGui.remove(e.getPlayer());
 			}
+		} else {
+			game.teams.playersOnBingoGui.get(game.teams.findTeamPlayer((Player) e.getPlayer())).remove(e.getPlayer());
 		}
 	}
 	

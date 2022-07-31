@@ -54,13 +54,14 @@ public class DefiListener implements Listener {
 	}
 	
 	private void afficheValid(Player player,String message) {
+		message = message.substring(4);
 		if (game.modeAffichage == "Chill") {
-			Bukkit.broadcastMessage(player.getName() + "à réalisé le défi : " + message);
+			Bukkit.broadcastMessage("§7[§eBINGO§7] §f§l" + game.teams.prefixeColorTeams.get(game.teams.findTeamPlayer(player)) + player.getDisplayName() + "§r a réalisé le défi §e§l" + message);
 		} else {
 			String teamPlayer = game.teams.findTeamPlayer(player);
 			for (Player playerInTeam : game.teams.teamsHash.get(teamPlayer)) {
 				if (playerInTeam.isOnline()) {
-					playerInTeam.sendMessage(player.getName() + "à réalisé le défi : " + message);
+					playerInTeam.sendMessage("§7[§eBINGO§7] §f§l" + game.teams.prefixeColorTeams.get(game.teams.findTeamPlayer(player)) + player.getDisplayName() + "§r a réalisé le défi §e§l" + message);
 				}
 			}
 		}
@@ -107,9 +108,12 @@ public class DefiListener implements Listener {
 	    }
 	}
 	
+	@EventHandler
 	public void rideEvent (EntityMountEvent e) {
 		if (e.getMount().getType().toString().equals("PIG")) {
+			System.out.println("pig");
 			if (e.getMount().getLocation().getBlockY() >= 320) {
+				System.out.println("haut");
 				game.teams.defiDone.get(game.teams.findTeamPlayer((Player) e.getEntity())).put("§d§lRedBull donne des ailes", true);
 			}
 		}
@@ -1379,7 +1383,12 @@ public class DefiListener implements Listener {
 					game.teams.nbreDefiValid.put(teamPLayer, i + 1);
 				}
 		    }
-			game.bingoGui.openGui(p, game.teams.findTeamPlayer(p));
+			
+			game.bingoGui.openGui(p, teamPLayer);
+			for (Player playerGui : game.teams.playersOnBingoGui.get(teamPLayer)) {
+				game.bingoGui.openGui(playerGui, teamPLayer);
+				System.out.println(playerGui.getName() + " : " + teamPLayer);
+			}
 			if (game.modeVictoire.equalsIgnoreCase("Bingo")) {
 				game.verifGrilleBingo(p);
 			} else {

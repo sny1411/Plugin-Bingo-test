@@ -10,17 +10,22 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import fr.sny1411.bingo.commands.Bingo;
+import fr.sny1411.bingo.commands.Info;
 import fr.sny1411.bingo.commands.NewGame;
 import fr.sny1411.bingo.commands.Result;
 import fr.sny1411.bingo.commands.Spec;
 import fr.sny1411.bingo.commands.Start;
 import fr.sny1411.bingo.commands.StopGame;
+import fr.sny1411.bingo.commands.TestPack;
+import fr.sny1411.bingo.commands.Valid;
+import fr.sny1411.bingo.commands.tabCompleter.ValidTabCompleter;
 import fr.sny1411.bingo.listenner.BingoGui;
 import fr.sny1411.bingo.listenner.DefiListener;
 import fr.sny1411.bingo.listenner.EventsListener;
 import fr.sny1411.bingo.listenner.SettingsGui;
 import fr.sny1411.bingo.listenner.TeamsGui;
 import fr.sny1411.bingo.utils.Defis;
+import fr.sny1411.bingo.utils.EventDefisBonus;
 import fr.sny1411.bingo.utils.Game;
 import fr.sny1411.bingo.utils.ScoreBoard;
 import fr.sny1411.bingo.utils.Teams;
@@ -39,6 +44,7 @@ public class Plugin extends JavaPlugin{
 	private ScoreBoard scoreBoard = new ScoreBoard(game,this);
 	private BingoGui bingoGui = new BingoGui(game);
 	private Result result = new Result(game, this);
+	private EventDefisBonus eventDefisBonus = new EventDefisBonus();
 	public List<BukkitTask> listTask = new ArrayList<BukkitTask>();
 
 
@@ -51,6 +57,7 @@ public class Plugin extends JavaPlugin{
 		game.setClassDefis(defis);
 		game.setClassBingoGui(bingoGui);
 		game.setClassResult(result);
+		game.setClassEventDefisBonus(eventDefisBonus);
 		
 		getCommand("bingo").setExecutor(new Bingo(game,bingoGui));
 		getCommand("newGame").setExecutor(new NewGame(game));
@@ -58,6 +65,10 @@ public class Plugin extends JavaPlugin{
 		getCommand("stopGame").setExecutor(new StopGame(game));
 		getCommand("result").setExecutor(result);
 		getCommand("spec").setExecutor(new Spec(game));;
+		getCommand("info").setExecutor(new Info(game));
+		getCommand("valid").setExecutor(new Valid(game));
+		getCommand("valid").setTabCompleter(new ValidTabCompleter(game));
+		getCommand("testPack").setExecutor(new TestPack());
 		Bukkit.getServer().getPluginManager().registerEvents(new EventsListener(game), this);
 		Bukkit.getServer().getPluginManager().registerEvents(teamsGui, this);
 		Bukkit.getServer().getPluginManager().registerEvents(bingoGui, this);

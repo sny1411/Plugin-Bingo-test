@@ -27,9 +27,9 @@ public class ScoreBoard {
 			public void run() {
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					Scoreboard board = game.plugin.manager.getNewScoreboard();
-					Objective objective = board.registerNewObjective("test", "dummy", "§6§lBINGO");
+					Objective objective = board.registerNewObjective("test", "dummy", "\uE005");
 					objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-					Score score4 = objective.getScore("§6§l»§f§l§m                 §6§l«" + ChatColor.RESET);
+					Score score4 = objective.getScore("§6§l»§f§l§m                   " + ChatColor.RESET);
 					score4.setScore(8);
 					Score score5 = objective.getScore("  ");
 					score5.setScore(7);
@@ -81,9 +81,9 @@ public class ScoreBoard {
 		            }
 		            Score score7 = objective.getScore(" ");
 		            score7.setScore(1);
-		            Score score8 = objective.getScore("§6§l»§f§l§m                 §6§l«");
+		            Score score8 = objective.getScore("§6§l»§f§l§m                   ");
 					score8.setScore(0);
-		            player.setScoreboard(board);  
+		            player.setScoreboard(board);
 				}
 			}
 		}, 0L, 20L);

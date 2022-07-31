@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
+import org.bukkit.GameMode;
 import org.bukkit.Statistic;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -44,6 +45,31 @@ public class Start implements CommandExecutor {
 			if (noTeam) {
 				sender.sendMessage("§8[§c⚠§8] §fDes joueurs ne possèdent pas d'équipe");
 				return false;
+			}
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				player.setGameMode(GameMode.SURVIVAL);
+				player.sendMessage("§7===========[§eSettings§7]===========");
+				player.sendMessage("§6Affichage des défis réalisés§f: " + game.modeAffichage);
+				player.sendMessage("§6Mode de jeu§f: " + game.modeJeu);
+				if (game.modeVictoire == "Bingo") {
+					player.sendMessage("§6Condition de victoire§f: " + game.nombreBingos + " Bingos");
+				} else {
+					player.sendMessage("§6Condition de victoire§f: " + game.modeVictoire);
+				}
+				if (game.eventDefiBonus == "Off") {
+					player.sendMessage("§6Event(s)§f: §c✖");
+				} else {
+					player.sendMessage("§6Event(s)§f: Défi Bonus");
+				}
+				player.sendMessage("§eDurée§f: 2h");
+				player.sendMessage("§eInvulnérabilité§f: 30s");
+				player.sendMessage("         §7---------------");
+				player.sendMessage("§7§oTapez §8§o/info §7§opour revoir ce message");
+				Bukkit.dispatchCommand(sender, "tellraw "+ player.getName() +" [\"\",{\"text\":\"\\u226b\",\"bold\":true,\"color\":\"dark_gray\"},{\"text\":\" Plugin par \",\"color\":\"gray\"},{\"text\":\"sny1411\",\"color\":\"#FFBBFF\"},{\"text\":\" & \",\"color\":\"gray\"},{\"text\":\"Unsense\",\"color\":\"#FFBBFF\"},{\"text\":\" \\u226a\",\"bold\":true,\"color\":\"dark_gray\"}]");
+				player.sendMessage("§7==============================");
+			}
+			if (!(game.eventDefiBonus == "Off")) {
+				game.eventDefisBonus.initEvent();
 			}
 			BukkitTask taskStart = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 			    @Override
@@ -101,8 +127,9 @@ public class Start implements CommandExecutor {
 			game.InSetup = false;
 			game.gameLaunch = true;
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				player.sendTitle("§1Lezzzgoo !", "", 0, 20, 0);
+				player.sendTitle("\uE005", "", 0, 20, 50);
 			}
+			Bukkit.getWorld("world").setDifficulty(Difficulty.HARD);
 			BukkitTask taskTimer = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 				
 				@Override
@@ -125,7 +152,7 @@ public class Start implements CommandExecutor {
 				e.printStackTrace();
 			}
 			game.DamagePlayer = true;
-			Bukkit.broadcastMessage("§7[§eBINGO§7] §fLes dégats des joueurs sont §lactivés§r !");
+			Bukkit.broadcastMessage("§7[§eBINGO§7] §fLes dégâts des joueurs sont §lactivés§r !");
 		} else {
 			sender.sendMessage("Crée une nouvelle partie avant ! (/newGame)");
 		}
