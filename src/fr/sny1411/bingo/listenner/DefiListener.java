@@ -1011,11 +1011,13 @@ public class DefiListener implements Listener {
 		    else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lPoséidon")) {
 		    	if (p.getInventory().getContents() != null) {
 			    	for (ItemStack itemInventory : p.getInventory().getContents()) {
-			    		if (itemInventory.getType().equals(Material.TRIDENT)) {
-			    			game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
-							afficheValid(p, item.getItemMeta().getDisplayName().toString());
-							int i = game.teams.nbreDefiValid.get(teamPLayer);
-							game.teams.nbreDefiValid.put(teamPLayer, i + 1);
+			    		if (itemInventory != null) {
+			    			if (itemInventory.getType().equals(Material.TRIDENT)) {
+				    			game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+								afficheValid(p, item.getItemMeta().getDisplayName().toString());
+								int i = game.teams.nbreDefiValid.get(teamPLayer);
+								game.teams.nbreDefiValid.put(teamPLayer, i + 1);
+				    		}
 			    		}
 			    	}
 		    	}
@@ -1370,7 +1372,12 @@ public class DefiListener implements Listener {
 					game.teams.nbreDefiValid.put(teamPLayer, i + 1);
 		    	}
 		    } else if (item.getItemMeta().getDisplayName().equalsIgnoreCase("§d§lRedBull donne des ailes")) {
-		    	
+		    	if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(item.getItemMeta().getDisplayName()) == true) {
+					game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(item.getItemMeta().getDisplayName(),true);
+					afficheValid(p, item.getItemMeta().getDisplayName().toString());
+					int i = game.teams.nbreDefiValid.get(teamPLayer);
+					game.teams.nbreDefiValid.put(teamPLayer, i + 1);
+				}
 		    }
 			game.bingoGui.openGui(p, game.teams.findTeamPlayer(p));
 			if (game.modeVictoire.equalsIgnoreCase("Bingo")) {
