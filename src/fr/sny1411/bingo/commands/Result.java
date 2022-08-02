@@ -50,9 +50,19 @@ public class Result implements CommandExecutor {
 	private void displayResult() {
 		positionCalculation();
 		// affiche la fin
+		System.out.println(classement);
+		List<String> iconesClassement = new ArrayList<>(Arrays.asList("\uE002","\uE003","\uE004","➃","➄","➅"));
+		int i = 0;
+		Bukkit.broadcastMessage("§7=======[§eClassement§7]=======");
 		for (Hashtable<String, String> team : classement) {
-			Bukkit.getConsoleSender().sendMessage(team.toString());
+			if (team.get("nbreBingo") != null) {
+				Bukkit.broadcastMessage(" " + iconesClassement.get(i) + " §l" + game.teams.prefixeColorTeams.get(team.get("team")) + team.get("team") + "§f (" + team.get("time") + ") " + team.get("nbreBingo") + " bingo(s)");
+			} else {
+				Bukkit.broadcastMessage(" " + iconesClassement.get(i) + " §l" + game.teams.prefixeColorTeams.get(team.get("team")) + team.get("team") + "§f (" + team.get("time") + ")");
+			}
+			i++;
 		}
+		Bukkit.broadcastMessage("§7=========================");
 	}
 	
 	private void positionCalculation() {
@@ -62,7 +72,7 @@ public class Result implements CommandExecutor {
 				nameTeamClassement.add(team.get("team"));
 			}
 			List<String> nameTeam = new ArrayList<>();
-			for (String name : game.teams.colorTeams) {
+			for (String name : game.teams.colorTeams.subList(0, game.teams.nombreTeams)) {
 				if (!nameTeamClassement.contains(name)) {
 					nameTeam.add(name);
 				}
@@ -70,6 +80,8 @@ public class Result implements CommandExecutor {
 			List<List<String>> resteClassement = new ArrayList<>();
 			
 			for (String teamClassement : nameTeam) {
+				System.out.println("test");
+				System.out.println(teamClassement);
 				List<String> teamTemp = new ArrayList<>(Arrays.asList(teamClassement, game.teams.nbreBingoValid.get(teamClassement).toString()));
 				resteClassement.add(teamTemp);
 			}
@@ -79,6 +91,7 @@ public class Result implements CommandExecutor {
 			for (List<String> team : resteClassement) {
 				Hashtable<String, String> addTeamClassement = new Hashtable<>();
 				addTeamClassement.put("team", team.get(0));
+				addTeamClassement.put("time", "02:00:00");
 				addTeamClassement.put("nbreBingo", team.get(1));
 				classement.add(addTeamClassement);
 			}
@@ -105,6 +118,7 @@ public class Result implements CommandExecutor {
 			for (List<String> team : resteClassement) {
 				Hashtable<String, String> addTeamClassement = new Hashtable<>();
 				addTeamClassement.put("team", team.get(0));
+				addTeamClassement.put("time", "02:00:00");
 				addTeamClassement.put("nbreBingo", team.get(1));
 				classement.add(addTeamClassement);
 			}

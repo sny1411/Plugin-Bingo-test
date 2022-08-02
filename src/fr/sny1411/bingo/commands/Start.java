@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
+import org.bukkit.GameMode;
 import org.bukkit.Statistic;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -44,6 +45,31 @@ public class Start implements CommandExecutor {
 			if (noTeam) {
 				sender.sendMessage("§8[§c⚠§8] §fDes joueurs ne possèdent pas d'équipe");
 				return false;
+			}
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				player.setGameMode(GameMode.SURVIVAL);
+				player.sendMessage("§7===========[§eSettings§7]===========");
+				player.sendMessage("§6Affichage des défis réalisés§f: " + game.modeAffichage);
+				player.sendMessage("§6Mode de jeu§f: " + game.modeJeu);
+				if (game.modeVictoire == "Bingo") {
+					player.sendMessage("§6Condition de victoire§f: " + game.nombreBingos + " Bingos");
+				} else {
+					player.sendMessage("§6Condition de victoire§f: " + game.modeVictoire);
+				}
+				if (game.eventDefiBonus == "Off") {
+					player.sendMessage("§6Event(s)§f: §c✖");
+				} else {
+					player.sendMessage("§6Event(s)§f: Défi Bonus");
+				}
+				player.sendMessage("§eDurée§f: 2h");
+				player.sendMessage("§eInvulnérabilité§f: 30s");
+				player.sendMessage("         §7---------------");
+				player.sendMessage("§7§oTapez §8§o/info §7§opour revoir ce message");
+				Bukkit.dispatchCommand(sender, "tellraw "+ player.getName() +" [\"\",{\"text\":\"\\u226b\",\"bold\":true,\"color\":\"dark_gray\"},{\"text\":\" Plugin par \",\"color\":\"gray\"},{\"text\":\"sny1411\",\"color\":\"#FFBBFF\"},{\"text\":\" & \",\"color\":\"gray\"},{\"text\":\"Unsense\",\"color\":\"#FFBBFF\"},{\"text\":\" \\u226a\",\"bold\":true,\"color\":\"dark_gray\"}]");
+				player.sendMessage("§7==============================");
+			}
+			if (!(game.eventDefiBonus == "Off")) {
+				game.eventDefisBonus.initEvent();
 			}
 			BukkitTask taskStart = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 			    @Override
@@ -101,8 +127,56 @@ public class Start implements CommandExecutor {
 			game.InSetup = false;
 			game.gameLaunch = true;
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				player.sendTitle("§1Lezzzgoo !", "", 0, 20, 0);
+				player.sendTitle("\uE005", "", 0, 20, 50);
 			}
+			Bukkit.getWorld("world").setDifficulty(Difficulty.HARD);
+			BukkitTask taskMsgEnd = Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
+				
+				@Override
+				public void run() {
+					Bukkit.broadcastMessage("§7[§eBINGO§7] §f10 minutes restantes");
+					try {
+						TimeUnit.MINUTES.sleep(5);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					Bukkit.broadcastMessage("§7[§eBINGO§7] §f5 minutes restantes");
+					try {
+						TimeUnit.MINUTES.sleep(1);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					Bukkit.broadcastMessage("§7[§eBINGO§7] §f1 minute restante");
+					try {
+						TimeUnit.SECONDS.sleep(30);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					Bukkit.broadcastMessage("§7[§eBINGO§7] §f30 secondes restantes");
+					try {
+						TimeUnit.SECONDS.sleep(20);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					Bukkit.broadcastMessage("§7[§eBINGO§7] §f10 secondes restantes");
+					try {
+						TimeUnit.SECONDS.sleep(7);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					for (int i = 3; i > 0; i--) {
+						for (Player player : Bukkit.getOnlinePlayers()) {
+							player.sendTitle(colorStart.get(3 - i) + i, "", 0, 20, 0);
+						}
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			},132000L);
+			game.plugin.listTask.add(taskMsgEnd);
 			BukkitTask taskTimer = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 				
 				@Override
@@ -125,7 +199,7 @@ public class Start implements CommandExecutor {
 				e.printStackTrace();
 			}
 			game.DamagePlayer = true;
-			Bukkit.broadcastMessage("§7[§eBINGO§7] §fLes dégats des joueurs sont §lactivés§r !");
+			Bukkit.broadcastMessage("§7[§eBINGO§7] §fLes dégâts des joueurs sont §lactivés§r !");
 		} else {
 			sender.sendMessage("Crée une nouvelle partie avant ! (/newGame)");
 		}

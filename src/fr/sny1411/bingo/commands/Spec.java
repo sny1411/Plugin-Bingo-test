@@ -20,12 +20,17 @@ public class Spec implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-			String teamPlayer = game.teams.findTeamPlayer(player);
-			if (game.teams.teamCanSpectator.get(teamPlayer)) {
-				player.setGameMode(GameMode.SPECTATOR);
+			if (game.gameLaunch) {
+				String teamPlayer = game.teams.findTeamPlayer(player);
+				if (game.teams.teamCanSpectator.get(teamPlayer)) {
+					player.setGameMode(GameMode.SPECTATOR);
+				} else {
+					player.sendMessage("§8[§c⚠§8] §cVous n'avez pas terminé votre partie !");
+				}
 			} else {
-				player.sendMessage("§8[§c⚠§8] §cVous n'avez pas terminé votre partie !");
+				player.sendMessage("§8[§c⚠§8] §c La partie n'a pas encore commencé");
 			}
+			
 		}
 		return false;
 	}

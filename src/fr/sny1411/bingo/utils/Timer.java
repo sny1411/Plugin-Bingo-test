@@ -2,15 +2,21 @@ package fr.sny1411.bingo.utils;
 
 import java.util.concurrent.TimeUnit;
 
+import org.bukkit.Bukkit;
+
+import fr.sny1411.bingo.Plugin;
+
 public class Timer {
 	public Integer seconds = 0;
 	public Integer minutes = 0;
 	public Integer hours = 0;
 	private Game game;
 	public boolean timerRun = false;
+	private Plugin plugin;
 	
-	public Timer(Game game) {
+	public Timer(Plugin plugin, Game game) {
 		this.game = game;
+		this.plugin = plugin;
 	}
 	public void startTimer () {
 		this.timerRun = true;
@@ -32,7 +38,14 @@ public class Timer {
 				}
 			}
 		}
-		game.finDuJeu();
+		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			
+			@Override
+			public void run() {
+				game.finDuJeu();
+			}
+		});
+
 	}
 	public void reset() {
 		this.timerRun = false;

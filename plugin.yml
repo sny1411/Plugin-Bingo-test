@@ -7,13 +7,25 @@ api-version: 1.18
 commands:
   newGame:
     description: cree une nouvelle partie
+    permission: bingo.newGame
   bingo:
     description: affiche la grille de bingo
   start:
     description: demarre une partie
+    permission: bingo.start
   stopGame:
     description: stop la game
+    permission: bingo.stopGame
   result:
     description: affiche les resultats de la partie
+    permission: bingo.result
   spec:
     description: permet au joueur de se mettre en spectateur
+  info:
+    description: affiche les settings de la partie
+  valid:
+    description: valid un defi
+    permission: bingo.valid
+  testPack:
+    description: test pack
+    permission: bingo.testPack
