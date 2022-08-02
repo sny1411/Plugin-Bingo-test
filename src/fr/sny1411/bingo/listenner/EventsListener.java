@@ -5,7 +5,6 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,7 +25,7 @@ public class EventsListener implements Listener{
 	public EventsListener(Game game) {
 		this.game = game;
 	}
-
+	
 	@EventHandler
 	public void damageEvent(EntityDamageEvent e) {
 		if (game.DamagePlayer == false) {
@@ -113,7 +112,7 @@ public class EventsListener implements Listener{
 			if (e.getView().getTitle().equalsIgnoreCase("§3§lSélection des équipes")) {
 				game.teams.playerInGui.remove(e.getPlayer());
 			}
-		} else {
+		} else if (e.getView().getTitle().equalsIgnoreCase("§3§lBINGO")){
 			game.teams.playersOnBingoGui.get(game.teams.findTeamPlayer((Player) e.getPlayer())).remove(e.getPlayer());
 		}
 	}

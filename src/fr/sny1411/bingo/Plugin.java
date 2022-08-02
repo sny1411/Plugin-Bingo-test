@@ -40,7 +40,7 @@ public class Plugin extends JavaPlugin{
 	private Defis defis = new Defis();
 	private Teams teams = new Teams(teamsGui,game);
 	private DefiListener defiListener = new DefiListener(game);
-	private Timer timer = new Timer(game);
+	private Timer timer = new Timer(this,game);
 	private ScoreBoard scoreBoard = new ScoreBoard(game,this);
 	private BingoGui bingoGui = new BingoGui(game);
 	private Result result = new Result(game, this);

@@ -4,15 +4,19 @@ import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 
+import fr.sny1411.bingo.Plugin;
+
 public class Timer {
 	public Integer seconds = 0;
 	public Integer minutes = 0;
 	public Integer hours = 0;
 	private Game game;
 	public boolean timerRun = false;
+	private Plugin plugin;
 	
-	public Timer(Game game) {
+	public Timer(Plugin plugin, Game game) {
 		this.game = game;
+		this.plugin = plugin;
 	}
 	public void startTimer () {
 		this.timerRun = true;
@@ -33,25 +37,15 @@ public class Timer {
 					hours++;
 				}
 			}
-			if (game.timeGameHour == (hours - 1) && game.timeGameMinutes == (minutes + 50) && seconds == 0) {
-				Bukkit.broadcastMessage("§7[§eBINGO§7] §f10 minutes restantes");
-			} else if (game.timeGameHour == (hours - 1) && game.timeGameMinutes == (minutes + 55) && seconds == 0) {
-				Bukkit.broadcastMessage("§7[§eBINGO§7] §f5 minutes restantes");
-			} else if (game.timeGameHour == (hours - 1) && game.timeGameMinutes == (minutes + 59) && seconds == 0) {
-				Bukkit.broadcastMessage("§7[§eBINGO§7] §f1 minute restante");
-			} else if (game.timeGameHour == (hours - 1) && game.timeGameMinutes == (minutes + 59) && seconds == 30) {
-				Bukkit.broadcastMessage("§7[§eBINGO§7] §f30 secondes restantes");
-			} else if (game.timeGameHour == (hours - 1) && game.timeGameMinutes == (minutes + 59) && seconds == 50) {
-				Bukkit.broadcastMessage("§7[§eBINGO§7] §f10 secondes restantes");
-			} else if (game.timeGameHour == (hours - 1) && game.timeGameMinutes == (minutes + 59) && seconds == 57) {
-				Bukkit.broadcastMessage("§7[§eBINGO§7] §f3 secondes restantes");
-			} else if (game.timeGameHour == (hours - 1) && game.timeGameMinutes == (minutes + 59) && seconds == 57) {
-				Bukkit.broadcastMessage("§7[§eBINGO§7] §f2 secondes restantes");
-			} else if (game.timeGameHour == (hours - 1) && game.timeGameMinutes == (minutes + 59) && seconds == 57) {
-				Bukkit.broadcastMessage("§7[§eBINGO§7] §f1 seconde restante");
-			}
 		}
-		game.finDuJeu();
+		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			
+			@Override
+			public void run() {
+				game.finDuJeu();
+			}
+		});
+
 	}
 	public void reset() {
 		this.timerRun = false;
