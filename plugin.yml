@@ -29,3 +29,5 @@ commands:
   testPack:
     description: test pack
     permission: bingo.testPack
+  bonus:
+    description: pour valider bonus

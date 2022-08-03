@@ -1,5 +1,6 @@
 package fr.sny1411.bingo.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,8 +26,21 @@ public class Valid implements CommandExecutor {
 			for (Player playerGui : game.teams.playersOnBingoGui.get(args[0])) {
 				game.bingoGui.openGui(playerGui, args[0]);
 			}
+			afficheValidForce(args[0], item);
 		}
 		return false;
+	}
+	
+	public void afficheValidForce(String equipe,String message) {
+		if (game.modeAffichage == "Chill") {
+			Bukkit.broadcastMessage("§7[§eBINGO§7] §fL'équipe " + game.teams.prefixeColorTeams.get(equipe) + equipe + "§r a réalisé le défi §e§l" + message);
+		} else {
+			for (Player playerInTeam : game.teams.teamsHash.get(equipe)) {
+				if (playerInTeam.isOnline()) {
+					playerInTeam.sendMessage("§7[§eBINGO§7] §fVotre équipe a réalisé le défi §e§l" + message);
+				}
+			}
+		}
 	}
 
 }

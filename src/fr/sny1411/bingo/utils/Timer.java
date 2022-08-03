@@ -37,6 +37,14 @@ public class Timer {
 					hours++;
 				}
 			}
+			
+			if (game.eventDefiBonus.equalsIgnoreCase("On")) {
+				if (game.eventDefisBonus.timeEvents.size() != 0) {
+					if ((game.eventDefisBonus.timeEvents.get(0)*60) == (hours*3600 + minutes*60 + seconds)) {
+						game.eventDefisBonus.newEvent();
+					}
+				}
+			}
 		}
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			

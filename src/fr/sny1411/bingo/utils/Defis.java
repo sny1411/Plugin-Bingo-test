@@ -6,13 +6,8 @@ import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.block.Banner;
-import org.bukkit.block.banner.Pattern;
-import org.bukkit.block.banner.PatternType;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
@@ -133,7 +128,7 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lMon précieux","§e§oMiner 16 blocks d'améthyste","medium")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lUn bout de Cerbère","§e§oRécupérer 1 tête de wither squelette","hard")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lDes paillettes dans ma vie Kévin","§e§oTuer 3 glow squids","easy")));	
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lAxo-loto","§e§oCapturer dans des seaux les 4 espèces d'axolotl (sauf la bleue)","medium")));	
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lRedBull donne des ailes","§e§oMonter sur un cochon à la hauteur maximale","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lBoules scintillantes","§e§oRécupérer 5 glow berries","medium")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lLes mystérieuses cités d'or","§e§oTrouver un bastion","hard")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lCa pique...","§e§oRécupérer 20 pointed dripstone","easy")));	
@@ -155,7 +150,8 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lUne affaire en or","§e§oEchanger avec un piglin","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lPlutôt Krokmou ou Spyro?","§e§oPorter une tête de dragon","extreme")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lSéance jacuzzi","§e§oS'éteindre dans le nether avec un chaudron","easy")));
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lAux armes citoyens","§e§oAppliquer sur un bouclier intact une bannière de la France (partir d'une bannière blanche)","easy")));
+		//defi.add(new ArrayList<String>(Arrays.asList("§d§lAux armes citoyens","§e§oAppliquer sur un bouclier intact une bannière de la France (partir d'une bannière blanche)","easy")));
+		defi.add(new ArrayList<String>(Arrays.asList("§d§lOh no, my table is broken!","§e§oFaire exploser une table de craft avec une TNT","easy")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lRetour à l'envoyeur","§e§oTuer un ghast en lui renvoyant son projectile","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lHallucinogènes","§e§oPosséder les 4 types de champignons","medium")));
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lNouvelle énergie","§e§oPosséder un daylight sensor","easy")));
@@ -183,7 +179,7 @@ public class Defis {
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lMonster Hunter","§e§oCasser un spawner","medium")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lDoctor Strange","§e§oGuérir un zombie villageois","hard")));	
 		defi.add(new ArrayList<String>(Arrays.asList("§d§lAffamé","§e§oAvoir l'effet hunger","easy")));	
-		defi.add(new ArrayList<String>(Arrays.asList("§d§lRedBull donne des ailes","§e§oMonter sur un cochon à la hauteur maximale","medium")));	
+		//defi.add(new ArrayList<String>(Arrays.asList("§d§lAxo-loto","§e§oCapturer dans des seaux les 4 espèces d'axolotl (sauf la bleue)","medium")));	
 		
 		for (List<String> def : defi) {
 			if (def.get(2) == "easy") {
@@ -270,7 +266,7 @@ public class Defis {
 		grilleDisplay.put(defi.get(57), new ItemStack(Material.AMETHYST_BLOCK));
 		grilleDisplay.put(defi.get(58), new ItemStack(Material.WITHER_SKELETON_SKULL));
 		grilleDisplay.put(defi.get(59), new ItemStack(Material.GLOW_INK_SAC));
-		grilleDisplay.put(defi.get(60), new ItemStack(Material.AXOLOTL_BUCKET));
+		grilleDisplay.put(defi.get(60), new ItemStack(Material.CARROT_ON_A_STICK));
 		grilleDisplay.put(defi.get(61), new ItemStack(Material.GLOW_BERRIES));
 		grilleDisplay.put(defi.get(62), new ItemStack(Material.GILDED_BLACKSTONE));
 		grilleDisplay.put(defi.get(63), new ItemStack(Material.POINTED_DRIPSTONE));
@@ -295,7 +291,7 @@ public class Defis {
 		grilleDisplay.put(defi.get(74), piglin);
 		grilleDisplay.put(defi.get(75), new ItemStack(Material.DRAGON_HEAD));
 		grilleDisplay.put(defi.get(76), new ItemStack(Material.CAULDRON));
-		ItemStack shield = new ItemStack(Material.SHIELD);
+		/*ItemStack shield = new ItemStack(Material.SHIELD);
 		BlockStateMeta blockStateMeta = (BlockStateMeta) shield.getItemMeta();
 		Banner banner = (Banner) blockStateMeta.getBlockState();
 		banner.addPattern(new Pattern(DyeColor.BLUE,PatternType.STRIPE_LEFT));
@@ -303,7 +299,8 @@ public class Defis {
 		banner.update();
 		blockStateMeta.setBlockState(banner);
 		shield.setItemMeta(blockStateMeta);
-		grilleDisplay.put(defi.get(77), shield);
+		grilleDisplay.put(defi.get(77), shield);*/
+		grilleDisplay.put(defi.get(77), new ItemStack(Material.CRAFTING_TABLE));
 		ItemStack ghast = skull.getCustomSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGI2YTcyMTM4ZDY5ZmJiZDJmZWEzZmEyNTFjYWJkODcxNTJlNGYxYzk3ZTVmOTg2YmY2ODU1NzFkYjNjYzAifX19");
 		grilleDisplay.put(defi.get(78), ghast);
 		grilleDisplay.put(defi.get(79), new ItemStack(Material.BROWN_MUSHROOM));
@@ -340,7 +337,9 @@ public class Defis {
 		grilleDisplay.put(defi.get(102), new ItemStack(Material.SPAWNER));
 		grilleDisplay.put(defi.get(103), new ItemStack(Material.ROTTEN_FLESH));
 		grilleDisplay.put(defi.get(104), new ItemStack(Material.SPIDER_EYE));
-		grilleDisplay.put(defi.get(105), new ItemStack(Material.CARROT_ON_A_STICK));
+		
+		//grilleDisplay.put(defi.get(60), new ItemStack(Material.AXOLOTL_BUCKET));
+		
 		melangeDefis();
 	}
 	

@@ -1,7 +1,6 @@
 package fr.sny1411.bingo.commands.tabCompleter;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.command.Command;
