@@ -10,6 +10,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import fr.sny1411.bingo.commands.Bingo;
+import fr.sny1411.bingo.commands.Bonus;
 import fr.sny1411.bingo.commands.Info;
 import fr.sny1411.bingo.commands.NewGame;
 import fr.sny1411.bingo.commands.Result;
@@ -18,6 +19,7 @@ import fr.sny1411.bingo.commands.Start;
 import fr.sny1411.bingo.commands.StopGame;
 import fr.sny1411.bingo.commands.TestPack;
 import fr.sny1411.bingo.commands.Valid;
+import fr.sny1411.bingo.commands.tabCompleter.BonusTabCompleter;
 import fr.sny1411.bingo.commands.tabCompleter.ValidTabCompleter;
 import fr.sny1411.bingo.listenner.BingoGui;
 import fr.sny1411.bingo.listenner.DefiListener;
@@ -44,7 +46,7 @@ public class Plugin extends JavaPlugin{
 	private ScoreBoard scoreBoard = new ScoreBoard(game,this);
 	private BingoGui bingoGui = new BingoGui(game);
 	private Result result = new Result(game, this);
-	private EventDefisBonus eventDefisBonus = new EventDefisBonus();
+	private EventDefisBonus eventDefisBonus = new EventDefisBonus(game,defiListener);
 	public List<BukkitTask> listTask = new ArrayList<BukkitTask>();
 
 
@@ -69,6 +71,8 @@ public class Plugin extends JavaPlugin{
 		getCommand("valid").setExecutor(new Valid(game));
 		getCommand("valid").setTabCompleter(new ValidTabCompleter(game));
 		getCommand("testPack").setExecutor(new TestPack());
+		getCommand("bonus").setExecutor(new Bonus(game,defiListener,this));
+		getCommand("bonus").setTabCompleter(new BonusTabCompleter(game));
 		Bukkit.getServer().getPluginManager().registerEvents(new EventsListener(game), this);
 		Bukkit.getServer().getPluginManager().registerEvents(teamsGui, this);
 		Bukkit.getServer().getPluginManager().registerEvents(bingoGui, this);

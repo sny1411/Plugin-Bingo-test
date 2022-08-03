@@ -46,8 +46,19 @@ public class Start implements CommandExecutor {
 				sender.sendMessage("§8[§c⚠§8] §fDes joueurs ne possèdent pas d'équipe");
 				return false;
 			}
+			BukkitTask taskStart = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+			    @Override
+			    public void run() {
+			       startGame((Player) sender);
+			    }
+			});
+			game.plugin.listTask.add(taskStart);
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				player.setGameMode(GameMode.SURVIVAL);
+				if (game.teams.findTeamPlayer(player) == "Spectator") {
+					player.setGameMode(GameMode.SPECTATOR);
+				} else {
+					player.setGameMode(GameMode.SURVIVAL);
+				}
 				player.sendMessage("§7===========[§eSettings§7]===========");
 				player.sendMessage("§6Affichage des défis réalisés§f: " + game.modeAffichage);
 				player.sendMessage("§6Mode de jeu§f: " + game.modeJeu);
@@ -68,16 +79,6 @@ public class Start implements CommandExecutor {
 				Bukkit.dispatchCommand(sender, "tellraw "+ player.getName() +" [\"\",{\"text\":\"\\u226b\",\"bold\":true,\"color\":\"dark_gray\"},{\"text\":\" Plugin par \",\"color\":\"gray\"},{\"text\":\"sny1411\",\"color\":\"#FFBBFF\"},{\"text\":\" & \",\"color\":\"gray\"},{\"text\":\"Unsense\",\"color\":\"#FFBBFF\"},{\"text\":\" \\u226a\",\"bold\":true,\"color\":\"dark_gray\"}]");
 				player.sendMessage("§7==============================");
 			}
-			if (!(game.eventDefiBonus == "Off")) {
-				game.eventDefisBonus.initEvent();
-			}
-			BukkitTask taskStart = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-			    @Override
-			    public void run() {
-			       startGame((Player) sender);
-			    }
-			});
-			game.plugin.listTask.add(taskStart);
 			
 		} else {
 			Bukkit.getConsoleSender().sendMessage("Commande executable qu'en jeu");
@@ -113,6 +114,10 @@ public class Start implements CommandExecutor {
 				player.getInventory().clear();
 			}
 			game.createGrille();
+			
+			if (!(game.eventDefiBonus == "Off")) {
+				game.eventDefisBonus.initEvent();
+			}
 			List<String> colorStart = new ArrayList<String>(Arrays.asList("§b","§9","§1"));
 			for (int i = 3; i > 0; i--) {
 				for (Player player : Bukkit.getOnlinePlayers()) {

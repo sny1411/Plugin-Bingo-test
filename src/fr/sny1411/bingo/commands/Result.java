@@ -53,16 +53,29 @@ public class Result implements CommandExecutor {
 		System.out.println(classement);
 		List<String> iconesClassement = new ArrayList<>(Arrays.asList("\uE002","\uE003","\uE004","➃","➄","➅"));
 		int i = 0;
-		Bukkit.broadcastMessage("§7=======[§eClassement§7]=======");
-		for (Hashtable<String, String> team : classement) {
-			if (team.get("nbreBingo") != null) {
-				Bukkit.broadcastMessage(" " + iconesClassement.get(i) + " §l" + game.teams.prefixeColorTeams.get(team.get("team")) + team.get("team") + "§f (" + team.get("time") + ") " + team.get("nbreBingo") + " bingo(s)");
-			} else {
-				Bukkit.broadcastMessage(" " + iconesClassement.get(i) + " §l" + game.teams.prefixeColorTeams.get(team.get("team")) + team.get("team") + "§f (" + team.get("time") + ")");
+		if (game.modeVictoire.equalsIgnoreCase("Bingo")) {
+			Bukkit.broadcastMessage("§7=======[§eClassement§7]=======");
+			for (Hashtable<String, String> team : classement) {
+				if (team.get("nbreBingo") != null) {
+					Bukkit.broadcastMessage(" " + iconesClassement.get(i) + " §l" + game.teams.prefixeColorTeams.get(team.get("team")) + team.get("team") + "§f (" + team.get("time") + ") " + team.get("nbreBingo") + " bingo(s)");
+				} else {
+					Bukkit.broadcastMessage(" " + iconesClassement.get(i) + " §l" + game.teams.prefixeColorTeams.get(team.get("team")) + team.get("team") + "§f (" + team.get("time") + ")");
+				}
+				i++;
 			}
-			i++;
+			Bukkit.broadcastMessage("§7=========================");
+		} else {
+			Bukkit.broadcastMessage("§7=======[§eClassement§7]=======");
+			for (Hashtable<String, String> team : classement) {
+				if (team.get("nbreDefis") != null) {
+					Bukkit.broadcastMessage(" " + iconesClassement.get(i) + " §l" + game.teams.prefixeColorTeams.get(team.get("team")) + team.get("team") + "§f (" + team.get("time") + ") " + team.get("nbreDefis") + " défi(s)");
+				} else {
+					Bukkit.broadcastMessage(" " + iconesClassement.get(i) + " §l" + game.teams.prefixeColorTeams.get(team.get("team")) + team.get("team") + "§f (" + team.get("time") + ")");
+				}
+				i++;
+			}
+			Bukkit.broadcastMessage("§7=========================");
 		}
-		Bukkit.broadcastMessage("§7=========================");
 	}
 	
 	private void positionCalculation() {
@@ -80,7 +93,6 @@ public class Result implements CommandExecutor {
 			List<List<String>> resteClassement = new ArrayList<>();
 			
 			for (String teamClassement : nameTeam) {
-				System.out.println("test");
 				System.out.println(teamClassement);
 				List<String> teamTemp = new ArrayList<>(Arrays.asList(teamClassement, game.teams.nbreBingoValid.get(teamClassement).toString()));
 				resteClassement.add(teamTemp);
@@ -96,22 +108,32 @@ public class Result implements CommandExecutor {
 				classement.add(addTeamClassement);
 			}
 		} else {
+			System.out.println("test 1");
 			List<String> nameTeamClassement = new ArrayList<>();
-			for (Hashtable<String, String> team : classement) {
-				nameTeamClassement.add(team.get("team"));
+			if (classement != null) {
+				for (Hashtable<String, String> team : classement) {
+					nameTeamClassement.add(team.get("team"));
+				}
 			}
+			System.out.println("test 2");
 			List<String> nameTeam = new ArrayList<>();
 			for (String name : game.teams.colorTeams) {
 				if (!nameTeamClassement.contains(name)) {
 					nameTeam.add(name);
 				}
 			}
+			System.out.println("test 3");
 			List<List<String>> resteClassement = new ArrayList<>();
 			
+			int i = 0;
 			for (String teamClassement : nameTeam) {
-				List<String> teamTemp = new ArrayList<>(Arrays.asList(teamClassement, game.teams.nbreDefiValid.get(teamClassement).toString()));
-				resteClassement.add(teamTemp);
+				if (i < game.teams.nombreTeams) {
+					List<String> teamTemp = new ArrayList<>(Arrays.asList(teamClassement, game.teams.nbreDefiValid.get(teamClassement).toString()));
+					resteClassement.add(teamTemp);
+				}
+				i++;
 			}
+			System.out.println("test 4");
 			
 			Collections.sort(resteClassement, comparator);
 			
@@ -119,9 +141,10 @@ public class Result implements CommandExecutor {
 				Hashtable<String, String> addTeamClassement = new Hashtable<>();
 				addTeamClassement.put("team", team.get(0));
 				addTeamClassement.put("time", "02:00:00");
-				addTeamClassement.put("nbreBingo", team.get(1));
+				addTeamClassement.put("nbreDefis", team.get(1));
 				classement.add(addTeamClassement);
 			}
+			System.out.println("test 5");
 		}
 	}
 	
