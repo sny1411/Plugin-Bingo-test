@@ -134,6 +134,7 @@ public class Start implements CommandExecutor {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				player.sendTitle("\uE005", "", 0, 20, 50);
 			}
+			Bukkit.getWorld("world").setTime(0);
 			Bukkit.getWorld("world").setDifficulty(Difficulty.HARD);
 			BukkitTask taskMsgEnd = Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
 				
