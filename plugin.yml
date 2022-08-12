@@ -1,6 +1,6 @@
 name: bingo
 main: fr.sny1411.bingo.Plugin
-version: 0.1
+version: 1.0
 charger: STARTUP
 author: sny1411
 api-version: 1.18

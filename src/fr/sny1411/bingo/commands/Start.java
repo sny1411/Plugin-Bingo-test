@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
+import org.bukkit.GameRule;
 import org.bukkit.Statistic;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -80,6 +81,7 @@ public class Start implements CommandExecutor {
 				player.sendMessage("§7==============================");
 			}
 			
+			
 		} else {
 			Bukkit.getConsoleSender().sendMessage("Commande executable qu'en jeu");
 		}
@@ -96,7 +98,13 @@ public class Start implements CommandExecutor {
 	}
 	
 	private void destroySpawn() {
+		List<Player> playersList = new ArrayList<Player>(game.teams.playerInGui);
+		for (int i = 0; i < playersList.size(); i++) {
+			Player player = playersList.get(i);
+			player.closeInventory();
+		}
 		ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+		Bukkit.getWorld("world").setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
 		Bukkit.dispatchCommand(console, "fill -20 200 -20 20 200 20 void_air replace");
 		Bukkit.dispatchCommand(console, "fill -19 200 -19 19 200 19 void_air replace");
 		Bukkit.dispatchCommand(console, "fill -20 201 -20 -20 203 20 void_air replace");
@@ -134,55 +142,7 @@ public class Start implements CommandExecutor {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				player.sendTitle("\uE005", "", 0, 20, 50);
 			}
-			Bukkit.getWorld("world").setTime(0);
 			Bukkit.getWorld("world").setDifficulty(Difficulty.HARD);
-			BukkitTask taskMsgEnd = Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
-				
-				@Override
-				public void run() {
-					Bukkit.broadcastMessage("§7[§eBINGO§7] §f10 minutes restantes");
-					try {
-						TimeUnit.MINUTES.sleep(5);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					Bukkit.broadcastMessage("§7[§eBINGO§7] §f5 minutes restantes");
-					try {
-						TimeUnit.MINUTES.sleep(1);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					Bukkit.broadcastMessage("§7[§eBINGO§7] §f1 minute restante");
-					try {
-						TimeUnit.SECONDS.sleep(30);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					Bukkit.broadcastMessage("§7[§eBINGO§7] §f30 secondes restantes");
-					try {
-						TimeUnit.SECONDS.sleep(20);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					Bukkit.broadcastMessage("§7[§eBINGO§7] §f10 secondes restantes");
-					try {
-						TimeUnit.SECONDS.sleep(7);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					for (int i = 3; i > 0; i--) {
-						for (Player player : Bukkit.getOnlinePlayers()) {
-							player.sendTitle(colorStart.get(3 - i) + i, "", 0, 20, 0);
-						}
-						try {
-							TimeUnit.SECONDS.sleep(1);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			},132000L);
-			game.plugin.listTask.add(taskMsgEnd);
 			BukkitTask taskTimer = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 				
 				@Override

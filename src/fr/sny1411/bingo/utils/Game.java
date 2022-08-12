@@ -8,6 +8,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
+import org.bukkit.GameRule;
 import org.bukkit.Material;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -17,7 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.sny1411.bingo.Plugin;
 import fr.sny1411.bingo.commands.Result;
-import fr.sny1411.bingo.listenner.BingoGui;
+import fr.sny1411.bingo.listener.BingoGui;
 
 public class Game {
 	public List<ItemStack> grilleBingo = new ArrayList<ItemStack>(); 
@@ -199,8 +200,30 @@ public class Game {
     	ItemMeta itemMeta = item.getItemMeta();
     	itemMeta.setDisplayName(listeDefis.get(0));
     	ArrayList<String> itemLore = new ArrayList<>();
+    	String difficulte = "";
+    	switch (listeDefis.get(2)) {
+		case "easy":
+			difficulte = "Facile";
+			break;
+			
+		case "medium":
+			difficulte = "Moyen";
+			break;
+			
+		case "hard":
+			difficulte = "Difficile";
+			break;
+			
+		case "extreme":
+			difficulte = "Extrême";
+			break;
+
+		default:
+			break;
+		}
     	if (listeDefis.get(1).length() <= 30) {
     		itemLore.add(listeDefis.get(1));
+    		itemLore.add("§8Difficulté: §7" + difficulte);
     		itemMeta.setLore(itemLore);
     		item.setItemMeta(itemMeta);
     	} else {
@@ -216,6 +239,7 @@ public class Game {
     			itemLore.add(splitLore[i1]);
     		}
     		itemLore.add(splitLore[len-1]);
+    		itemLore.add("§8Difficulté: §7" + difficulte);
     		itemMeta.setLore(itemLore);
     		item.setItemMeta(itemMeta);
     	}
@@ -251,6 +275,8 @@ public class Game {
     }
 
 	public void setup() {
+		Bukkit.getWorld("world").setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+		Bukkit.getWorld("world").setTime(0);
 		teams.createTeams();
 		this.InSetup = true;
 		this.DamagePlayer = false;

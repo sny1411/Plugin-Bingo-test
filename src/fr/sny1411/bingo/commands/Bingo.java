@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import fr.sny1411.bingo.listenner.BingoGui;
+import fr.sny1411.bingo.listener.BingoGui;
 import fr.sny1411.bingo.utils.Game;
 
 public class Bingo implements CommandExecutor {

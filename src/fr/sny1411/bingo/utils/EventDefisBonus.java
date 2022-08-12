@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import fr.sny1411.bingo.listenner.DefiListener;
+import fr.sny1411.bingo.listener.DefiListener;
 import net.md_5.bungee.api.ChatColor;
 
 public class EventDefisBonus {

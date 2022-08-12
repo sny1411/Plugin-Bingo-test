@@ -8,7 +8,7 @@ import java.util.Set;
 
 import org.bukkit.entity.Player;
 
-import fr.sny1411.bingo.listenner.TeamsGui;
+import fr.sny1411.bingo.listener.TeamsGui;
 
 public class Teams {
 	public int nombreTeams = 4;

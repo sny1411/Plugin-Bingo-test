@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import fr.sny1411.bingo.Plugin;
-import fr.sny1411.bingo.listenner.DefiListener;
+import fr.sny1411.bingo.listener.DefiListener;
 import fr.sny1411.bingo.utils.Game;
 
 public class Bonus implements CommandExecutor {
@@ -41,36 +41,37 @@ public class Bonus implements CommandExecutor {
 						} else {
 							defi += (" " + mot);
 						}
-						
-						Boolean defiDansList = false;
-						String niveauDefi = "";
-						for (List<String> defiBonus : game.eventDefisBonus.defisEnCours) {
-							System.out.println(defiBonus.get(0) + " - " + defi);
-							if (defiBonus.get(0).equalsIgnoreCase(defi)) {
-								defiDansList = true;
-								niveauDefi = defiBonus.get(2);
-							}
+					}
+					
+					Boolean defiDansList = false;
+					String niveauDefi = "";
+					for (List<String> defiBonus : game.eventDefisBonus.defisEnCours) {
+						System.out.println(defiBonus.get(0) + " - " + defi);
+						if (defiBonus.get(0).equalsIgnoreCase(defi)) {
+							defiDansList = true;
+							niveauDefi = defiBonus.get(2);
 						}
-						if (defiDansList) {
-							System.out.println("appel verif");
-							switch (niveauDefi) {
-							case "easy":
-								niveauDefi = "I";
-								break;
-							case "medium":
-								niveauDefi = "II";
-								break;
-							case "hard":
-								niveauDefi = "III";
-								break;
-							default:
-								break;
-							}
-							defiListener.testItems(player, defi, true, niveauDefi);
-						} else  {
-							// defi pas valid
+					}
+					
+					System.out.println("test bonus");
+					if (defiDansList) {
+						System.out.println("appel verif");
+						switch (niveauDefi) {
+						case "easy":
+							niveauDefi = "I";
+							break;
+						case "medium":
+							niveauDefi = "II";
+							break;
+						case "hard":
+							niveauDefi = "III";
+							break;
+						default:
+							break;
 						}
-						
+						defiListener.testItems(player, defi, true, niveauDefi);
+					} else  {
+						player.sendMessage("§8[§c⚠§8] §fErreur de syntaxe");
 					}
 				}
 			}
