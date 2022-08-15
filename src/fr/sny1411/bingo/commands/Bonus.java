@@ -46,16 +46,13 @@ public class Bonus implements CommandExecutor {
 					Boolean defiDansList = false;
 					String niveauDefi = "";
 					for (List<String> defiBonus : game.eventDefisBonus.defisEnCours) {
-						System.out.println(defiBonus.get(0) + " - " + defi);
 						if (defiBonus.get(0).equalsIgnoreCase(defi)) {
 							defiDansList = true;
 							niveauDefi = defiBonus.get(2);
 						}
 					}
 					
-					System.out.println("test bonus");
 					if (defiDansList) {
-						System.out.println("appel verif");
 						switch (niveauDefi) {
 						case "easy":
 							niveauDefi = "I";

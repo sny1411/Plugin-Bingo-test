@@ -3,13 +3,18 @@ package fr.sny1411.bingo.utils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.GameRule;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.advancement.Advancement;
+import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -22,6 +27,8 @@ import fr.sny1411.bingo.listener.BingoGui;
 
 public class Game {
 	public List<ItemStack> grilleBingo = new ArrayList<ItemStack>(); 
+	public List<World> listWorld = Bukkit.getWorlds();
+	
 	public int timeGameHour = 2;
 	public int timeGameMinutes = 0;
 	public String modeAffichage = "Chill";
@@ -41,7 +48,7 @@ public class Game {
 	public BingoGui bingoGui;
 	public Result result;
 	public EventDefisBonus eventDefisBonus;
-	 
+	
 	public Game(Plugin plugin) {
 		this.plugin = plugin;
 	}
@@ -108,7 +115,6 @@ public class Game {
 			}
 		}
 		teams.nbreBingoValid.put(teamPlayer, nbBingo);
-		System.out.println(Bukkit.getOnlinePlayers());
 		if (nbBingo == nombreBingos || teams.nbreDefiValid.get(teamPlayer) == 25) {
 			teams.teamCanSpectator.put(teamPlayer, true);
 			Hashtable<String, String> teamClassement = new Hashtable<>();
@@ -162,16 +168,24 @@ public class Game {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			player.setGameMode(GameMode.SURVIVAL);
 		}
+		
 		Bukkit.dispatchCommand(console, "fill -20 200 -20 20 200 20 white_stained_glass replace");
 		Bukkit.dispatchCommand(console, "fill -19 200 -19 19 200 19 barrier replace");
 		Bukkit.dispatchCommand(console, "fill -20 201 -20 -20 203 20 cyan_stained_glass_pane replace");
 		Bukkit.dispatchCommand(console, "fill -20 201 -20 20 203 -20 cyan_stained_glass_pane replace");
 		Bukkit.dispatchCommand(console, "fill 20 201 20 -20 203 20 cyan_stained_glass_pane replace");
 		Bukkit.dispatchCommand(console, "fill 20 201 20 20 203 -20 cyan_stained_glass_pane replace");
-		Bukkit.dispatchCommand(console, "tp @a 0 204 0");
-		Bukkit.dispatchCommand(console, "clear @a");
-		Bukkit.getWorld("world").setDifficulty(Difficulty.PEACEFUL);
+	
 		
+		Location spawn = new Location(listWorld.get(0), 0, 204, 0);
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			player.getInventory().clear();
+			player.teleport(spawn);			
+		}
+		
+		for (World world : listWorld) {
+			Bukkit.getWorld(world.getName()).setDifficulty(Difficulty.PEACEFUL);
+		}
 	}
 
 	public void createGrille() {
@@ -275,8 +289,8 @@ public class Game {
     }
 
 	public void setup() {
-		Bukkit.getWorld("world").setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
-		Bukkit.getWorld("world").setTime(0);
+		Bukkit.getWorld(listWorld.get(0).getName()).setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+		Bukkit.getWorld(listWorld.get(0).getName()).setTime(0);
 		teams.createTeams();
 		this.InSetup = true;
 		this.DamagePlayer = false;
@@ -287,14 +301,28 @@ public class Game {
 		Bukkit.dispatchCommand(console, "fill -20 201 -20 20 203 -20 cyan_stained_glass_pane replace");
 		Bukkit.dispatchCommand(console, "fill 20 201 20 -20 203 20 cyan_stained_glass_pane replace");
 		Bukkit.dispatchCommand(console, "fill 20 201 20 20 203 -20 cyan_stained_glass_pane replace");
-		Bukkit.dispatchCommand(console, "tp @a 0 204 0");
-		Bukkit.getWorld("world").setDifficulty(Difficulty.PEACEFUL);
-		Bukkit.dispatchCommand(console, "gamerule announceAdvancements false");
-		Bukkit.dispatchCommand(console, "advancement revoke @a everything");
+		for (World world : listWorld) {
+			Bukkit.getWorld(world.getName()).setDifficulty(Difficulty.PEACEFUL);
+			world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+			world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+		}
+		Location spawn = new Location(listWorld.get(0), 0, 204, 0);
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			player.teleport(spawn);
+			Iterator<Advancement> iterator = Bukkit.getServer().advancementIterator();
+	        while (iterator.hasNext())
+	        {
+	            AdvancementProgress progress = player.getAdvancementProgress(iterator.next());
+	            for (String criteria : progress.getAwardedCriteria())
+	                progress.revokeCriteria(criteria);
+	        }
+		}
 	}
 	
 	public void inventorySelectTeams() {
-		Bukkit.dispatchCommand(console, "clear @a");
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			player.getInventory().clear();
+		}
 		List<Player> listOfPlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
 		for (Player player : listOfPlayers) {
 			if (player.isOp()) {

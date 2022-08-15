@@ -33,7 +33,7 @@ public class BingoGui implements Listener {
     	ArrayList<Material> itemsTeams = new ArrayList<Material>(Arrays.asList(Material.ORANGE_BANNER,Material.RED_BANNER,Material.PURPLE_BANNER,Material.PINK_BANNER,Material.LIME_BANNER,Material.LIGHT_BLUE_BANNER));
 		ArrayList<String> nameTeams = new ArrayList<String>(Arrays.asList("§6Orange","§cRouge", "§5Violet", "§dRose", "§aVert", "§bBleu"));
 		ArrayList<ItemStack> teamsList = new ArrayList<ItemStack>();
-    	for (int i = 0; i < 5; i++) {
+    	for (int i = 0; i < 6; i++) {
     		if (i < game.teams.nombreTeams) {
     			ItemStack itemTeam = new ItemStack(itemsTeams.get(i));
     			ItemMeta itemTeamMeta = itemTeam.getItemMeta();

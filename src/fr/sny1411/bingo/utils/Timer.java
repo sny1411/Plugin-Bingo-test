@@ -17,7 +17,7 @@ public class Timer {
 	public boolean timerRun = false;
 	private Plugin plugin;
 	private Integer timeOrageLaunch; // en minutes
-	private List<Integer> timeMessageFin = new ArrayList<>(Arrays.asList(110*60,115*60,117*60,118*60,119*60,119*60+30,119*60+45,119*60+50,119*60+55,119*60+57,119*60+58,119*60+59,120)); // en secondes
+	private List<Integer> timeMessageFin = new ArrayList<>(Arrays.asList(110*60,115*60,117*60,118*60,119*60,119*60+30,119*60+45,119*60+50,119*60+55,119*60+57,119*60+58,119*60+59)); // en secondes
 	private List<String> messagesFin = new ArrayList<>(Arrays.asList("§7[§eBINGO§7] §f10 minutes restantes",
 																	 "§7[§eBINGO§7] §f5 minutes restantes",
 																	 "§7[§eBINGO§7] §f3 minutes restantes",
@@ -29,8 +29,7 @@ public class Timer {
 																	 "§7[§eBINGO§7] §f5 secondes restantes",
 																	 "§7[§eBINGO§7] §f3 secondes restantes",
 																	 "§7[§eBINGO§7] §f2 secondes restantes",
-																	 "§7[§eBINGO§7] §f1 secondes restantes",
-																	 "\uE005"));
+																	 "§7[§eBINGO§7] §f1 secondes restantes"));
 	
 	public Timer(Plugin plugin, Game game) {
 		this.game = game;
@@ -40,7 +39,7 @@ public class Timer {
 		int timeInsecond;
 		int compteurMsgFin = 0;
 		timeOrageLaunch = (int)(Math.random() * ((105 - 60) + 1)) + 60;
-		System.out.println("Orage : " + timeOrageLaunch);
+		Bukkit.getConsoleSender().sendMessage("orage : " + timeOrageLaunch);
 		this.timerRun = true;
 		while ((hours < game.timeGameHour || minutes < game.timeGameMinutes) && timerRun) {
 			try {
@@ -72,9 +71,8 @@ public class Timer {
 					
 					@Override
 					public void run() {
-						System.out.println("PLUIE");
 						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "weather thunder");
-						Bukkit.getServer().getWorld("world").setWeatherDuration(18000); // 15 minutes (en ticks)
+						Bukkit.getServer().getWorld("world").setWeatherDuration(8400); // 7 minutes (en ticks)
 					}
 				});
 			}

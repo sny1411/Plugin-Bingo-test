@@ -1,10 +1,13 @@
 package fr.sny1411.bingo.listener;
 
+import java.util.Hashtable;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,14 +19,22 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import fr.sny1411.bingo.utils.Game;
 
 public class EventsListener implements Listener{
+	public Hashtable<String, Material> blockSpawn = new Hashtable<>();
 	private Game game;
 	public EventsListener(Game game) {
 		this.game = game;
+		blockSpawn.put("Orange", Material.ORANGE_STAINED_GLASS);
+		blockSpawn.put("Rouge", Material.RED_STAINED_GLASS);
+		blockSpawn.put("Violet", Material.PURPLE_STAINED_GLASS);
+		blockSpawn.put("Rose", Material.PINK_STAINED_GLASS);
+		blockSpawn.put("Vert", Material.LIME_STAINED_GLASS);
+		blockSpawn.put("Bleu", Material.BLUE_STAINED_GLASS);
 	}
 	
 	@EventHandler
@@ -78,12 +89,28 @@ public class EventsListener implements Listener{
 		}
 	}
 	
+	@EventHandler
+	public void onPlayerMoveEvent(PlayerMoveEvent e) {
+		if (game.InSetup) {
+			String teamPlayer = game.teams.findTeamPlayer(e.getPlayer());
+			if (!teamPlayer.equalsIgnoreCase("Spectator") && !teamPlayer.equalsIgnoreCase("")) {
+				Location location = e.getPlayer().getLocation();
+				location.setY(200);
+				Block block =  game.listWorld.get(0).getBlockAt(location);
+				Material type = block.getType();
+				if (type != Material.AIR && type != Material.WHITE_STAINED_GLASS) {
+					block.setType(blockSpawn.get(game.teams.findTeamPlayer(e.getPlayer())));
+				}
+			} 
+		}
+	}
+	
 	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		if (game.InSetup) {
 			game.inventorySelectTeams(e.getPlayer());
-			Location spawn = new Location(Bukkit.getServer().getWorld("world"), 0, 204, 0);
+			Location spawn = new Location(Bukkit.getServer().getWorld(game.listWorld.get(0).getName()), 0, 204, 0); // overworld
 			e.getPlayer().teleport(spawn);
 		} else if (game.gameLaunch) {
 			Player player = e.getPlayer();

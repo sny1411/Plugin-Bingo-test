@@ -17,7 +17,6 @@ public class Valid implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (sender instanceof Player) {
-			System.out.println(args[0] + "  " + args[1]);
 			String item = args[1].replace("_", " ");
 			game.teams.defiDone.get(args[0]).put("§d§l" + item,true);
 			game.teams.defiValid.get(args[0]).put("§d§l" + item,true);

@@ -58,7 +58,6 @@ public class Result implements CommandExecutor {
 	
 	private void displayResultPts() {
 		positionCalculationPts();
-		System.out.println(classementPts);
 		Bukkit.broadcastMessage("§7=========[§eClassement par Points§7]=========");
 		int i = 0;
 		for (List<String> team : classementPts) {
@@ -71,7 +70,6 @@ public class Result implements CommandExecutor {
 	private void displayResult() {
 		positionCalculation();
 		// affiche la fin
-		System.out.println(classement);
 		
 		int i = 0;
 		if (game.modeVictoire.equalsIgnoreCase("Bingo")) {
@@ -108,7 +106,6 @@ public class Result implements CommandExecutor {
 		for (int i = 0; i < game.teams.nombreTeams; i++) {
 			teams.add(game.teams.colorTeams.get(i));
 		}
-		System.out.println(teams);
 		for (String team : teams) {
 			List<List<String>> defisValid = new ArrayList<>();
 			for (Entry<String, Boolean> entry : game.teams.defiValid.get(team).entrySet()) {
@@ -120,7 +117,6 @@ public class Result implements CommandExecutor {
 					}
 				}
 			}
-			System.out.println("test 1");
 			nbreDefisEasy = 0;
 			nbreDefisMedium = 0;
 			nbreDefisHard = 0;
@@ -176,7 +172,6 @@ public class Result implements CommandExecutor {
 			List<List<String>> resteClassement = new ArrayList<>();
 			
 			for (String teamClassement : nameTeam) {
-				System.out.println(teamClassement);
 				List<String> teamTemp = new ArrayList<>(Arrays.asList(teamClassement, game.teams.nbreBingoValid.get(teamClassement).toString()));
 				resteClassement.add(teamTemp);
 			}

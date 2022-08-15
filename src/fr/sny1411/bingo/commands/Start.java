@@ -9,13 +9,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.GameRule;
+import org.bukkit.Material;
 import org.bukkit.Statistic;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -105,13 +108,17 @@ public class Start implements CommandExecutor {
 		}
 		ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 		Bukkit.getWorld("world").setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
+		Bukkit.getWorld("world").setGameRule(GameRule.SPECTATORS_GENERATE_CHUNKS, false);
 		Bukkit.dispatchCommand(console, "fill -20 200 -20 20 200 20 void_air replace");
 		Bukkit.dispatchCommand(console, "fill -19 200 -19 19 200 19 void_air replace");
 		Bukkit.dispatchCommand(console, "fill -20 201 -20 -20 203 20 void_air replace");
 		Bukkit.dispatchCommand(console, "fill -20 201 -20 20 203 -20 void_air replace");
 		Bukkit.dispatchCommand(console, "fill 20 201 20 -20 203 20 void_air replace");
 		Bukkit.dispatchCommand(console, "fill 20 201 20 20 203 -20 void_air replace");
-		Bukkit.getWorld("world").setDifficulty(Difficulty.PEACEFUL);
+		for (World world : game.listWorld) {
+			Bukkit.getWorld(world.getName()).setDifficulty(Difficulty.HARD);
+			world.setGameRule(GameRule.DO_WEATHER_CYCLE, true);
+		}
 	}
 	
 	private void startGame(Player sender) {
@@ -120,6 +127,8 @@ public class Start implements CommandExecutor {
 				player.setStatistic(Statistic.KILL_ENTITY,EntityType.ZOMBIE, 0);
 				player.setStatistic(Statistic.KILL_ENTITY,EntityType.GLOW_SQUID, 0);
 				player.getInventory().clear();
+				ItemStack starterBouffe = new ItemStack(Material.COOKED_BEEF,32);
+				player.getInventory().addItem(starterBouffe);
 			}
 			game.createGrille();
 			
@@ -142,7 +151,6 @@ public class Start implements CommandExecutor {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				player.sendTitle("\uE005", "", 0, 20, 50);
 			}
-			Bukkit.getWorld("world").setDifficulty(Difficulty.HARD);
 			BukkitTask taskTimer = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 				
 				@Override

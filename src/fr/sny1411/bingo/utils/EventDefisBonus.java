@@ -30,7 +30,6 @@ public class EventDefisBonus {
 
 	public void initEvent() {
 		nombreEvent = (int)(Math.random() * ((4 - 1) + 1)) + 1;
-		nombreEvent = 4; // à retirer 
 		for (int i = 0; i < nombreEvent; i++) {
 			int timeEvent = (int)(Math.random() * ((90 - 15) + 1)) + 15;
 			timeEvents.add(timeEvent);
@@ -62,8 +61,8 @@ public class EventDefisBonus {
 			
 		}
 		Collections.sort(timeEvents);
-		System.out.println(timeEvents);
-		System.out.println(listDefis);
+		Bukkit.getConsoleSender().sendMessage(timeEvents.toString());
+		Bukkit.getConsoleSender().sendMessage(listDefis.toString());
 		
 	}
 	
@@ -306,7 +305,6 @@ public class EventDefisBonus {
 		int i = 0;
 		for (String team : game.teams.colorTeams) {
 			if (i < game.teams.nombreTeams) {
-				System.out.println(team);
 				game.teams.defiValid.get(team).put(defi.get(0),false);
 				game.teams.defiDone.get(team).put(defi.get(0),false);
 				i++;

@@ -94,7 +94,6 @@ public class TeamsGui implements Listener {
 	public void clickItemInGui(InventoryClickEvent e) {
 		if (e.getCurrentItem() != null) {
 			if (game.InSetup == true) {
-				System.out.println(game.teams.playerInGui);
 				if (e.getView().getTitle().equalsIgnoreCase("§3§lSélection des équipes")) {
 					if (e.getCurrentItem().getType() == Material.ORANGE_BANNER) {
 						String teamPlayer = game.teams.findTeamPlayer((Player) e.getWhoClicked());

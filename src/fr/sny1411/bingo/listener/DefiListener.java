@@ -1097,12 +1097,9 @@ public class DefiListener implements Listener {
 	    }
 	    else if (name.equalsIgnoreCase("§d§lManoir hanté")) { // DESACTIVER (PROBLEME AVEC LOCATE)
             Location manoir = p.getWorld().locateNearestStructure(p.getLocation(), StructureType.WOODLAND_MANSION, 10, false);
-            System.out.println("MANOIR");
-            System.out.println(manoir);
             if (manoir != null) {
                 Integer distanceX = (int) (p.getLocation().getX() - manoir.getX());
                 Integer distanceZ = (int) (p.getLocation().getZ() - manoir.getZ());
-                System.out.println(Math.sqrt((Math.pow(distanceX, 2) + Math.pow(distanceZ, 2))));
                 if (Math.sqrt((Math.pow(distanceX, 2) + Math.pow(distanceZ, 2))) <= 80) {
                     setDefiDoneAndValid(p, name.toString()); 
                     afficheValid(p, name, defiBonus, niveauDefi);
@@ -1549,7 +1546,6 @@ public class DefiListener implements Listener {
 			game.bingoGui.openGui(p, teamPlayer);
 			for (Player playerGui : game.teams.playersOnBingoGui.get(teamPlayer)) {
 				game.bingoGui.openGui(playerGui, teamPlayer);
-				System.out.println(playerGui.getName() + " : " + teamPlayer);
 			}
 			if (game.modeVictoire.equalsIgnoreCase("Bingo")) {
 				game.verifGrilleBingo(p);
