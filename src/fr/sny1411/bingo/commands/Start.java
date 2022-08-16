@@ -63,6 +63,7 @@ public class Start implements CommandExecutor {
 				} else {
 					player.setGameMode(GameMode.SURVIVAL);
 				}
+
 				player.sendMessage("§7===========[§eSettings§7]===========");
 				player.sendMessage("§6Affichage des défis réalisés§f: " + game.modeAffichage);
 				player.sendMessage("§6Mode de jeu§f: " + game.modeJeu);
@@ -107,14 +108,16 @@ public class Start implements CommandExecutor {
 			player.closeInventory();
 		}
 		ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-		Bukkit.getWorld("world").setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
-		Bukkit.getWorld("world").setGameRule(GameRule.SPECTATORS_GENERATE_CHUNKS, false);
+		Bukkit.getWorld(game.listWorld.get(0).getName()).setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
+		Bukkit.getWorld(game.listWorld.get(0).getName()).setGameRule(GameRule.SPECTATORS_GENERATE_CHUNKS, false);
+		
 		Bukkit.dispatchCommand(console, "fill -20 200 -20 20 200 20 void_air replace");
 		Bukkit.dispatchCommand(console, "fill -19 200 -19 19 200 19 void_air replace");
 		Bukkit.dispatchCommand(console, "fill -20 201 -20 -20 203 20 void_air replace");
 		Bukkit.dispatchCommand(console, "fill -20 201 -20 20 203 -20 void_air replace");
 		Bukkit.dispatchCommand(console, "fill 20 201 20 -20 203 20 void_air replace");
 		Bukkit.dispatchCommand(console, "fill 20 201 20 20 203 -20 void_air replace");
+		
 		for (World world : game.listWorld) {
 			Bukkit.getWorld(world.getName()).setDifficulty(Difficulty.HARD);
 			world.setGameRule(GameRule.DO_WEATHER_CYCLE, true);
@@ -122,13 +125,16 @@ public class Start implements CommandExecutor {
 	}
 	
 	private void startGame(Player sender) {
+		ItemStack starterBouffe = new ItemStack(Material.COOKED_BEEF,32);
 		if (game.InSetup == true) {
+			game.InSetup = false;
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				player.setStatistic(Statistic.KILL_ENTITY,EntityType.ZOMBIE, 0);
 				player.setStatistic(Statistic.KILL_ENTITY,EntityType.GLOW_SQUID, 0);
 				player.getInventory().clear();
-				ItemStack starterBouffe = new ItemStack(Material.COOKED_BEEF,32);
-				player.getInventory().addItem(starterBouffe);
+				if (!game.teams.findTeamPlayer(player).equalsIgnoreCase("Spectator")) {
+					player.getInventory().addItem(starterBouffe);
+				}
 			}
 			game.createGrille();
 			
@@ -146,7 +152,6 @@ public class Start implements CommandExecutor {
 					e.printStackTrace();
 				}
 			}
-			game.InSetup = false;
 			game.gameLaunch = true;
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				player.sendTitle("\uE005", "", 0, 20, 50);

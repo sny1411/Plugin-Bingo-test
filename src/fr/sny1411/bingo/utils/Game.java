@@ -39,6 +39,7 @@ public class Game {
 	public boolean InSetup = false;
 	public boolean gameLaunch = false;
 	public boolean DamagePlayer = true;
+	public Hashtable<Player, String> spectatorInBingoTeams = new Hashtable<>();
 	public Teams teams;
 	private ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 	public Defis defis;

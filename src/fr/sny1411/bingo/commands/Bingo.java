@@ -25,7 +25,7 @@ public class Bingo implements CommandExecutor {
 				
 				grille.openGui((Player) sender, game.teams.findTeamPlayer((Player) sender));
 			} else {
-				sender.sendMessage("La partie n'a pas encore commencé !");
+				sender.sendMessage("§8[§c⚠§8] §fLa partie n'a pas encore commencé !");
 			}
 		} else {
 			Bukkit.getConsoleSender().sendMessage("§c[Bingo] commande non executable par la console");

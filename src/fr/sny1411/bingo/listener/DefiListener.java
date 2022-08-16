@@ -1,6 +1,7 @@
 package fr.sny1411.bingo.listener;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -11,6 +12,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.StructureType;
+import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Levelled;
@@ -24,6 +27,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.CauldronLevelChangeEvent;
+import org.bukkit.event.block.EntityBlockFormEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -42,6 +46,7 @@ import org.bukkit.event.player.PlayerLevelChangeEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.raid.RaidTriggerEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.spigotmc.event.entity.EntityMountEvent;
@@ -52,6 +57,7 @@ import net.md_5.bungee.api.ChatColor;
 public class DefiListener implements Listener {
 	private Game game;
 	private Hashtable<Player, Integer> numberWolfTame = new Hashtable<Player, Integer>();
+	private int nbreDragonSpawn = 0; 
 	
 	public DefiListener(Game game) {
 		this.game = game;
@@ -128,11 +134,47 @@ public class DefiListener implements Listener {
 			game.teams.defiDone.get(teamPlayer).put("§d§lStonks Industries", true);
 	    } else if (advancement.equals("adventure/walk_on_powder_snow_with_leather_boots")) {
 			game.teams.defiDone.get(teamPlayer).put("§d§lJésus des neiges", true);
+	    } else if (advancement.equals("end/elytra")) {
+	    	game.teams.defiDone.get(teamPlayer).put("§d§lJack je vole !", true);
 	    }
 	}
 	
 	@EventHandler
-	public void rideEvent (EntityMountEvent e) {
+	private void BlockFormEvent(EntityBlockFormEvent e) {
+		Entity entity = e.getEntity();
+		if (e.getBlock().getType().equals(Material.WATER) && entity instanceof Player) {
+			if (game.teams.defiDone.get(game.teams.findTeamPlayer((Player) entity)).get("§d§lAppelle moi Moïse") != true) {
+				game.teams.defiDone.get(game.teams.findTeamPlayer((Player) entity)).put("§d§lAppelle moi Moïse", true);
+			}
+		}
+	}
+	
+	@EventHandler
+	private void mobSpawn(CreatureSpawnEvent e) {
+		Entity entity = e.getEntity();
+		if (entity.getType().equals(EntityType.ENDER_DRAGON)) {
+			if (nbreDragonSpawn != 0) {
+				World end = game.listWorld.get(2);
+				Collection<Entity> listEntiteProche = Bukkit.getWorld(end.getName()).getNearbyEntities(new Location(end, 0, 65, 0), 150, 50, 150);
+				List<Player> listPlayerProche = new ArrayList<>(); 
+				System.out.println(listPlayerProche);
+				for (Entity entityProche : listEntiteProche) {
+					if (entityProche instanceof Player) {
+						listPlayerProche.add((Player) entityProche);
+					}
+				}
+				
+				for (Player player : listPlayerProche) {
+					String teamPlayer = game.teams.findTeamPlayer(player);
+					game.teams.defiDone.get(teamPlayer).put("§d§lViens à moi Shenron", true);
+				}
+			}
+			nbreDragonSpawn++;
+		}
+	}
+	
+	@EventHandler
+	private void rideEvent (EntityMountEvent e) {
 		if (!game.gameLaunch) return;
 		if (e.getMount().getType().toString().equals("PIG")) {
 			if (e.getMount().getLocation().getBlockY() >= 320) {
@@ -243,6 +285,17 @@ public class DefiListener implements Listener {
 		}
 		else if (e.getEntity().getType().toString().equals("SILVERFISH")) {
 			game.teams.defiDone.get(this.game.teams.findTeamPlayer(killer)).put("§d§lTéma la taille du rat", Boolean.valueOf(true));
+		} else if (e.getEntity().getType().equals(EntityType.TURTLE)) {
+			World worldPlayer = killer.getWorld();
+			int i = 0;
+			for (World world : game.listWorld) {
+				if (worldPlayer.equals(world)) {
+					if (i == 1) {
+						game.teams.defiDone.get(this.game.teams.findTeamPlayer(killer)).put("§d§lMario contre Bowser", Boolean.valueOf(true));
+					}
+				}
+				i++;
+			}
 		}
 	}
 	
@@ -288,12 +341,13 @@ public class DefiListener implements Listener {
 	@EventHandler
 	private void breakBlock(BlockBreakEvent e) {
 		if (!game.gameLaunch) return;
-		if (e.getBlock().getBiome().toString().equals("ICE_SPIKES")) {
-			if (e.getBlock().getType().toString().equals("CHAIN")) {
+		Biome biome = e.getBlock().getBiome();
+		if ((biome.equals(Biome.ICE_SPIKES) || biome.equals(Biome.FROZEN_OCEAN)) || biome.equals(Biome.DEEP_FROZEN_OCEAN)) {
+			if (e.getBlock().getType().equals(Material.CHAIN)) {
 				game.teams.defiDone.get(this.game.teams.findTeamPlayer(e.getPlayer())).put("§d§lLibérée, Délivrée", Boolean.valueOf(true));
 			}
 		}
-		else if (e.getBlock().getType().toString().equals("SPAWNER")){
+		else if (e.getBlock().getType().equals(Material.SPAWNER)){
 			game.teams.defiDone.get(this.game.teams.findTeamPlayer(e.getPlayer())).put("§d§lMonster Hunter", Boolean.valueOf(true));
 		}
 	}
@@ -903,7 +957,7 @@ public class DefiListener implements Listener {
 			if (p.getInventory().containsAtLeast(new ItemStack(Material.GREEN_TERRACOTTA), 1)) {
 				terracotta++;
 			}
-			if (terracotta >= 10) {
+			if (terracotta >= 8) {
 	    		setDefiDoneAndValid(p, name.toString());
 	    		afficheValid(p, name, defiBonus, niveauDefi);
 	    		int i = game.teams.nbreDefiValid.get(teamPLayer);
@@ -1523,6 +1577,53 @@ public class DefiListener implements Listener {
 				game.teams.nbreDefiValid.put(teamPLayer, i + 1);
 				defiAdd = true;
 			}
+	    } else if (name.equalsIgnoreCase("§d§lViens à moi Shenron")) {
+	    	if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(name) == true) {
+	    		game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(name,true);
+				afficheValid(p, name, defiBonus, niveauDefi);
+				int i = game.teams.nbreDefiValid.get(teamPLayer);
+				game.teams.nbreDefiValid.put(teamPLayer, i + 1);
+				defiAdd = true;
+	    	}
+	    } else if (name.equalsIgnoreCase("§d§lAppelle moi Moïse")) {
+	    	if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(name) == true) {
+	    		game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(name,true);
+				afficheValid(p, name, defiBonus, niveauDefi);
+				int i = game.teams.nbreDefiValid.get(teamPLayer);
+				game.teams.nbreDefiValid.put(teamPLayer, i + 1);
+				defiAdd = true;
+	    	}
+	    } else if (name.equalsIgnoreCase("§d§lMario contre Bowser")) {
+	    	if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(name) == true) {
+	    		game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(name,true);
+				afficheValid(p, name, defiBonus, niveauDefi);
+				int i = game.teams.nbreDefiValid.get(teamPLayer);
+				game.teams.nbreDefiValid.put(teamPLayer, i + 1);
+				defiAdd = true;
+	    	}
+	    } else if (name.equalsIgnoreCase("§d§lJack je vole !")) {
+	    	if (game.teams.defiDone.get(game.teams.findTeamPlayer(p)).get(name) == true) {
+	    		game.teams.defiValid.get(game.teams.findTeamPlayer(p)).put(name,true);
+				afficheValid(p, name, defiBonus, niveauDefi);
+				int i = game.teams.nbreDefiValid.get(teamPLayer);
+				game.teams.nbreDefiValid.put(teamPLayer, i + 1);
+				defiAdd = true;
+	    	}
+	    } else if (name.equalsIgnoreCase("§d§lEcris l’histoire")) {
+	    	for (ItemStack item : p.getInventory()) {
+	    		if (item != null) {
+	    			if (item.getType().equals(Material.WRITTEN_BOOK)) {
+		    			BookMeta bookMeta = (BookMeta) item.getItemMeta();
+		    			if (bookMeta.getAuthor().equals(p.getName())) {
+		    				setDefiDoneAndValid(p, name);
+		    				afficheValid(p, name, defiBonus, niveauDefi);
+		    				int i = game.teams.nbreDefiValid.get(teamPLayer);
+		    				game.teams.nbreDefiValid.put(teamPLayer, i + 1);
+		    				defiAdd = true;
+		    			}
+		    		}
+	    		}
+	    	}
 	    }
 		
 		if (!defiAdd) {
@@ -1542,26 +1643,61 @@ public class DefiListener implements Listener {
 			}
 			Player p = (Player) e.getWhoClicked();
 			String teamPlayer = game.teams.findTeamPlayer(p);
-			testItems(p, item.getItemMeta().getDisplayName(), false, "0");
-			game.bingoGui.openGui(p, teamPlayer);
-			for (Player playerGui : game.teams.playersOnBingoGui.get(teamPlayer)) {
-				game.bingoGui.openGui(playerGui, teamPlayer);
-			}
-			if (game.modeVictoire.equalsIgnoreCase("Bingo")) {
-				game.verifGrilleBingo(p);
-			} else {
-				if (game.teams.nbreDefiValid.get(teamPlayer) == 25) { // grille finit, message
-					game.teams.teamCanSpectator.put(teamPlayer, true);
-					for (Player player1 : Bukkit.getOnlinePlayers()) {
-						player1.setGameMode(GameMode.SPECTATOR);
-						player1.sendMessage("§7[§eBINGO§7] §fL'équipe " + game.teams.prefixeColorTeams.get(teamPlayer) + teamPlayer + " §fa fini sa partie");
-						player1.sendMessage("Elle peut continuer de jouer ou devenir spectatrice");
-						if (game.teams.teamsHash.get(teamPlayer).contains(player1)) {
-							player1.sendMessage("§7§oUtilisez la commande §e§o/spec §7§opour devenir spectateur");
+			if (!teamPlayer.equalsIgnoreCase("Spectator") && !(p.getGameMode() == GameMode.SPECTATOR)) {
+				testItems(p, item.getItemMeta().getDisplayName(), false, "0");
+				for (Player playerGui : game.teams.playersOnBingoGui.get(teamPlayer)) {
+					game.bingoGui.openGui(playerGui, teamPlayer);
+				}
+				game.bingoGui.openGui(p, teamPlayer);
+				if (game.modeVictoire.equalsIgnoreCase("Bingo")) {
+					game.verifGrilleBingo(p);
+				} else {
+					if (game.teams.nbreDefiValid.get(teamPlayer) == 25) {
+						game.teams.teamCanSpectator.put(teamPlayer, true);
+						for (Player player1 : Bukkit.getOnlinePlayers()) {
+							player1.setGameMode(GameMode.SPECTATOR);
+							player1.sendMessage("§7[§eBINGO§7] §fL'équipe " + game.teams.prefixeColorTeams.get(teamPlayer) + teamPlayer + " §fa fini sa partie");
+							player1.sendMessage("Elle peut continuer de jouer ou devenir spectatrice");
+							if (game.teams.teamsHash.get(teamPlayer).contains(player1)) {
+								player1.sendMessage("§7§oUtilisez la commande §e§o/spec §7§opour devenir spectateur");
+							}
 						}
 					}
 				}
+			} else {
+				switch (item.getType()) {
+				case ORANGE_CONCRETE:
+					game.spectatorInBingoTeams.put(p, "Orange");
+					break;
+				
+				case RED_CONCRETE:
+					game.spectatorInBingoTeams.put(p, "Rouge");
+					break;
+					
+				case PINK_CONCRETE:
+					game.spectatorInBingoTeams.put(p, "Rose");
+					break;
+					
+				case PURPLE_CONCRETE:
+					game.spectatorInBingoTeams.put(p, "Violet");
+					break;
+					
+				case LIME_CONCRETE:
+					game.spectatorInBingoTeams.put(p, "Vert");
+					break;
+					
+				case LIGHT_BLUE_CONCRETE:
+					game.spectatorInBingoTeams.put(p, "Bleu");
+					break;
+
+				default:
+					break;
+				}
+				game.bingoGui.openGui(p, teamPlayer);
 			}
+			
+			
+			
 			e.setCancelled(true);
 		}
 	}

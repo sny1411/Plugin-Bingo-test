@@ -34,7 +34,7 @@ public class EventsListener implements Listener{
 		blockSpawn.put("Violet", Material.PURPLE_STAINED_GLASS);
 		blockSpawn.put("Rose", Material.PINK_STAINED_GLASS);
 		blockSpawn.put("Vert", Material.LIME_STAINED_GLASS);
-		blockSpawn.put("Bleu", Material.BLUE_STAINED_GLASS);
+		blockSpawn.put("Bleu", Material.LIGHT_BLUE_STAINED_GLASS);
 	}
 	
 	@EventHandler
@@ -140,7 +140,10 @@ public class EventsListener implements Listener{
 				game.teams.playerInGui.remove(e.getPlayer());
 			}
 		} else if (e.getView().getTitle().equalsIgnoreCase("§3§lBINGO")){
-			game.teams.playersOnBingoGui.get(game.teams.findTeamPlayer((Player) e.getPlayer())).remove(e.getPlayer());
+			String teamPlayer = game.teams.findTeamPlayer((Player) e.getPlayer());
+			if (!teamPlayer.equalsIgnoreCase("Spectator")) {
+				game.teams.playersOnBingoGui.get(teamPlayer).remove(e.getPlayer());
+			}
 		}
 	}
 	
