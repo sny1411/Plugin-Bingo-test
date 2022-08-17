@@ -18,7 +18,7 @@ import fr.sny1411.bingo.commands.Spec;
 import fr.sny1411.bingo.commands.Start;
 import fr.sny1411.bingo.commands.StopGame;
 import fr.sny1411.bingo.commands.TestPack;
-import fr.sny1411.bingo.commands.Valid;
+import fr.sny1411.bingo.commands.DefisOP;
 import fr.sny1411.bingo.commands.tabCompleter.BonusTabCompleter;
 import fr.sny1411.bingo.commands.tabCompleter.ValidTabCompleter;
 import fr.sny1411.bingo.listener.BingoGui;
@@ -26,6 +26,7 @@ import fr.sny1411.bingo.listener.DefiListener;
 import fr.sny1411.bingo.listener.EventsListener;
 import fr.sny1411.bingo.listener.SettingsGui;
 import fr.sny1411.bingo.listener.TeamsGui;
+import fr.sny1411.bingo.utils.ChunkLoader;
 import fr.sny1411.bingo.utils.Defis;
 import fr.sny1411.bingo.utils.EventDefisBonus;
 import fr.sny1411.bingo.utils.Game;
@@ -37,7 +38,8 @@ import fr.sny1411.bingo.utils.Timer;
 
 public class Plugin extends JavaPlugin{
 	public ScoreboardManager manager = Bukkit.getScoreboardManager(); 
-	private Game game = new Game(this);
+	ChunkLoader chunkLoader = new ChunkLoader();
+	private Game game = new Game(this,chunkLoader);
 	private TeamsGui teamsGui = new TeamsGui(game);
 	private Defis defis = new Defis();
 	private Teams teams = new Teams(teamsGui,game);
@@ -68,8 +70,8 @@ public class Plugin extends JavaPlugin{
 		getCommand("result").setExecutor(result);
 		getCommand("spec").setExecutor(new Spec(game));;
 		getCommand("info").setExecutor(new Info(game));
-		getCommand("valid").setExecutor(new Valid(game));
-		getCommand("valid").setTabCompleter(new ValidTabCompleter(game));
+		getCommand("defis").setExecutor(new DefisOP(game));
+		getCommand("defis").setTabCompleter(new ValidTabCompleter(game));
 		getCommand("testPack").setExecutor(new TestPack());
 		getCommand("bonus").setExecutor(new Bonus(game,defiListener,this));
 		getCommand("bonus").setTabCompleter(new BonusTabCompleter(game));
@@ -77,6 +79,7 @@ public class Plugin extends JavaPlugin{
 		Bukkit.getServer().getPluginManager().registerEvents(teamsGui, this);
 		Bukkit.getServer().getPluginManager().registerEvents(bingoGui, this);
 		Bukkit.getServer().getPluginManager().registerEvents(defiListener, this);
+		Bukkit.getServer().getPluginManager().registerEvents(chunkLoader, this);
 		Bukkit.getServer().getPluginManager().registerEvents(new SettingsGui(game), this);
 		super.onEnable();
 	}

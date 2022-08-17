@@ -23,7 +23,7 @@ commands:
     description: permet au joueur de se mettre en spectateur
   info:
     description: affiche les settings de la partie
-  valid:
+  defis:
     description: valid un defi
     permission: bingo.valid
   testPack:

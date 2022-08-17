@@ -1,12 +1,14 @@
 package fr.sny1411.bingo.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.GameRule;
@@ -49,9 +51,11 @@ public class Game {
 	public BingoGui bingoGui;
 	public Result result;
 	public EventDefisBonus eventDefisBonus;
+	public ChunkLoader chunkLoader;
 	
-	public Game(Plugin plugin) {
+	public Game(Plugin plugin, ChunkLoader chunkLoader) {
 		this.plugin = plugin;
+		this.chunkLoader = chunkLoader;
 	}
 	public void setClassEventDefisBonus(EventDefisBonus eventDefisBonus) {
 		this.eventDefisBonus = eventDefisBonus;
@@ -290,6 +294,26 @@ public class Game {
     }
 
 	public void setup() {
+		World overworld = listWorld.get(0);
+		List<Chunk> chunksSpawn = new ArrayList<>(Arrays.asList(new Location(overworld, 19, 200, 19).getChunk(),
+																new Location(overworld, 19, 200, 9).getChunk(),
+																new Location(overworld, 19, 200, -8).getChunk(),
+																new Location(overworld, 19, 200, -18).getChunk(),
+																new Location(overworld, 7, 200, -18).getChunk(),
+																new Location(overworld, -7, 200, -18).getChunk(),
+																new Location(overworld, -18, 200, -18).getChunk(),
+																new Location(overworld, -18, 200, -7).getChunk(),
+																new Location(overworld, -18, 200, 7).getChunk(),
+																new Location(overworld, -18, 200, 18).getChunk(),
+																new Location(overworld, -7, 200, 19).getChunk(),
+																new Location(overworld, 7, 200, 19).getChunk(),
+																new Location(overworld, 8, 200, 9).getChunk(),
+																new Location(overworld, 7, 200, 8).getChunk(),
+																new Location(overworld, -6, 200, -7).getChunk(),
+																new Location(overworld, -7, 200, 6).getChunk()));
+		for (Chunk chunk : chunksSpawn) {
+			chunkLoader.addChunkForceLoad(chunk);
+		}
 		Bukkit.getWorld(listWorld.get(0).getName()).setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
 		Bukkit.getWorld(listWorld.get(0).getName()).setTime(0);
 		teams.createTeams();
