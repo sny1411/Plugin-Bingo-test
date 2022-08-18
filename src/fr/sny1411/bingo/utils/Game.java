@@ -173,13 +173,13 @@ public class Game {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			player.setGameMode(GameMode.SURVIVAL);
 		}
-		
-		Bukkit.dispatchCommand(console, "fill -20 200 -20 20 200 20 white_stained_glass replace");
-		Bukkit.dispatchCommand(console, "fill -19 200 -19 19 200 19 barrier replace");
-		Bukkit.dispatchCommand(console, "fill -20 201 -20 -20 203 20 cyan_stained_glass_pane replace");
-		Bukkit.dispatchCommand(console, "fill -20 201 -20 20 203 -20 cyan_stained_glass_pane replace");
-		Bukkit.dispatchCommand(console, "fill 20 201 20 -20 203 20 cyan_stained_glass_pane replace");
-		Bukkit.dispatchCommand(console, "fill 20 201 20 20 203 -20 cyan_stained_glass_pane replace");
+		World overworld = listWorld.get(0);
+		BlocksFill.changeArea(-20, 200, -20, 20, 200, 20, Material.WHITE_STAINED_GLASS, overworld);
+		BlocksFill.changeArea(-19, 200, -19, 19, 200, 19, Material.BARRIER, overworld);
+		BlocksFill.changeArea(-20, 201, -20, -20, 203, 20, Material.CYAN_STAINED_GLASS_PANE, overworld);
+		BlocksFill.changeArea(-19, 201, -20, 20, 203, -20, Material.CYAN_STAINED_GLASS_PANE, overworld);
+		BlocksFill.changeArea(-19, 201, 20, 20, 203, 20, Material.CYAN_STAINED_GLASS_PANE, overworld);
+		BlocksFill.changeArea(20, 201, -19, 20, 203, 19, Material.CYAN_STAINED_GLASS_PANE, overworld);
 	
 		
 		Location spawn = new Location(listWorld.get(0), 0, 204, 0);
@@ -320,12 +320,12 @@ public class Game {
 		this.InSetup = true;
 		this.DamagePlayer = false;
 		inventorySelectTeams();
-		Bukkit.dispatchCommand(console, "fill -20 200 -20 20 200 20 white_stained_glass replace");
-		Bukkit.dispatchCommand(console, "fill -19 200 -19 19 200 19 barrier replace");
-		Bukkit.dispatchCommand(console, "fill -20 201 -20 -20 203 20 cyan_stained_glass_pane replace");
-		Bukkit.dispatchCommand(console, "fill -20 201 -20 20 203 -20 cyan_stained_glass_pane replace");
-		Bukkit.dispatchCommand(console, "fill 20 201 20 -20 203 20 cyan_stained_glass_pane replace");
-		Bukkit.dispatchCommand(console, "fill 20 201 20 20 203 -20 cyan_stained_glass_pane replace");
+		BlocksFill.changeArea(-20, 200, -20, 20, 200, 20, Material.WHITE_STAINED_GLASS, overworld);
+		BlocksFill.changeArea(-19, 200, -19, 19, 200, 19, Material.BARRIER, overworld);
+		BlocksFill.changeArea(-20, 201, -20, -20, 203, 20, Material.CYAN_STAINED_GLASS_PANE, overworld);
+		BlocksFill.changeArea(-19, 201, -20, 20, 203, -20, Material.CYAN_STAINED_GLASS_PANE, overworld);
+		BlocksFill.changeArea(-19, 201, 20, 20, 203, 20, Material.CYAN_STAINED_GLASS_PANE, overworld);
+		BlocksFill.changeArea(20, 201, -19, 20, 203, 19, Material.CYAN_STAINED_GLASS_PANE, overworld);
 		for (World world : listWorld) {
 			Bukkit.getWorld(world.getName()).setDifficulty(Difficulty.PEACEFUL);
 			world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);

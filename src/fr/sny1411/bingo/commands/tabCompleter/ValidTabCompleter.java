@@ -19,19 +19,24 @@ public class ValidTabCompleter implements TabCompleter {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		final ArrayList<String> list = new ArrayList<String>();
-		if (args.length < 2) {
+		if (args.length == 1) {
+			list.add("add");
+			list.add("remove");
+			return list;
+		} else if (args.length == 2) {
 			for (int i = 0; i < game.teams.nombreTeams; i++) {
 				list.add(game.teams.colorTeams.get(i));
 			}
 			return list;
-		} else if (args.length < 4) {
+		} else if (args.length == 3) {
 			for (List<String> defi : game.defis.defi) {
 				String nameDefi = defi.get(0).replace(" ", "_").substring(4);
 				list.add(nameDefi);
 			}
 			return list;
+		} else {
+			return list;
 		}
-		return null;
 	}
 
 }

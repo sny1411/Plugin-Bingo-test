@@ -85,7 +85,6 @@ public class Plugin extends JavaPlugin{
 	}
 	@Override
 	public void onDisable() {
-		System.out.println("disable");
 		for (BukkitTask task : listTask) {
 			task.cancel();
 			Bukkit.getScheduler().cancelTask(task.getTaskId());

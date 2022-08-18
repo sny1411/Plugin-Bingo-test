@@ -23,6 +23,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import fr.sny1411.bingo.utils.BlocksFill;
 import fr.sny1411.bingo.utils.Game;
 
 public class Start implements CommandExecutor {
@@ -107,20 +108,14 @@ public class Start implements CommandExecutor {
 			Player player = playersList.get(i);
 			player.closeInventory();
 		}
-		ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-		Bukkit.getWorld(game.listWorld.get(0).getName()).setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
-		Bukkit.getWorld(game.listWorld.get(0).getName()).setGameRule(GameRule.SPECTATORS_GENERATE_CHUNKS, false);
-		
-		Bukkit.dispatchCommand(console, "fill -20 200 -20 20 200 20 void_air replace");
-		Bukkit.dispatchCommand(console, "fill -19 200 -19 19 200 19 void_air replace");
-		Bukkit.dispatchCommand(console, "fill -20 201 -20 -20 203 20 void_air replace");
-		Bukkit.dispatchCommand(console, "fill -20 201 -20 20 203 -20 void_air replace");
-		Bukkit.dispatchCommand(console, "fill 20 201 20 -20 203 20 void_air replace");
-		Bukkit.dispatchCommand(console, "fill 20 201 20 20 203 -20 void_air replace");
+		World overworld = game.listWorld.get(0);
+		Bukkit.getWorld(overworld.getName()).setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
+		BlocksFill.changeArea(-20, 200, -20, 20, 203, 20, Material.AIR, overworld);
 		
 		for (World world : game.listWorld) {
 			Bukkit.getWorld(world.getName()).setDifficulty(Difficulty.HARD);
 			world.setGameRule(GameRule.DO_WEATHER_CYCLE, true);
+			world.setGameRule(GameRule.SPECTATORS_GENERATE_CHUNKS, false);
 		}
 	}
 	

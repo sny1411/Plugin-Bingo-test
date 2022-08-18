@@ -1,21 +1,19 @@
 package fr.sny1411.bingo.utils;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 
 public class BlocksFill {
 	
-	public void changeArea(int x,int y,int z, int x2, int y2, int z2, Material typeBlock, World world) { // en dev , fonctionne pas :(
-		for (int xArea = x; xArea < x2; xArea++) {
-			for (int yArea = y; yArea < y2; y++) {
-				for (int zArea = z; zArea < z2; z++) {
-					Block block = Bukkit.getWorld(world.getName()).getBlockAt(new Location(world, xArea, yArea, zArea));
-					block.setType(typeBlock);
-				}
-			}
+	public static void changeArea(int smallX,int smallY,int smallZ, int bigX, int bigY, int bigZ, Material typeBlock, World world) { // en dev , fonctionne pas :(
+		System.out.println("test1");
+		for(int i = smallX; i <= bigX; i++) {
+		  for(int j = smallY; j <= bigY; j++) {
+		    for(int k = smallZ; k <= bigZ; k++) {
+		      new Location(world, i, j, k).getBlock().setType(typeBlock);
+		    }
+		  }
 		}
 	}
 }

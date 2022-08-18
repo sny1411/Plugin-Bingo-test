@@ -21,6 +21,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 
 import fr.sny1411.bingo.utils.Game;
 
@@ -44,6 +45,11 @@ public class EventsListener implements Listener{
 				e.setCancelled(true);
 			}
 		}
+	}
+	
+	@EventHandler
+	private void test (PlayerResourcePackStatusEvent e) {
+		Bukkit.getConsoleSender().sendMessage("[RESSOURCEPACK] " + e.getPlayer().getName() + ": " + e.getStatus());
 	}
 	
 	@EventHandler
