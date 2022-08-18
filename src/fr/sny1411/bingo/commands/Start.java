@@ -150,6 +150,15 @@ public class Start implements CommandExecutor {
 			game.gameLaunch = true;
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				player.sendTitle("\uE005", "", 0, 20, 50);
+				if (game.modeJeu == "Handicap") {
+					for (String nameTeam : game.teams.colorTeams) {
+						int nbreCaseBloque = game.caseCacherHandicap.get(nameTeam);
+						String nameDefiBloque = game.grilleBingo.get(nbreCaseBloque).getItemMeta().getDisplayName();
+						player.sendMessage("§7[§eBINGO§7] §fL'équipe " + game.teams.prefixeColorTeams.get(nameTeam) + nameTeam + "§f a reçu un handicap");
+						player.sendMessage("sur le défi: §e§l" + nameDefiBloque.substring(4));
+						
+					}
+				}
 			}
 			BukkitTask taskTimer = Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 				

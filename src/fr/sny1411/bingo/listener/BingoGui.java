@@ -119,22 +119,90 @@ public class BingoGui implements Listener {
     			i=39;
     		}
     		ItemStack itemGrille = game.grilleBingo.get(index);
-    		if (spectatorLookTeam == null) {
-    			if (game.teams.defiValid.get(teamPlayer).get(itemGrille.getItemMeta().getDisplayName())) {
-        			itemGrille = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
-        			ItemMeta metaGrille = itemGrille.getItemMeta();
-        			metaGrille.setDisplayName(" ");
-        			itemGrille.setItemMeta(metaGrille);
-        		}
-    		} else {
-    			if (game.teams.defiValid.get(spectatorLookTeam).get(itemGrille.getItemMeta().getDisplayName())) {
-        			itemGrille = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
-        			ItemMeta metaGrille = itemGrille.getItemMeta();
-        			metaGrille.setDisplayName(" ");
-        			itemGrille.setItemMeta(metaGrille);
-        		}
-    		}
     		
+    		switch (game.modeJeu) {
+			case "Handicap":
+				if (spectatorLookTeam == null) {
+    				if (game.caseCacherHandicap.get(teamPlayer) == index) {
+        				itemGrille = new ItemStack(Material.RED_STAINED_GLASS_PANE);
+        				ItemMeta metaGrille = itemGrille.getItemMeta();
+        				metaGrille.addEnchant(Enchantment.DURABILITY, 1, false);
+        				metaGrille.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        				metaGrille.setDisplayName("§c◈ Case bloquée ◈");
+            			itemGrille.setItemMeta(metaGrille);
+        			}
+    			} else {
+    				if (game.caseCacherHandicap.get(spectatorLookTeam) == index) {
+        				itemGrille = new ItemStack(Material.RED_STAINED_GLASS_PANE);
+        				ItemMeta metaGrille = itemGrille.getItemMeta();
+        				metaGrille.addEnchant(Enchantment.DURABILITY, 1, false);
+        				metaGrille.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        				metaGrille.setDisplayName("§c◈ Case bloquée ◈");
+            			itemGrille.setItemMeta(metaGrille);
+        			}
+    			}
+				break;
+				
+			case "Duel":
+				String nameDefis = itemGrille.getItemMeta().getDisplayName();
+				for (int i2 = 0; i2 < game.teams.nombreTeams; i2++) {
+    				String nameTeam = game.teams.colorTeams.get(i2);
+    				Material teamMaterial = null;
+    				if (game.teams.defiValid.get(nameTeam).get(nameDefis)) {
+    					switch (nameTeam) {
+						case "Orange":
+							teamMaterial = Material.ORANGE_STAINED_GLASS_PANE;
+							break;
+							
+						case "Rouge":
+							teamMaterial = Material.RED_STAINED_GLASS_PANE;
+							break;
+							
+						case "Rose":
+							teamMaterial = Material.PINK_STAINED_GLASS_PANE;
+							break;
+							
+						case "Violet":
+							teamMaterial = Material.PURPLE_STAINED_GLASS_PANE;
+							break;
+							
+						case "Vert":
+							teamMaterial = Material.LIME_STAINED_GLASS_PANE;
+							break;
+							
+						case "Bleu":
+							teamMaterial = Material.LIGHT_BLUE_STAINED_GLASS_PANE;
+							break;
+
+						default:
+							break;
+						}
+            			itemGrille = new ItemStack(teamMaterial);
+            			ItemMeta metaGrille = itemGrille.getItemMeta();
+            			metaGrille.setDisplayName(" ");
+            			itemGrille.setItemMeta(metaGrille);
+            		}
+    			}
+				break;
+
+			default:
+				if (spectatorLookTeam == null) {
+	    			if (game.teams.defiValid.get(teamPlayer).get(itemGrille.getItemMeta().getDisplayName())) {
+	        			itemGrille = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
+	        			ItemMeta metaGrille = itemGrille.getItemMeta();
+	        			metaGrille.setDisplayName(" ");
+	        			itemGrille.setItemMeta(metaGrille);
+	        		}
+	    		} else {
+	    			if (game.teams.defiValid.get(spectatorLookTeam).get(itemGrille.getItemMeta().getDisplayName())) {
+	        			itemGrille = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
+	        			ItemMeta metaGrille = itemGrille.getItemMeta();
+	        			metaGrille.setDisplayName(" ");
+	        			itemGrille.setItemMeta(metaGrille);
+	        		}
+	    		}
+				break;
+			}
     		inv.setItem(i, itemGrille);
     		index++;
     	}

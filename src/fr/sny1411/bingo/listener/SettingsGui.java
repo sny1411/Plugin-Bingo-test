@@ -84,11 +84,13 @@ public class SettingsGui implements Listener {
 			itemLore.add("§7Handicap");
 		}
 		else if (game.modeJeu == "Duel") {
+			game.modeVictoire = "Défis";
 			itemLore.add("§7Classic");
 			itemLore.add("§6§l>> §r§eDuel");
 			itemLore.add("§7Handicap");
 		}
 		else {
+			game.modeVictoire = "Bingo";
 			itemLore.add("§7Classic");
 			itemLore.add("§7Duel");
 			itemLore.add("§6§l>> §r§eHandicap");
@@ -256,11 +258,21 @@ public class SettingsGui implements Listener {
 		ItemMeta winMeta = winMode.getItemMeta();
 		winMeta.setDisplayName("§b§lMode de victoire");
 		ArrayList<String> winLore = new ArrayList<>();
-		if (game.modeVictoire == "Bingo"){
-			winLore.add("§eBingos§7 / Défis");
-		}
-		else {
+		if (game.modeJeu == "Duel") {
 			winLore.add("§7Bingos /§e Défis");
+			winLore.add("§cLe mode de jeu empêche la");
+			winLore.add("§cmodification du mode de victoire");
+		} else if (game.modeJeu == "Handicap") {
+			winLore.add("§eBingos§7 / Défis");
+			winLore.add("§cLe mode de jeu empêche la");
+			winLore.add("§cmodification du mode de victoire");
+		} else {
+			if (game.modeVictoire == "Bingo"){
+				winLore.add("§eBingos§7 / Défis");
+			}
+			else {
+				winLore.add("§7Bingos /§e Défis");
+			}
 		}
 		winMeta.setLore(winLore);
 		winMode.setItemMeta(winMeta);
@@ -433,13 +445,15 @@ public class SettingsGui implements Listener {
 					if (currentItem == Material.BARRIER) {
 						openSettingsGui(player);
 					} else if (currentItem == Material.TARGET) {
-						player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_WORK_LIBRARIAN, 500.0f, 1.0f);
-						if (game.modeVictoire == "Bingo") {
-							game.modeVictoire = "Défis";
-							openWinGui(player);
-						} else {
-							game.modeVictoire = "Bingo";
-							openWinGui(player);
+						if (!(game.modeJeu == "Duel") && !(game.modeJeu == "Handicap")) {
+							player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_WORK_LIBRARIAN, 500.0f, 1.0f);
+							if (game.modeVictoire == "Bingo") {
+								game.modeVictoire = "Défis";
+								openWinGui(player);
+							} else {
+								game.modeVictoire = "Bingo";
+								openWinGui(player);
+							}
 						}
 					} else if (cursor == 3) {
 						if (!(game.nombreBingos == 10)) {

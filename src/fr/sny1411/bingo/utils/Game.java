@@ -37,6 +37,7 @@ public class Game {
 	public String modeJeu = "Classic";
 	public String eventDefiBonus = "Off";
 	public String modeVictoire = "Bingo";
+	public Hashtable<String, Integer> caseCacherHandicap = new Hashtable<>();
 	public int nombreBingos = 3;
 	public boolean InSetup = false;
 	public boolean gameLaunch = false;
@@ -194,6 +195,14 @@ public class Game {
 	}
 
 	public void createGrille() {
+		if (modeJeu == "Handicap") {
+			for (int i = 0; i < teams.nombreTeams; i++) {
+				String nameTeam = teams.colorTeams.get(i);
+				int caseCacher = (int)(Math.random() * (24 + 1));
+				caseCacherHandicap.put(nameTeam, caseCacher);
+				System.out.println(nameTeam + " " + caseCacher);
+			}
+		}
 		int compteurItem = 0;
 		for (int i = 0; i <= 24; i++) {
 			List<String> defi = defis.defi.get(compteurItem);

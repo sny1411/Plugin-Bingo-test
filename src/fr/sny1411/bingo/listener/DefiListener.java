@@ -1645,8 +1645,17 @@ public class DefiListener implements Listener {
 			String teamPlayer = game.teams.findTeamPlayer(p);
 			if (!teamPlayer.equalsIgnoreCase("Spectator") && !(p.getGameMode() == GameMode.SPECTATOR)) {
 				testItems(p, item.getItemMeta().getDisplayName(), false, "0");
-				for (Player playerGui : game.teams.playersOnBingoGui.get(teamPlayer)) {
-					game.bingoGui.openGui(playerGui, teamPlayer);
+				if (game.modeJeu == "Duel") {
+					for (int i = 0; i < game.teams.nombreTeams; i++) {
+						String nameTeam = game.teams.colorTeams.get(i);
+						for (Player playerGui : game.teams.playersOnBingoGui.get(nameTeam)) {
+							game.bingoGui.openGui(playerGui, nameTeam);
+						}
+					}
+				} else {
+					for (Player playerGui : game.teams.playersOnBingoGui.get(teamPlayer)) {
+						game.bingoGui.openGui(playerGui, teamPlayer);
+					}
 				}
 				game.bingoGui.openGui(p, teamPlayer);
 				if (game.modeVictoire.equalsIgnoreCase("Bingo")) {
