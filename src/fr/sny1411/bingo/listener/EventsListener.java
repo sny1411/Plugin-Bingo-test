@@ -89,7 +89,7 @@ public class EventsListener implements Listener{
 			String teamPlayer = game.teams.findTeamPlayer(player);
 			if (teamPlayer.equalsIgnoreCase("Spectator")) {
 				game.teams.listSpectator.remove(player);
-			} else if (!teamPlayer.equalsIgnoreCase("")) { // si le joueur à une team
+			} else if (!teamPlayer.equalsIgnoreCase("")) { // si le joueur a une team
 				game.teams.removePlayer(teamPlayer, player);
 			}
 		}
